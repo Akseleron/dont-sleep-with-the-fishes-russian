@@ -462,10 +462,12 @@ def write_markdown(
         "Red Snapper (+1 Food!)",
         "(+1 Food!)",
         "Weight:",
+        "Weight: 0.66kg",
         "Weight: 3.3kg",
         "<b>Red Snapper</b> <i>(+1 Food!)</i>",
         "<b>Weight:</b>",
         "<b>Weight:</b> 0.5kg",
+        "<b>Weight:</b> 0.66kg",
         "<b>Weight:</b> 3.3kg",
     ]
     fishing_coverage = {source: source in dictionary_sources for source in fishing_sources}
@@ -640,13 +642,20 @@ def write_markdown(
             "TextMeshProUGUI strings in `level3` and were already in the dictionary.\n"
         )
         handle.write(
-            "- This pass added plain observed runtime forms and rich label/value helpers for `Red Snapper (+1 Food!)`, "
-            "`(+1 Food!)`, `Weight:`, and `Weight: 3.3kg`.\n"
+            "- Visual cleanup generated exact plain and rich Weight variants, including observed values such as "
+            "`Weight: 0.66kg` and `Weight: 3.3kg`.\n"
         )
         handle.write(
-            "- `Weight: 3.3kg` appears to be dynamic at runtime; only the observed exact value was added. If other weights remain "
-            "English, add exact variants or test `GeneratePartialTranslations=True` only in `game_runtime_test` before changing "
-            "the packaged config.\n"
+            "- Manual testing shows that in-game Weight still remains English even for values inside the generated exact range, "
+            "for example `Weight: 1.21kg`, `Weight: 2.77kg`, and `Weight: 2.94kg`.\n"
+        )
+        handle.write(
+            "- Therefore Weight is likely not matched by XUnity as a normal full source string. Possible causes: split TMP text, "
+            "hidden rich text/tags, unhooked TMP/custom setter, or the known TMP_Text_SetCharArray hook issue.\n"
+        )
+        handle.write(
+            "- Do not add more blind Weight ranges. Next step is a hook/runtime investigation, likely BruteForceFix test in "
+            "`game_runtime_test` only.\n"
         )
         handle.write("- Fishing dictionary coverage:\n")
         for source, covered in fishing_coverage.items():
