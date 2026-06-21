@@ -1,5 +1,6 @@
 game_original/
 game_work/
+game_runtime_test/
 *.bak
 .venv/
 __pycache__/
