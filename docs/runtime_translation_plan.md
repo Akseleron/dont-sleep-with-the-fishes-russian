@@ -252,3 +252,54 @@ Current interpretation:
 - Journal text is partly covered by existing manual entries and the newly added exact opening variants, but the full `journals` TextAsset backlog is much larger and should be translated in a separate planned pass.
 - HUD/status messages remain mixed: static exact keys such as `End Day`, `Close Journal`, `Condition:`, `Food:`, and dynamic value variants are in the dictionary, but code-generated status lines may need hook/config testing.
 - BruteForceFix was not installed or tested in this pass. Recommended next step is a full game restart from `game_runtime_test`, then manually test dialogue bubbles, journal opening text, HUD/status messages, and `End Day`. Only if exact dictionary keys still do not translate should the next pass investigate official `AutoTranslator.IL2CPP.BruteForceFix`, record URL/version/SHA256 in `patches/xunity_autotranslator/DOWNLOADS.md`, and install it only in `game_runtime_test`.
+
+## Full Resources TextAsset Import Pass
+
+Import script:
+
+- `scripts/import_resources_textassets_to_queue.py`
+- Translation cache: `translations/resources_textasset_translations.tsv`
+
+What changed:
+
+- Imported all missing exact `resources.assets` TextAsset CSV cells from `dialogues` and `journals` into `translations/source_queue.tsv`.
+- Added `resource_textasset_dialogue`: 411 queue rows.
+- Added `resource_textasset_journal`: 143 queue rows.
+- Added `resource_textasset_title`: 78 queue rows.
+- Long journal body rows are marked `needs_review`; shorter dialogue/title rows are marked `approved` unless a preservation issue is detected.
+- The observed second dialogue bubble source is now covered exactly:
+  - `.. Whatever. Look. We might end up using this, take it.`
+- The generated dictionary now covers 639 unique exact `journals`/`dialogues` TextAsset CSV source cells. The scanner reports 0 missing exact TextAsset CSV cells.
+
+Translation method:
+
+- Existing manual/runtime translations were preserved.
+- New resource TextAsset translations were generated through the local-only Ollama model `qwen2.5-coder:14b` via `127.0.0.1`, not through an online machine translation endpoint.
+- The translation cache is intentionally kept as a reviewable TSV because many journal entries are long and should receive later editorial review.
+
+Fishing/dynamic UI pass:
+
+- Existing exact/rich entries already covered:
+  - `Red Snapper`
+  - `<b>Red Snapper</b> <i>(+1 Food!)</i>`
+  - `<b>Weight:</b> 0.5kg`
+- Added exact observed/plain helper entries:
+  - `Red Snapper (+1 Food!)`
+  - `(+1 Food!)`
+  - `Weight:`
+  - `Weight: 3.3kg`
+  - `<b>Weight:</b>`
+  - `<b>Weight:</b> 3.3kg`
+- `Weight: 3.3kg` is likely dynamic runtime text. Only the observed exact value was added in the package dictionary. If other weights remain English, add more exact variants or test `GeneratePartialTranslations=True` only in `game_runtime_test` before changing packaged config.
+
+Validation after this pass:
+
+```text
+validation ok: 1228 active translations, 153 needs_review, 31 skip
+```
+
+Current recommendation:
+
+- Do not install BruteForceFix yet. The successful first dialogue retest showed XUnity can translate dialogue bubbles when the exact TextAsset source key exists.
+- Next manual test from `game_runtime_test`: dialogue bubbles, start/journal entries, fishing result text, dynamic weight values, HUD/status messages, and `End Day`.
+- If newly imported exact dialogue keys still remain English after a full restart, then investigate hook/config limitations before considering official BruteForceFix.

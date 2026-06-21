@@ -74,10 +74,14 @@ def validate_queue(rows: list[dict[str, str]]) -> list[str]:
             continue
         if status != "skip" and not final:
             errors.append(f"empty translation for player-facing row: {source!r}")
-        if status != "skip" and (
-            has_accidental_outer_whitespace(source) or has_accidental_outer_whitespace(final)
-        ):
-            errors.append(f"accidental outer whitespace: {source!r}")
+        if status != "skip":
+            # Resource TextAsset keys must remain exact for XUnity matching, even
+            # when the shipped CSV cell contains intentional leading/trailing
+            # spaces. Keep checking translations, but do not normalize those
+            # source keys.
+            source_whitespace_ok = row["kind"].startswith("resource_textasset_")
+            if (not source_whitespace_ok and has_accidental_outer_whitespace(source)) or has_accidental_outer_whitespace(final):
+                errors.append(f"accidental outer whitespace: {source!r}")
         if status != "skip":
             source_tags = TAG_RE.findall(source)
             final_tags = TAG_RE.findall(final)

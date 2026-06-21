@@ -101,6 +101,13 @@ def read_queue_sources() -> set[str]:
         return {row["source"] for row in csv.DictReader(handle, delimiter="\t")}
 
 
+def load_queue_rows() -> list[dict[str, str]]:
+    if not QUEUE_PATH.exists():
+        return []
+    with QUEUE_PATH.open("r", encoding="utf-8", newline="") as handle:
+        return list(csv.DictReader(handle, delimiter="\t"))
+
+
 def read_dictionary_sources() -> set[str]:
     if not DICTIONARY_PATH.exists():
         return set()
@@ -447,6 +454,21 @@ def write_markdown(
     OUT_DOC.parent.mkdir(parents=True, exist_ok=True)
     by_asset = Counter(finding.asset_file for finding in findings)
     by_type = Counter(finding.object_type for finding in findings)
+    queue_rows = load_queue_rows()
+    queue_kind_counts = Counter(row.get("kind", "") for row in queue_rows)
+    queue_status_counts = Counter(row.get("status", "") for row in queue_rows)
+    fishing_sources = [
+        "Red Snapper",
+        "Red Snapper (+1 Food!)",
+        "(+1 Food!)",
+        "Weight:",
+        "Weight: 3.3kg",
+        "<b>Red Snapper</b> <i>(+1 Food!)</i>",
+        "<b>Weight:</b>",
+        "<b>Weight:</b> 0.5kg",
+        "<b>Weight:</b> 3.3kg",
+    ]
+    fishing_coverage = {source: source in dictionary_sources for source in fishing_sources}
     textasset_rows = [
         finding
         for finding in findings
@@ -454,7 +476,12 @@ def write_markdown(
         and finding.object_type == "TextAsset"
         and finding.object_name in {"journals", "dialogues"}
     ]
-    unique_textasset_sources = {finding.source for finding in textasset_rows}
+    textasset_cell_rows = [
+        finding
+        for finding in textasset_rows
+        if finding.field_path.startswith("m_Script[") and finding.source != "ENGLISH"
+    ]
+    unique_textasset_sources = {finding.source for finding in textasset_cell_rows}
     missing_textasset_sources = sorted(unique_textasset_sources - queue_sources)
     covered_textasset_sources = sorted(unique_textasset_sources & dictionary_sources)
     tmp_end_day = [
@@ -501,8 +528,8 @@ def write_markdown(
         handle.write(f"- Findings by asset: `{dict(sorted(by_asset.items()))}`\n")
         handle.write(f"- Findings by object type: `{dict(sorted(by_type.items()))}`\n")
         handle.write(
-            f"- `resources.assets` TextAsset player-facing values exported from `journals` and `dialogues`: "
-            f"`{len(textasset_rows)}` rows, `{len(unique_textasset_sources)}` unique strings.\n"
+            f"- `resources.assets` TextAsset player-facing CSV cells exported from `journals` and `dialogues`: "
+            f"`{len(textasset_cell_rows)}` rows, `{len(unique_textasset_sources)}` unique strings.\n"
         )
         handle.write(
             f"- TextAsset strings missing from `translations/source_queue.tsv`: "
@@ -513,6 +540,24 @@ def write_markdown(
             f"`{len(covered_textasset_sources)}` unique strings.\n"
         )
         handle.write("- `resources.resource` did not load as a Unity serialized file; it was checked by raw byte search.\n")
+        handle.write("\n")
+        handle.write("## Import Status\n\n")
+        handle.write(
+            "- Queue rows by resource kind after import: "
+            f"`resource_textasset_dialogue={queue_kind_counts.get('resource_textasset_dialogue', 0)}`, "
+            f"`resource_textasset_journal={queue_kind_counts.get('resource_textasset_journal', 0)}`, "
+            f"`resource_textasset_title={queue_kind_counts.get('resource_textasset_title', 0)}`.\n"
+        )
+        handle.write(
+            "- Queue status counts after import: "
+            f"`approved={queue_status_counts.get('approved', 0)}`, "
+            f"`needs_review={queue_status_counts.get('needs_review', 0)}`, "
+            f"`skip={queue_status_counts.get('skip', 0)}`.\n"
+        )
+        handle.write(
+            "- Resource TextAsset translations were imported through "
+            "`scripts/import_resources_textassets_to_queue.py`. Long journal bodies are marked `needs_review`.\n"
+        )
         handle.write("\n")
         handle.write("## Storage Findings\n\n")
         handle.write(
@@ -568,14 +613,14 @@ def write_markdown(
             )
         handle.write("\n## Interpretation\n\n")
         handle.write(
-            "- The remaining English dialogue is not explained solely by missing `resources.assets`: the exact straight-punctuation "
-            "manual variants are already in the dictionary, but the TextAsset source uses ellipses/curly apostrophes for several "
-            "lines. Exact TextAsset variants should be added for observed dialogue before treating every case as a hook failure.\n"
+            "- The full import pass now covers the exact `journals`/`dialogues` TextAsset CSV cells in the generated dictionary. "
+            "This addresses the confirmed mismatch where screenshots used straight punctuation but serialized sources used "
+            "ellipses and curly apostrophes.\n"
         )
         handle.write(
-            "- If an exact TextAsset source string is present in the final dictionary and still renders in English, the likely cause "
-            "is a runtime hook limitation, consistent with the `TMP_Text_SetCharArray_Hook3` warning and possible Febucci/custom "
-            "typewriter text flow.\n"
+            "- Because the first retested dialogue bubble translated after adding an exact source key, BruteForceFix is not the "
+            "next step yet. If a newly imported exact TextAsset source still renders in English after a full restart, then treat "
+            "that specific case as a possible hook limitation, consistent with the `TMP_Text_SetCharArray_Hook3` warning.\n"
         )
         handle.write(
             "- `I'm tired a bit` was not found in `resources.assets`, `resources.resource`, or the level files by this scan. "
@@ -586,6 +631,26 @@ def write_markdown(
             "- `End Day` is a serialized `level3` MonoBehaviour string and also exists in the dictionary. If it remains English after "
             "a full restart with the current dictionary, classify it as unhooked runtime/TMP text, not texture replacement work.\n"
         )
+        handle.write("\n## Fishing Result Strings\n\n")
+        handle.write(
+            "- `Red Snapper` is a `level3` `FishingController` MonoBehaviour string and was already in the dictionary.\n"
+        )
+        handle.write(
+            "- The rich text test strings `<b>Red Snapper</b> <i>(+1 Food!)</i>` and `<b>Weight:</b> 0.5kg` are serialized "
+            "TextMeshProUGUI strings in `level3` and were already in the dictionary.\n"
+        )
+        handle.write(
+            "- This pass added plain observed runtime forms and rich label/value helpers for `Red Snapper (+1 Food!)`, "
+            "`(+1 Food!)`, `Weight:`, and `Weight: 3.3kg`.\n"
+        )
+        handle.write(
+            "- `Weight: 3.3kg` appears to be dynamic at runtime; only the observed exact value was added. If other weights remain "
+            "English, add exact variants or test `GeneratePartialTranslations=True` only in `game_runtime_test` before changing "
+            "the packaged config.\n"
+        )
+        handle.write("- Fishing dictionary coverage:\n")
+        for source, covered in fishing_coverage.items():
+            handle.write(f"  - `{source}`: `{'yes' if covered else 'no'}`\n")
         handle.write("\n## Asset Counters\n\n")
         for asset_file, counter in sorted(counters_by_asset.items()):
             handle.write(f"### {asset_file}\n\n")
