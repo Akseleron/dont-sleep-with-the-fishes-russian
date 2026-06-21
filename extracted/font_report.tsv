@@ -1,0 +1,14 @@
+file	path_id	type	name	source_font	style	character_ranges	likely_cyrillic	embedded_font_bytes
+resources.assets	196	Font	PerfectDOSVGA437				unknown	81192
+resources.assets	197	Font	LiberationSans				unknown	350200
+resources.assets	1929	TMP_FontAsset	LiberationSans SDF - Fallback	Liberation Sans	Regular	32 - 126, 160 - 255, 8192 - 8303, 8364, 8482, 9633	no	
+resources.assets	1930	TMP_FontAsset	LiberationSans SDF	Liberation Sans	Regular	32 - 126, 160 - 255, 8192 - 8303, 8364, 8482, 9633	no	
+sharedassets1.assets	238	Font	Stimcard				unknown	29880
+sharedassets1.assets	239	Font	Stimcard				unknown	49876
+sharedassets1.assets	321	TMP_FontAsset	Stimcard SDF OutLine Lowres	Stimcard	Regular	32 - 126, 160, 8203, 8230, 9633	no	
+sharedassets1.assets	322	TMP_FontAsset	Stimcard SDF OutLine	Stimcard	Regular	32 - 126, 160, 8203, 8230, 9633	no	
+sharedassets1.assets	323	TMP_FontAsset	Stimcard SDF	Stimcard	Regular	32 - 126, 160, 8203, 8230, 9633	no	
+sharedassets3.assets	391	TMP_FontAsset	Stimcard_LowRes	Stimcard	Regular	32 - 126, 160, 8203, 8230, 9633	no	
+sharedassets5.assets	76	Font	Essays1743				unknown	100660
+sharedassets5.assets	77	TMP_FontAsset	Essays1743 SDF	Essays1743	Medium		no	
+unity default resources	10102	Font	LegacyRuntime				no embedded font data	0
