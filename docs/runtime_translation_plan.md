@@ -303,3 +303,128 @@ Current recommendation:
 - Do not install BruteForceFix yet. The successful first dialogue retest showed XUnity can translate dialogue bubbles when the exact TextAsset source key exists.
 - Next manual test from `game_runtime_test`: dialogue bubbles, start/journal entries, fishing result text, dynamic weight values, HUD/status messages, and `End Day`.
 - If newly imported exact dialogue keys still remain English after a full restart, then investigate hook/config limitations before considering official BruteForceFix.
+
+## Visual Cleanup And Neighborhood Pass
+
+Scripts added:
+
+- `scripts/add_visual_cleanup_strings.py`
+- `scripts/analyze_untranslated_neighborhoods.py`
+
+Generated reports:
+
+- `extracted/untranslated_neighborhood_report.tsv`
+- `extracted/visual_cleanup_candidates.tsv`
+- `extracted/layout_risk_report.tsv`
+
+Neighborhood analysis:
+
+- The analyzer searches known untranslated seeds across extracted visible strings, resource TextAsset findings, source queue, generated dictionary, and raw `level1` through `level5`, `resources.assets`, and `resources.resource`.
+- The report includes exact queue/dictionary coverage, variant status, nearby extracted strings by object/gameobject/offset/TextAsset row, and likely classification.
+- `End Day` and the book-icon `Journal` label are documented as texture/sprite or unhooked decorative candidates for now. Their exact dictionary entries exist, but the visible test still shows English decorative text.
+
+Cleanup applied:
+
+- Added exact day transition variants:
+  - `Day 1` through `Day 99` -> `День 1` through `День 99`.
+- Added night/sleep/item-selection exact variants including:
+  - `Choose an item.` -> `Выберите предмет.`
+  - straight and curly apostrophe `I can't sleep` / `I can’t sleep` variants.
+  - `I sleep poorly...`, `I slept badly...`, `Try sleeping again?`, `Night passed quietly...`, and `The night passed quietly...` variants.
+- Shortened fishing result text:
+  - `Red Snapper` -> `Луциан`
+  - `Red Snapper (+1 Food!)` -> `Луциан (+1 еда!)`
+  - `<b>Red Snapper</b> <i>(+1 Food!)</i>` -> `<b>Луциан</b> <i>(+1 еда!)</i>`
+- Added exact dynamic weight variants without relying on packaged partial translation:
+  - `Weight: 0.01kg` through `Weight: 20.00kg`, step `0.01`.
+  - `Weight: 0.1kg` through `Weight: 20.0kg`, step `0.1`.
+  - rich text equivalents with `<b>Weight:</b>`.
+  - exact observed `Weight: 0.66kg` and `<b>Weight:</b> 0.66kg` are covered.
+- Did not add bare `kg=кг`; it is too broad and could create bad replacements if partial translation is enabled later.
+- Shortened `Close Journal` -> `Закрыть`.
+- Shortened the opening `A New Day` journal entries for solo, Frederik, Laurel, and Row to reduce clipping risk.
+
+Layout risk:
+
+- `extracted/layout_risk_report.tsv` currently flags 9 resource journal rows based on length, `<br>` count, and review status.
+- Long imported journal bodies remain an editorial/layout review issue. They should be reviewed manually instead of mass-retranslated.
+
+Validation after this pass:
+
+```text
+validation ok: 5744 active translations, 153 needs_review, 31 skip
+```
+
+Current recommendation:
+
+- Retest from a full `game_runtime_test` restart: day transition, night item selection, sleep/night result text, fishing weight lines, fish-result layout, journal close button, and journal clipping.
+- Keep packaged `GeneratePartialTranslations=False`. Test partial translation only in `game_runtime_test` if exact weight/status variants still miss runtime-generated forms.
+- Do not install BruteForceFix in the next step unless exact dictionary keys still fail in non-texture UI after restart.
+
+## Observed QA Cleanup Pass
+
+Script added:
+
+- `scripts/add_observed_qa_strings.py`
+
+Generated report:
+
+- `extracted/observed_qa_cleanup_report.tsv`
+
+What changed:
+
+- Added 17 missing exact QA/runtime strings and updated 3 existing short-layout translations in `translations/source_queue.tsv`.
+- Friend/status card strings:
+  - `Peckish` -> `Голоден`
+  - `Unwell` -> `Нездоров`
+- Top HUD/status strings:
+  - `Stomach's growling` -> `Живот урчит`
+  - `I'm well rested`, `I am well rested`, `I'm fully rested`, `I am fully rested` -> `Я выспался`
+  - `I still have energy` -> `Сил ещё хватает`
+  - `I still have energy!` -> `Сил ещё хватает!`
+- Floating crate/event-choice strings:
+  - `Reach for it?` -> `Дотянуться?`
+  - `Let Row handle it!` / `Let Row handle it` -> `Пусть Роу`
+  - `Let Frederik handle it!` / `Let Frederik handle it` -> `Пусть Фредерик`
+  - `Let Laurel handle it!` / `Let Laurel handle it` -> `Пусть Лорел`
+- Fishing/junk result layout strings:
+  - `Plastic Bottle` -> `Бутылка`
+  - `Useless Trash...` / `Useless trash...` -> `Мусор...`
+  - `Trash` -> `Мусор`
+
+Cluster review:
+
+- `Peckish`, `Unwell`, `Plastic Bottle`, and `Let Frederik handle it!` were found in extracted `level3` visible/MonoBehaviour/TMP strings.
+- Friend action prompts `Heal?` and `Feed?` were already covered and are not changed in this pass.
+- The report also lists nearby friend/status values such as `Starving`, `Full`, `Dying`, `Healthy`, `Miserable`, and `Depressed` as review candidates. They were not changed because they were not part of the observed screenshots and need either runtime observation or a dedicated status pass.
+- Crate/event and fishing nearby strings are listed in `extracted/observed_qa_cleanup_report.tsv` for later review.
+
+Weight investigation:
+
+- Manual screenshots still show `Weight: 2.77kg`, `Weight: 0.66kg`, and `Weight: 3.3kg` in English even though earlier exact generated variants exist in the dictionary.
+- Do not add more blind numeric ranges. The next step is to identify what XUnity actually sees at runtime.
+- Test-only config changes were made in `game_runtime_test/BepInEx/config/AutoTranslatorConfig.ini`:
+  - `OutputUntranslatableText=True`
+  - `EnableTextPathLogging=True`
+  - `TextGetterCompatibilityMode=True`
+- Offline/manual translation remains intact: `Endpoint=`, `FallbackEndpoint=`, and `EnabledTranslators=` are empty.
+- After a full restart, reproduce fishing once, then inspect:
+  - `game_runtime_test/BepInEx/Translation/ru/Text/_AutoGeneratedTranslations.txt`
+  - `game_runtime_test/BepInEx/LogOutput.log`
+  - `game_runtime_test/BepInEx/ErrorLog.log` if present
+- Search those files for `Weight`, `kg`, `2.77`, `0.66`, and `3.3`.
+- If an exact runtime source appears, add only that exact source through `translations/source_queue.tsv`.
+- If no runtime source appears, treat the weight line as likely unhooked dynamic TMP/custom setter text and defer to a later official XUnity BruteForceFix or asset/code-level workaround investigation.
+
+Texture/decorative candidates:
+
+- `End Day` on the wooden button remains a texture/decorative or unhooked text candidate for a later texture/UI pass.
+- `Journal` on the book icon remains a texture candidate for a later texture/UI pass.
+- `JUNK` on floating junk/box art is a texture candidate for a later texture pass.
+- No texture assets were modified in this pass.
+
+Font follow-up:
+
+- Cyrillic fallback renders, but it does not match the original hand-drawn font style.
+- A separate font plan was added at `docs/font_pass_plan.md`.
+- No fonts were downloaded, bundled, generated, or replaced in this pass.
