@@ -6,6 +6,7 @@ source	context	file	kind	machine_russian	final_russian	status	notes
 """Okay, let's go somewhere..."""	file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9608;gameobject=handy_text (1);offset=2045212	level4	tmp_m_text		"""Ладно, попробуем куда-нибудь пойти..."""	approved	
 """This might come in handy..."""	file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9601;gameobject=handy_text;offset=2041468	level4	tmp_m_text		"""Это может пригодиться..."""	approved	
 """This might help me navigate..."""	file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9584;gameobject=handy_text;offset=2032332	level4	tmp_m_text		"""Это может помочь с навигацией..."""	approved	
+(Development build)	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 (Removes the requirement of holding mouse button.)	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1578;gameobject=SettingDesc;offset=220796 | file=level2;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=7142;gameobject=SettingDesc;offset=1117756 | file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4379;gameobject=SettingDesc;offset=848204 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9621;gameobject=SettingDesc;offset=2052460 | file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1737;gameobject=SettingDesc;offset=283804	level1;level2;level3;level4;level5	tmp_m_text		(Убирает необходимость удерживать кнопку мыши.)	approved	
 "+Faster Hunger
 +Double Damage"	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1483;gameobject=description;offset=169116	level1	tmp_m_text		"+Быстрее голод
@@ -33,6 +34,48 @@ Back to Menu	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMesh
 Badges	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1540;gameobject=Text (TMP);offset=200124	level1	tmp_m_text		Значки	approved	
 Bait	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4511;gameobject=bait (1);offset=879248 | file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4658;gameobject=bait (2);offset=898016 | file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4714;gameobject=bait;offset=905536 | file=level4;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=10237;gameobject=bait (1);offset=2143344 | file=level4;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=9736;gameobject=bait;offset=2079504 | file=level4;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=9973;gameobject=bait (2);offset=2108832	level3;level4	mono_string_candidate		Наживка	approved	
 Bait Consumed	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4311;gameobject=bait_consumed;offset=811324	level3	tmp_m_text		Наживка израсходована	approved	
+Bait: 0	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 0	approved	Dynamic HUD numeric variant.
+Bait: 1	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 1	approved	Dynamic HUD numeric variant.
+Bait: 10	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 10	approved	Dynamic HUD numeric variant.
+Bait: 11	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 11	approved	Dynamic HUD numeric variant.
+Bait: 12	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 12	approved	Dynamic HUD numeric variant.
+Bait: 13	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 13	approved	Dynamic HUD numeric variant.
+Bait: 14	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 14	approved	Dynamic HUD numeric variant.
+Bait: 15	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 15	approved	Dynamic HUD numeric variant.
+Bait: 16	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 16	approved	Dynamic HUD numeric variant.
+Bait: 17	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 17	approved	Dynamic HUD numeric variant.
+Bait: 18	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 18	approved	Dynamic HUD numeric variant.
+Bait: 19	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 19	approved	Dynamic HUD numeric variant.
+Bait: 2	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 2	approved	Dynamic HUD numeric variant.
+Bait: 20	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 20	approved	Dynamic HUD numeric variant.
+Bait: 3	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 3	approved	Dynamic HUD numeric variant.
+Bait: 4	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 4	approved	Dynamic HUD numeric variant.
+Bait: 5	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 5	approved	Dynamic HUD numeric variant.
+Bait: 6	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 6	approved	Dynamic HUD numeric variant.
+Bait: 7	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 7	approved	Dynamic HUD numeric variant.
+Bait: 8	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 8	approved	Dynamic HUD numeric variant.
+Bait: 9	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 9	approved	Dynamic HUD numeric variant.
+Bait:0	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 0	approved	Dynamic HUD numeric variant without source spacing.
+Bait:1	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 1	approved	Dynamic HUD numeric variant without source spacing.
+Bait:10	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 10	approved	Dynamic HUD numeric variant without source spacing.
+Bait:11	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 11	approved	Dynamic HUD numeric variant without source spacing.
+Bait:12	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 12	approved	Dynamic HUD numeric variant without source spacing.
+Bait:13	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 13	approved	Dynamic HUD numeric variant without source spacing.
+Bait:14	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 14	approved	Dynamic HUD numeric variant without source spacing.
+Bait:15	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 15	approved	Dynamic HUD numeric variant without source spacing.
+Bait:16	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 16	approved	Dynamic HUD numeric variant without source spacing.
+Bait:17	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 17	approved	Dynamic HUD numeric variant without source spacing.
+Bait:18	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 18	approved	Dynamic HUD numeric variant without source spacing.
+Bait:19	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 19	approved	Dynamic HUD numeric variant without source spacing.
+Bait:2	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 2	approved	Dynamic HUD numeric variant without source spacing.
+Bait:20	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 20	approved	Dynamic HUD numeric variant without source spacing.
+Bait:3	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 3	approved	Dynamic HUD numeric variant without source spacing.
+Bait:4	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 4	approved	Dynamic HUD numeric variant without source spacing.
+Bait:5	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 5	approved	Dynamic HUD numeric variant without source spacing.
+Bait:6	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 6	approved	Dynamic HUD numeric variant without source spacing.
+Bait:7	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 7	approved	Dynamic HUD numeric variant without source spacing.
+Bait:8	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 8	approved	Dynamic HUD numeric variant without source spacing.
+Bait:9	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Наживка: 9	approved	Dynamic HUD numeric variant without source spacing.
 Barely working.	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingController;object_path_id=4729;gameobject=Task_Fishing;offset=910700	level3	mono_string_candidate		Едва работает.	approved	
 Bass	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingController;object_path_id=4729;gameobject=Task_Fishing;offset=910940	level3	mono_string_candidate		Окунь	approved	
 Boat Damaged	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4313;gameobject=Title;offset=812380	level3	tmp_m_text		Шлюпка повреждена	approved	
@@ -64,12 +107,216 @@ Click to continue	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.Tex
 Click To Continue	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4324;gameobject=ClickToContinue;offset=818300 | manual=screenshot_or_glossary	level3;manual	manual;tmp_m_text		Нажмите, чтобы продолжить	approved	
 Click To Eat	manual=screenshot_or_glossary	manual	manual		Нажмите, чтобы съесть	approved	
 Click to fix!	file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9596;gameobject=click_to_fix;offset=2038812	level4	tmp_m_text		Нажмите, чтобы починить!	approved	
+Click To Heal	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Нажмите, чтобы полечиться	approved	Runtime item prompt.
 Close	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1538;gameobject=Text (TMP);offset=199068	level1	tmp_m_text		Закрыть	approved	
 Close Journal	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4326;gameobject=Text (TMP);offset=819404	level3	tmp_m_text		Закрыть журнал	approved	
 Clownfish	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingController;object_path_id=4729;gameobject=Task_Fishing;offset=911400	level3	mono_string_candidate		Рыба-клоун	approved	
 Cod	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingController;object_path_id=4729;gameobject=Task_Fishing;offset=907972	level3	mono_string_candidate		Треска	approved	
 "Company's Note: <size=70><color=#ffea8c>""Calculated Risk"""	file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1722;gameobject=6;offset=275372	level5	tmp_m_text		"Записка компании: <size=70><color=#ffea8c>""Просчитанный риск"""	needs_review	Context-sensitive; verify in game.
 Compass	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4799;gameobject=compass;offset=923312 | file=level4;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=10267;gameobject=compass;offset=2147872	level3;level4	mono_string_candidate		Компас	approved	
+Condition:	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние:	approved	Runtime HUD label.
+Condition: 0%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 0%	approved	Dynamic condition percentage variant.
+Condition: 1%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 1%	approved	Dynamic condition percentage variant.
+Condition: 10%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 10%	approved	Dynamic condition percentage variant.
+Condition: 100%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 100%	approved	Dynamic condition percentage variant.
+Condition: 11%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 11%	approved	Dynamic condition percentage variant.
+Condition: 12%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 12%	approved	Dynamic condition percentage variant.
+Condition: 13%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 13%	approved	Dynamic condition percentage variant.
+Condition: 14%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 14%	approved	Dynamic condition percentage variant.
+Condition: 15%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 15%	approved	Dynamic condition percentage variant.
+Condition: 16%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 16%	approved	Dynamic condition percentage variant.
+Condition: 17%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 17%	approved	Dynamic condition percentage variant.
+Condition: 18%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 18%	approved	Dynamic condition percentage variant.
+Condition: 19%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 19%	approved	Dynamic condition percentage variant.
+Condition: 2%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 2%	approved	Dynamic condition percentage variant.
+Condition: 20%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 20%	approved	Dynamic condition percentage variant.
+Condition: 21%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 21%	approved	Dynamic condition percentage variant.
+Condition: 22%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 22%	approved	Dynamic condition percentage variant.
+Condition: 23%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 23%	approved	Dynamic condition percentage variant.
+Condition: 24%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 24%	approved	Dynamic condition percentage variant.
+Condition: 25%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 25%	approved	Dynamic condition percentage variant.
+Condition: 26%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 26%	approved	Dynamic condition percentage variant.
+Condition: 27%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 27%	approved	Dynamic condition percentage variant.
+Condition: 28%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 28%	approved	Dynamic condition percentage variant.
+Condition: 29%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 29%	approved	Dynamic condition percentage variant.
+Condition: 3%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 3%	approved	Dynamic condition percentage variant.
+Condition: 30%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 30%	approved	Dynamic condition percentage variant.
+Condition: 31%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 31%	approved	Dynamic condition percentage variant.
+Condition: 32%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 32%	approved	Dynamic condition percentage variant.
+Condition: 33%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 33%	approved	Dynamic condition percentage variant.
+Condition: 34%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 34%	approved	Dynamic condition percentage variant.
+Condition: 35%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 35%	approved	Dynamic condition percentage variant.
+Condition: 36%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 36%	approved	Dynamic condition percentage variant.
+Condition: 37%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 37%	approved	Dynamic condition percentage variant.
+Condition: 38%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 38%	approved	Dynamic condition percentage variant.
+Condition: 39%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 39%	approved	Dynamic condition percentage variant.
+Condition: 4%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 4%	approved	Dynamic condition percentage variant.
+Condition: 40%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 40%	approved	Dynamic condition percentage variant.
+Condition: 41%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 41%	approved	Dynamic condition percentage variant.
+Condition: 42%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 42%	approved	Dynamic condition percentage variant.
+Condition: 43%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 43%	approved	Dynamic condition percentage variant.
+Condition: 44%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 44%	approved	Dynamic condition percentage variant.
+Condition: 45%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 45%	approved	Dynamic condition percentage variant.
+Condition: 46%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 46%	approved	Dynamic condition percentage variant.
+Condition: 47%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 47%	approved	Dynamic condition percentage variant.
+Condition: 48%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 48%	approved	Dynamic condition percentage variant.
+Condition: 49%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 49%	approved	Dynamic condition percentage variant.
+Condition: 5%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 5%	approved	Dynamic condition percentage variant.
+Condition: 50%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 50%	approved	Dynamic condition percentage variant.
+Condition: 51%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 51%	approved	Dynamic condition percentage variant.
+Condition: 52%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 52%	approved	Dynamic condition percentage variant.
+Condition: 53%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 53%	approved	Dynamic condition percentage variant.
+Condition: 54%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 54%	approved	Dynamic condition percentage variant.
+Condition: 55%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 55%	approved	Dynamic condition percentage variant.
+Condition: 56%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 56%	approved	Dynamic condition percentage variant.
+Condition: 57%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 57%	approved	Dynamic condition percentage variant.
+Condition: 58%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 58%	approved	Dynamic condition percentage variant.
+Condition: 59%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 59%	approved	Dynamic condition percentage variant.
+Condition: 6%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 6%	approved	Dynamic condition percentage variant.
+Condition: 60%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 60%	approved	Dynamic condition percentage variant.
+Condition: 61%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 61%	approved	Dynamic condition percentage variant.
+Condition: 62%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 62%	approved	Dynamic condition percentage variant.
+Condition: 63%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 63%	approved	Dynamic condition percentage variant.
+Condition: 64%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 64%	approved	Dynamic condition percentage variant.
+Condition: 65%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 65%	approved	Dynamic condition percentage variant.
+Condition: 66%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 66%	approved	Dynamic condition percentage variant.
+Condition: 67%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 67%	approved	Dynamic condition percentage variant.
+Condition: 68%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 68%	approved	Dynamic condition percentage variant.
+Condition: 69%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 69%	approved	Dynamic condition percentage variant.
+Condition: 7%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 7%	approved	Dynamic condition percentage variant.
+Condition: 70%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 70%	approved	Dynamic condition percentage variant.
+Condition: 71%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 71%	approved	Dynamic condition percentage variant.
+Condition: 72%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 72%	approved	Dynamic condition percentage variant.
+Condition: 73%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 73%	approved	Dynamic condition percentage variant.
+Condition: 74%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 74%	approved	Dynamic condition percentage variant.
+Condition: 75%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 75%	approved	Dynamic condition percentage variant.
+Condition: 76%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 76%	approved	Dynamic condition percentage variant.
+Condition: 77%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 77%	approved	Dynamic condition percentage variant.
+Condition: 78%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 78%	approved	Dynamic condition percentage variant.
+Condition: 79%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 79%	approved	Dynamic condition percentage variant.
+Condition: 8%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 8%	approved	Dynamic condition percentage variant.
+Condition: 80%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 80%	approved	Dynamic condition percentage variant.
+Condition: 81%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 81%	approved	Dynamic condition percentage variant.
+Condition: 82%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 82%	approved	Dynamic condition percentage variant.
+Condition: 83%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 83%	approved	Dynamic condition percentage variant.
+Condition: 84%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 84%	approved	Dynamic condition percentage variant.
+Condition: 85%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 85%	approved	Dynamic condition percentage variant.
+Condition: 86%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 86%	approved	Dynamic condition percentage variant.
+Condition: 87%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 87%	approved	Dynamic condition percentage variant.
+Condition: 88%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 88%	approved	Dynamic condition percentage variant.
+Condition: 89%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 89%	approved	Dynamic condition percentage variant.
+Condition: 9%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 9%	approved	Dynamic condition percentage variant.
+Condition: 90%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 90%	approved	Dynamic condition percentage variant.
+Condition: 91%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 91%	approved	Dynamic condition percentage variant.
+Condition: 92%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 92%	approved	Dynamic condition percentage variant.
+Condition: 93%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 93%	approved	Dynamic condition percentage variant.
+Condition: 94%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 94%	approved	Dynamic condition percentage variant.
+Condition: 95%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 95%	approved	Dynamic condition percentage variant.
+Condition: 96%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 96%	approved	Dynamic condition percentage variant.
+Condition: 97%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 97%	approved	Dynamic condition percentage variant.
+Condition: 98%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 98%	approved	Dynamic condition percentage variant.
+Condition: 99%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 99%	approved	Dynamic condition percentage variant.
+Condition:0%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 0%	approved	Dynamic condition percentage variant without source spacing.
+Condition:1%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 1%	approved	Dynamic condition percentage variant without source spacing.
+Condition:10%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 10%	approved	Dynamic condition percentage variant without source spacing.
+Condition:100%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 100%	approved	Dynamic condition percentage variant without source spacing.
+Condition:11%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 11%	approved	Dynamic condition percentage variant without source spacing.
+Condition:12%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 12%	approved	Dynamic condition percentage variant without source spacing.
+Condition:13%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 13%	approved	Dynamic condition percentage variant without source spacing.
+Condition:14%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 14%	approved	Dynamic condition percentage variant without source spacing.
+Condition:15%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 15%	approved	Dynamic condition percentage variant without source spacing.
+Condition:16%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 16%	approved	Dynamic condition percentage variant without source spacing.
+Condition:17%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 17%	approved	Dynamic condition percentage variant without source spacing.
+Condition:18%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 18%	approved	Dynamic condition percentage variant without source spacing.
+Condition:19%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 19%	approved	Dynamic condition percentage variant without source spacing.
+Condition:2%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 2%	approved	Dynamic condition percentage variant without source spacing.
+Condition:20%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 20%	approved	Dynamic condition percentage variant without source spacing.
+Condition:21%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 21%	approved	Dynamic condition percentage variant without source spacing.
+Condition:22%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 22%	approved	Dynamic condition percentage variant without source spacing.
+Condition:23%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 23%	approved	Dynamic condition percentage variant without source spacing.
+Condition:24%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 24%	approved	Dynamic condition percentage variant without source spacing.
+Condition:25%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 25%	approved	Dynamic condition percentage variant without source spacing.
+Condition:26%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 26%	approved	Dynamic condition percentage variant without source spacing.
+Condition:27%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 27%	approved	Dynamic condition percentage variant without source spacing.
+Condition:28%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 28%	approved	Dynamic condition percentage variant without source spacing.
+Condition:29%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 29%	approved	Dynamic condition percentage variant without source spacing.
+Condition:3%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 3%	approved	Dynamic condition percentage variant without source spacing.
+Condition:30%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 30%	approved	Dynamic condition percentage variant without source spacing.
+Condition:31%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 31%	approved	Dynamic condition percentage variant without source spacing.
+Condition:32%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 32%	approved	Dynamic condition percentage variant without source spacing.
+Condition:33%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 33%	approved	Dynamic condition percentage variant without source spacing.
+Condition:34%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 34%	approved	Dynamic condition percentage variant without source spacing.
+Condition:35%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 35%	approved	Dynamic condition percentage variant without source spacing.
+Condition:36%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 36%	approved	Dynamic condition percentage variant without source spacing.
+Condition:37%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 37%	approved	Dynamic condition percentage variant without source spacing.
+Condition:38%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 38%	approved	Dynamic condition percentage variant without source spacing.
+Condition:39%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 39%	approved	Dynamic condition percentage variant without source spacing.
+Condition:4%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 4%	approved	Dynamic condition percentage variant without source spacing.
+Condition:40%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 40%	approved	Dynamic condition percentage variant without source spacing.
+Condition:41%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 41%	approved	Dynamic condition percentage variant without source spacing.
+Condition:42%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 42%	approved	Dynamic condition percentage variant without source spacing.
+Condition:43%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 43%	approved	Dynamic condition percentage variant without source spacing.
+Condition:44%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 44%	approved	Dynamic condition percentage variant without source spacing.
+Condition:45%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 45%	approved	Dynamic condition percentage variant without source spacing.
+Condition:46%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 46%	approved	Dynamic condition percentage variant without source spacing.
+Condition:47%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 47%	approved	Dynamic condition percentage variant without source spacing.
+Condition:48%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 48%	approved	Dynamic condition percentage variant without source spacing.
+Condition:49%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 49%	approved	Dynamic condition percentage variant without source spacing.
+Condition:5%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 5%	approved	Dynamic condition percentage variant without source spacing.
+Condition:50%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 50%	approved	Dynamic condition percentage variant without source spacing.
+Condition:51%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 51%	approved	Dynamic condition percentage variant without source spacing.
+Condition:52%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 52%	approved	Dynamic condition percentage variant without source spacing.
+Condition:53%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 53%	approved	Dynamic condition percentage variant without source spacing.
+Condition:54%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 54%	approved	Dynamic condition percentage variant without source spacing.
+Condition:55%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 55%	approved	Dynamic condition percentage variant without source spacing.
+Condition:56%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 56%	approved	Dynamic condition percentage variant without source spacing.
+Condition:57%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 57%	approved	Dynamic condition percentage variant without source spacing.
+Condition:58%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 58%	approved	Dynamic condition percentage variant without source spacing.
+Condition:59%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 59%	approved	Dynamic condition percentage variant without source spacing.
+Condition:6%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 6%	approved	Dynamic condition percentage variant without source spacing.
+Condition:60%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 60%	approved	Dynamic condition percentage variant without source spacing.
+Condition:61%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 61%	approved	Dynamic condition percentage variant without source spacing.
+Condition:62%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 62%	approved	Dynamic condition percentage variant without source spacing.
+Condition:63%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 63%	approved	Dynamic condition percentage variant without source spacing.
+Condition:64%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 64%	approved	Dynamic condition percentage variant without source spacing.
+Condition:65%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 65%	approved	Dynamic condition percentage variant without source spacing.
+Condition:66%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 66%	approved	Dynamic condition percentage variant without source spacing.
+Condition:67%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 67%	approved	Dynamic condition percentage variant without source spacing.
+Condition:68%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 68%	approved	Dynamic condition percentage variant without source spacing.
+Condition:69%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 69%	approved	Dynamic condition percentage variant without source spacing.
+Condition:7%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 7%	approved	Dynamic condition percentage variant without source spacing.
+Condition:70%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 70%	approved	Dynamic condition percentage variant without source spacing.
+Condition:71%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 71%	approved	Dynamic condition percentage variant without source spacing.
+Condition:72%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 72%	approved	Dynamic condition percentage variant without source spacing.
+Condition:73%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 73%	approved	Dynamic condition percentage variant without source spacing.
+Condition:74%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 74%	approved	Dynamic condition percentage variant without source spacing.
+Condition:75%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 75%	approved	Dynamic condition percentage variant without source spacing.
+Condition:76%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 76%	approved	Dynamic condition percentage variant without source spacing.
+Condition:77%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 77%	approved	Dynamic condition percentage variant without source spacing.
+Condition:78%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 78%	approved	Dynamic condition percentage variant without source spacing.
+Condition:79%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 79%	approved	Dynamic condition percentage variant without source spacing.
+Condition:8%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 8%	approved	Dynamic condition percentage variant without source spacing.
+Condition:80%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 80%	approved	Dynamic condition percentage variant without source spacing.
+Condition:81%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 81%	approved	Dynamic condition percentage variant without source spacing.
+Condition:82%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 82%	approved	Dynamic condition percentage variant without source spacing.
+Condition:83%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 83%	approved	Dynamic condition percentage variant without source spacing.
+Condition:84%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 84%	approved	Dynamic condition percentage variant without source spacing.
+Condition:85%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 85%	approved	Dynamic condition percentage variant without source spacing.
+Condition:86%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 86%	approved	Dynamic condition percentage variant without source spacing.
+Condition:87%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 87%	approved	Dynamic condition percentage variant without source spacing.
+Condition:88%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 88%	approved	Dynamic condition percentage variant without source spacing.
+Condition:89%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 89%	approved	Dynamic condition percentage variant without source spacing.
+Condition:9%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 9%	approved	Dynamic condition percentage variant without source spacing.
+Condition:90%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 90%	approved	Dynamic condition percentage variant without source spacing.
+Condition:91%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 91%	approved	Dynamic condition percentage variant without source spacing.
+Condition:92%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 92%	approved	Dynamic condition percentage variant without source spacing.
+Condition:93%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 93%	approved	Dynamic condition percentage variant without source spacing.
+Condition:94%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 94%	approved	Dynamic condition percentage variant without source spacing.
+Condition:95%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 95%	approved	Dynamic condition percentage variant without source spacing.
+Condition:96%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 96%	approved	Dynamic condition percentage variant without source spacing.
+Condition:97%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 97%	approved	Dynamic condition percentage variant without source spacing.
+Condition:98%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 98%	approved	Dynamic condition percentage variant without source spacing.
+Condition:99%	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Состояние: 99%	approved	Dynamic condition percentage variant without source spacing.
 Continue	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4334;gameobject=cancel_txt;offset=823644 | file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1721;gameobject=Text (TMP);offset=274844 | manual=screenshot_or_glossary	level3;level5;manual	manual;tmp_m_text		Продолжить	approved	
 "CONTROLS:
 Look: Mouse | Move: 'W', 'A', 'S', 'D' | Grab/Throw: 'E'"	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1477;gameobject=howtoplay_extra;offset=165868 | file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1534;gameobject=howtoplay_extra;offset=196908 | file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1564;gameobject=howtoplay_extra;offset=213196	level1	tmp_m_text		"УПРАВЛЕНИЕ:
@@ -83,10 +330,12 @@ Days Survived: <size=75><color=#adf1ff>22	file=level5;kind=tmp_m_text;script=Uni
 DEAD	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4367;gameobject=Text (TMP);offset=841516	level3	tmp_m_text		МЕРТВ	approved	
 Deflated Swim Ring	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4609;gameobject=swimming_belt (broken);offset=890480 | file=level4;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=9661;gameobject=swimming_belt (broken);offset=2070432	level3;level4	mono_string_candidate		Сдувшийся спасательный круг	approved	
 Details are smudged.	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingController;object_path_id=4729;gameobject=Task_Fishing;offset=910216	level3	mono_string_candidate		Детали размазаны.	approved	
+Disabled	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Distance: 999m	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4298;gameobject=distance_text;offset=804380	level3	tmp_m_text		Расстояние: 999 м	approved	
 Do it!	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4342;gameobject=Text (TMP);offset=827932	level3	tmp_m_text		Сделать!	approved	
 Do you accept?	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4331;gameobject=ChoiceText;offset=822044	level3	tmp_m_text		Принять?	approved	
 Don't Sleep With the Fishes	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1529;gameobject=main_title;offset=194236	level1	tmp_m_text		Не спи с рыбами	approved	
+DopplerGhost	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Double Hunger	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1504;gameobject=subtitle;offset=180556	level1	tmp_m_text		Двойной голод	approved	
 Drifting Barrel	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4437;gameobject=barrelToClick_2;offset=868992 | file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4961;gameobject=barrelToClick;offset=964640	level3	mono_string_candidate		Дрейфующая бочка	approved	
 Drifting Crate	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4723;gameobject=crateToClick_2;offset=906512 | file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4975;gameobject=crateToClick;offset=968944	level3	mono_string_candidate		Дрейфующий ящик	approved	
@@ -95,7 +344,8 @@ Duct Tape	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorIn
 Eat (Small)	file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9589;gameobject=CursorTipText_subText;offset=2035020	level4	tmp_m_text		Съесть (мало)	approved	
 Eat Fish!	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4361;gameobject=CursorTipText_subText;offset=838332	level3	tmp_m_text		Съесть рыбу!	approved	
 Eat for Energy	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1553;gameobject=subtitle;offset=207324	level1	tmp_m_text		Ешьте ради энергии	approved	
-End Day	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4341;gameobject=Text (TMP);offset=827404 | manual=screenshot_or_glossary	level3;manual	manual;tmp_m_text		Завершить день	approved	
+End Day	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4341;gameobject=Text (TMP);offset=827404 | manual=screenshot_or_glossary | manual=runtime_gap_fix	level3;manual;runtime_screenshot	manual;manual_runtime;tmp_m_text		Завершить день	approved	Runtime button; exact entry confirmed from queue/screenshots.
+EndingController, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Energy Bar	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4530;gameobject=energy_bar;offset=881952 | file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingController;object_path_id=4729;gameobject=Task_Fishing;offset=909776 | file=level4;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=10015;gameobject=energy_bar;offset=2114448	level3;level4	mono_string_candidate		Энергетический батончик	approved	
 Enter Action Code	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1588;gameobject=Text (TMP);offset=226476 | file=level2;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=7172;gameobject=Text (TMP);offset=1133836 | file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4409;gameobject=Text (TMP);offset=864284 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9651;gameobject=Text (TMP);offset=2068540 | file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1767;gameobject=Text (TMP);offset=299884	level1;level2;level3;level4;level5	tmp_m_text		Введите код действия	approved	
 Enter text...	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1579;gameobject=Placeholder;offset=221372 | file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1596;gameobject=Placeholder;offset=230748 | file=level2;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=7143;gameobject=Placeholder;offset=1118332 | file=level2;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=7152;gameobject=Placeholder;offset=1123180 | file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4380;gameobject=Placeholder;offset=848780 | file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4389;gameobject=Placeholder;offset=853628 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9622;gameobject=Placeholder;offset=2053036 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9631;gameobject=Placeholder;offset=2057884 | file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1738;gameobject=Placeholder;offset=284380 | file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1747;gameobject=Placeholder;offset=289228	level1;level2;level3;level4;level5	tmp_m_text		Введите текст...	approved	
@@ -116,11 +366,59 @@ Flounder	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingCo
 Food	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4447;gameobject=food_fish (7);offset=870112 | file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4488;gameobject=food_fish (6);offset=876752 | file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4489;gameobject=food_fish (3);offset=876848 | file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4532;gameobject=food_fish;offset=882320 | file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4545;gameobject=food_fish (1);offset=883776 | file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4560;gameobject=food_fish (4);offset=885360 | file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4661;gameobject=food_fish (2);offset=898400 | file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4702;gameobject=food_fish (5);offset=903920 | manual=screenshot_or_glossary	level3;manual	manual;mono_string_candidate		Еда	approved	
 Food Eaten: <size=75><color=#adf1ff>15	file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1724;gameobject=3;offset=276524	level5	tmp_m_text		Еды съедено: <size=75><color=#adf1ff>15	approved	
 Food:	manual=screenshot_or_glossary	manual	manual		Еда:	approved	
+Food: 0	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 0	approved	Dynamic HUD numeric variant.
+Food: 1	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 1	approved	Dynamic HUD numeric variant.
+Food: 10	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 10	approved	Dynamic HUD numeric variant.
+Food: 11	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 11	approved	Dynamic HUD numeric variant.
+Food: 12	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 12	approved	Dynamic HUD numeric variant.
+Food: 13	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 13	approved	Dynamic HUD numeric variant.
+Food: 14	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 14	approved	Dynamic HUD numeric variant.
+Food: 15	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 15	approved	Dynamic HUD numeric variant.
+Food: 16	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 16	approved	Dynamic HUD numeric variant.
+Food: 17	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 17	approved	Dynamic HUD numeric variant.
+Food: 18	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 18	approved	Dynamic HUD numeric variant.
+Food: 19	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 19	approved	Dynamic HUD numeric variant.
+Food: 2	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 2	approved	Dynamic HUD numeric variant.
+Food: 20	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 20	approved	Dynamic HUD numeric variant.
+Food: 3	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 3	approved	Dynamic HUD numeric variant.
+Food: 4	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 4	approved	Dynamic HUD numeric variant.
+Food: 5	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 5	approved	Dynamic HUD numeric variant.
+Food: 6	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 6	approved	Dynamic HUD numeric variant.
+Food: 7	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 7	approved	Dynamic HUD numeric variant.
+Food: 8	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 8	approved	Dynamic HUD numeric variant.
+Food: 9	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 9	approved	Dynamic HUD numeric variant.
+Food:0	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 0	approved	Dynamic HUD numeric variant without source spacing.
+Food:1	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 1	approved	Dynamic HUD numeric variant without source spacing.
+Food:10	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 10	approved	Dynamic HUD numeric variant without source spacing.
+Food:11	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 11	approved	Dynamic HUD numeric variant without source spacing.
+Food:12	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 12	approved	Dynamic HUD numeric variant without source spacing.
+Food:13	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 13	approved	Dynamic HUD numeric variant without source spacing.
+Food:14	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 14	approved	Dynamic HUD numeric variant without source spacing.
+Food:15	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 15	approved	Dynamic HUD numeric variant without source spacing.
+Food:16	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 16	approved	Dynamic HUD numeric variant without source spacing.
+Food:17	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 17	approved	Dynamic HUD numeric variant without source spacing.
+Food:18	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 18	approved	Dynamic HUD numeric variant without source spacing.
+Food:19	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 19	approved	Dynamic HUD numeric variant without source spacing.
+Food:2	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 2	approved	Dynamic HUD numeric variant without source spacing.
+Food:20	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 20	approved	Dynamic HUD numeric variant without source spacing.
+Food:3	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 3	approved	Dynamic HUD numeric variant without source spacing.
+Food:4	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 4	approved	Dynamic HUD numeric variant without source spacing.
+Food:5	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 5	approved	Dynamic HUD numeric variant without source spacing.
+Food:6	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 6	approved	Dynamic HUD numeric variant without source spacing.
+Food:7	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 7	approved	Dynamic HUD numeric variant without source spacing.
+Food:8	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 8	approved	Dynamic HUD numeric variant without source spacing.
+Food:9	manual=runtime_gap_fix	runtime_screenshot	manual_runtime		Еда: 9	approved	Dynamic HUD numeric variant without source spacing.
 Forced Night Result	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1595;gameobject=NightResulttxt;offset=230204 | file=level2;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=7155;gameobject=NightResulttxt;offset=1124780 | file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4392;gameobject=NightResulttxt;offset=855228 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9634;gameobject=NightResulttxt;offset=2059484 | file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1750;gameobject=NightResulttxt;offset=290828	level1;level2;level3;level4;level5	tmp_m_text		Принудительный ночной результат	approved	
 Found Inside:	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4333;gameobject=Title;offset=823116	level3	tmp_m_text		Внутри найдено:	approved	
+FPS Player	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Frederick	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4306;gameobject=Name;offset=808668	level3	tmp_m_text		Фредерик	approved	
 Frederik does not feel well...	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4301;gameobject=friendtootired_txt;offset=805996	level3	tmp_m_text		Фредерику нездоровится...	approved	
+FriendHud, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
+FriendTalkController, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Full already!	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4337;gameobject=AlreadyFullText;offset=825292	level3	tmp_m_text		Уже сыт!	approved	
+game_controller, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
+GameNightController, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
+GameStoryController, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Get the Crate!	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4296;gameobject=myself_txt;offset=803324	level3	tmp_m_text		Достаньте ящик!	approved	
 go to sleep	file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9571;gameobject=Text (TMP);offset=2025324 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9572;gameobject=Text (TMP);offset=2025852 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9573;gameobject=Text (TMP);offset=2026380 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9574;gameobject=Text (TMP);offset=2026908 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9575;gameobject=Text (TMP);offset=2027436 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9577;gameobject=Text (TMP);offset=2028492 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9579;gameobject=Text (TMP);offset=2029660 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9583;gameobject=Text (TMP);offset=2031804 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9586;gameobject=Text (TMP);offset=2033436 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9587;gameobject=Text (TMP);offset=2033964 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9588;gameobject=Text (TMP);offset=2034492 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9592;gameobject=Text (TMP);offset=2036636 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9593;gameobject=Text (TMP);offset=2037164 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9602;gameobject=Text (TMP);offset=2042012 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9604;gameobject=Text (TMP);offset=2043084 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9609;gameobject=Text (TMP);offset=2045756	level4	tmp_m_text		пойти спать	approved	
 Go To Sleep?	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4339;gameobject=Text (TMP);offset=826348 | manual=screenshot_or_glossary	level3;manual	manual;tmp_m_text		Лечь спать?	approved	
@@ -130,6 +428,7 @@ Harpoon Gun	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:Cursor
 Heal?	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4294;gameobject=text_use;offset=802252	level3	tmp_m_text		Полечить?	approved	
 Heavy Items	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1490;gameobject=subtitle;offset=172844	level1	tmp_m_text		Тяжелые предметы	approved	
 Herring	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingController;object_path_id=4729;gameobject=Task_Fishing;offset=911048	level3	mono_string_candidate		Сельдь	approved	
+Highlighted	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Hold 'Click' to Skip	file=level2;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=7126;gameobject=clickToSkipText;offset=1108940	level2	tmp_m_text		Удерживайте кнопку мыши, чтобы пропустить	approved	
 How to play?	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1470;gameobject=txt;offset=162156 | manual=screenshot_or_glossary	level1;manual	manual;tmp_m_text		Как играть?	approved	
 How to Play?	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1473;gameobject=title_howtplay;offset=163740 | file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1481;gameobject=title_howtplay;offset=168060 | file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1487;gameobject=title_howtplay;offset=171244 | file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1556;gameobject=title_howtplay;offset=208924 | manual=screenshot_or_glossary	level1;manual	manual;tmp_m_text		Как играть?	approved	
@@ -147,15 +446,41 @@ Instant Clicking	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.Text
 Instant Death	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1499;gameobject=subtitle;offset=177916	level1	tmp_m_text		Мгновенная смерть	approved	
 It was a peaceful night...	file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9610;gameobject=Text (TMP);offset=2046284	level4	tmp_m_text		Ночь прошла спокойно...	approved	
 It's somewhat faded.	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingController;object_path_id=4729;gameobject=Task_Fishing;offset=910376	level3	mono_string_candidate		Немного выцвело.	approved	
+"itemgive-itemid-n
+itemremove-itemid-n
+itembreak-itemid
+itemfix-itemid
+damage-n
+danger-n
+dangerset-n
+energy-n
+hitfriendenergy-n
+friendsick-n
+curefriend
+feedfriend
+killfriend
+addhappen-happenid,h,h…
+adddistance-n
+endgame-reason
+itemremoverandom
+itembreakrandom
+notice-message
+hitbait-n
+"	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Items Broken	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4303;gameobject=Title;offset=807068	level3	tmp_m_text		Сломано предметов	approved	
 Items Found	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4351;gameobject=Title;offset=832716	level3	tmp_m_text		Найдено предметов	approved	
 Items Lost	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4329;gameobject=Title;offset=820988	level3	tmp_m_text		Потеряно предметов	approved	
 Items Used: <size=75><color=#adf1ff>9	file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1725;gameobject=5;offset=277084	level5	tmp_m_text		Предметов использовано: <size=75><color=#adf1ff>9	approved	
 Journal	manual=screenshot_or_glossary	manual	manual		Журнал	approved	
+JournalController, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Keep empty for random seed...	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1509;gameobject=Placeholder;offset=183212	level1	tmp_m_text		Оставьте пустым для случайного сида...	approved	
 Keep new resolution?	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1575;gameobject=keep_res_title;offset=219180 | file=level2;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=7133;gameobject=keep_res_title;offset=1112652 | file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4370;gameobject=keep_res_title;offset=843100 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9612;gameobject=keep_res_title;offset=2047356 | file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1728;gameobject=keep_res_title;offset=278700	level1;level2;level3;level4;level5	tmp_m_text		Сохранить новое разрешение?	approved	
 Kidnapped	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1516;gameobject=Title;offset=187100	level1	tmp_m_text		Похищение	needs_review	Context-sensitive; verify in game.
+"kill
+getfish
+superhelp"	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Let Frederik handle it!	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4332;gameobject=friend_txt;offset=822572	level3	tmp_m_text		Пусть Фредерик разберется!	approved	
+LetterWritingController, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Light Items	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1480;gameobject=subtitle;offset=167532	level1	tmp_m_text		Легкие предметы	approved	
 Load Game	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1502;gameobject=txt;offset=179500	level1	tmp_m_text		Загрузить игру	approved	
 Locked - Play 'Adventure' first!	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1488;gameobject=newgame_title;offset=171772 | manual=screenshot_or_glossary	level1;manual	manual;tmp_m_text		Закрыто — сначала сыграйте в «Приключение»!	approved	
@@ -163,9 +488,11 @@ Lonely	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGU
 Looks reparable!	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingController;object_path_id=4729;gameobject=Task_Fishing;offset=909476 | file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingController;object_path_id=4729;gameobject=Task_Fishing;offset=909640	level3	mono_string_candidate		Похоже, можно починить!	approved	
 Looks tasty!	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingController;object_path_id=4729;gameobject=Task_Fishing;offset=909800	level3	mono_string_candidate		Выглядит вкусно!	approved	
 Lore	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1537;gameobject=Text (TMP);offset=198540	level1	tmp_m_text		История	approved	
+LoreScreen, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Mackerel	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingController;object_path_id=4729;gameobject=Task_Fishing;offset=911284	level3	mono_string_candidate		Скумбрия	approved	
 Map	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4847;gameobject=map;offset=929088 | file=level4;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=9674;gameobject=map;offset=2072240	level3;level4	mono_string_candidate		Карта	approved	
-Mouse Sensitivity	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1586;gameobject=SettingName;offset=225404 | file=level2;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=7161;gameobject=SettingName;offset=1127964 | file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4398;gameobject=SettingName;offset=858412 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9640;gameobject=SettingName;offset=2062668 | file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1756;gameobject=SettingName;offset=294012 | manual=screenshot_or_glossary	level1;level2;level3;level4;level5;manual	manual;tmp_m_text		Чувствительность мыши	approved	
+MenuController, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
+Mouse Sensitivity	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1586;gameobject=SettingName;offset=225404 | file=level2;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=7161;gameobject=SettingName;offset=1127964 | file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4398;gameobject=SettingName;offset=858412 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9640;gameobject=SettingName;offset=2062668 | file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1756;gameobject=SettingName;offset=294012 | manual=screenshot_or_glossary | manual=runtime_gap_fix	level1;level2;level3;level4;level5;manual;runtime_screenshot	manual;manual_runtime;tmp_m_text		Чувств. мыши	approved	Shortened to avoid settings slider overlap.
 Nails Left: 4	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4338;gameobject=NoticeText;offset=825820	level3	tmp_m_text		Гвоздей осталось: 4	approved	
 Needs Bait	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4570;gameobject=doTask_fishing;offset=886596	level3	mono_string_candidate		Нужна наживка	approved	
 New Entry!	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4327;gameobject=new_entry;offset=819932	level3	tmp_m_text		Новая запись!	approved	
@@ -173,20 +500,25 @@ New Game	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProU
 Newspaper...?	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingController;object_path_id=4729;gameobject=Task_Fishing;offset=910188	level3	mono_string_candidate		Газета...?	approved	
 Next	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1484;gameobject=txt;offset=169660 | file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1495;gameobject=Text (TMP);offset=175724 | file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1525;gameobject=txt;offset=192108 | file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1558;gameobject=txt;offset=209980 | file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1560;gameobject=txt;offset=211052	level1	tmp_m_text		Далее	approved	
 night events:	file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9605;gameobject=text;offset=2043612	level4	tmp_m_text		ночные события:	approved	
+NightChoiceMaker, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 No	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1604;gameobject=button_txt;offset=234988 | file=level2;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=7158;gameobject=button_txt;offset=1126380 | file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4340;gameobject=Text (TMP);offset=826876 | file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4395;gameobject=button_txt;offset=856828 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9600;gameobject=Text (TMP);offset=2040940 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9637;gameobject=button_txt;offset=2061084 | file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1753;gameobject=button_txt;offset=292428	level1;level2;level3;level4;level5	tmp_m_text		Нет	approved	
 No Harm	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1471;gameobject=subtitle;offset=162684	level1	tmp_m_text		Без урона	needs_review	Context-sensitive; verify in game.
 No Hunger	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1544;gameobject=subtitle;offset=202252	level1	tmp_m_text		Без голода	approved	
 No New Entry	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4345;gameobject=no_new_entry;offset=829532	level3	tmp_m_text		Нет новой записи	approved	
+Normal	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Not enough energy...	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4350;gameobject=myselfcannot_txt;offset=832172	level3	tmp_m_text		Недостаточно энергии...	approved	
 OK	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1563;gameobject=Text (TMP);offset=212668	level1	tmp_m_text		ОК	approved	
 Open Chest	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4428;gameobject=LootBoxChest;offset=866832	level3	mono_string_candidate		Открыть сундук	approved	
 Open Journal?	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4356;gameobject=openjournal;offset=835628	level3	tmp_m_text		Открыть журнал?	approved	
 Paid back your debts.	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1494;gameobject=Desc;offset=175180	level1	tmp_m_text		Вы выплатили долги.	approved	
 Paused	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1585;gameobject=PausedTitle;offset=224876 | file=level2;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=7162;gameobject=PausedTitle;offset=1128508 | file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4399;gameobject=PausedTitle;offset=858956 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9641;gameobject=PausedTitle;offset=2063212 | file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1757;gameobject=PausedTitle;offset=294556	level1;level2;level3;level4;level5	tmp_m_text		Пауза	approved	
+PauseMenu, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Pick Up	file=level2;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=7124;gameobject=ItemName;offset=1107884	level2	tmp_m_text		Взять	approved	
 Plastic Bottle	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingController;object_path_id=4729;gameobject=Task_Fishing;offset=908896	level3	mono_string_candidate		Пластиковая бутылка	approved	
 Play	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1518;gameobject=txt;offset=188156 | manual=screenshot_or_glossary	level1;manual	manual;tmp_m_text		Играть	approved	
+Player	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Prepare Bait	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4343;gameobject=SpecialityText;offset=828460	level3	tmp_m_text		Подготовить наживку	approved	
+Pressed	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Previous	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1469;gameobject=txt;offset=161628 | file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1508;gameobject=txt;offset=182684 | file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1541;gameobject=txt;offset=200652 | file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1549;gameobject=txt;offset=205196 | file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1555;gameobject=Text (TMP);offset=208396	level1	tmp_m_text		Назад	approved	
 Quit	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1557;gameobject=txt;offset=209452 | file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1569;gameobject=txt;offset=215996 | file=level2;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=7149;gameobject=txt;offset=1121596 | file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4386;gameobject=txt;offset=852044 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9628;gameobject=txt;offset=2056300 | file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1744;gameobject=txt;offset=287644 | manual=screenshot_or_glossary	level1;level2;level3;level4;level5;manual	manual;tmp_m_text		Выйти	approved	
 Red Snapper	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingController;object_path_id=4729;gameobject=Task_Fishing;offset=911164	level3	mono_string_candidate		Красный луциан	approved	
@@ -205,6 +537,7 @@ Sardine	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingCon
 Screen Resolution	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1597;gameobject=SettingName;offset=231276 | file=level2;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=7154;gameobject=SettingName;offset=1124236 | file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4391;gameobject=SettingName;offset=854684 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9633;gameobject=SettingName;offset=2058940 | file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1749;gameobject=SettingName;offset=290284 | manual=screenshot_or_glossary	level1;level2;level3;level4;level5;manual	manual;tmp_m_text		Разрешение экрана	approved	
 Scuba Set	file=level4;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=10020;gameobject=scuba_set;offset=2114912	level4	mono_string_candidate		Акваланг	approved	
 Scuba set was damaged in the process.	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4318;gameobject=ItemText;offset=815084	level3	tmp_m_text		В процессе был поврежден акваланг.	approved	
+ScubaAction, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Sea Search	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4653;gameobject=scuba_set;offset=897536	level3	mono_string_candidate		Поиск в море	approved	
 Seagull	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4631;gameobject=seagull;offset=893024 | file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4670;gameobject=seagull 2;offset=899776 | file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4742;gameobject=seagull 3;offset=916048	level3	mono_string_candidate		Чайка	approved	
 Seagulls!!	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1476;gameobject=Desc;offset=165340	level1	tmp_m_text		Чайки!!	approved	
@@ -221,14 +554,17 @@ SELECTED	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProU
 Selected	manual=screenshot_or_glossary	manual	manual		Выбрано	approved	
 Send	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4368;gameobject=Text (TMP);offset=842044	level3	tmp_m_text		Отправить	approved	
 Settings	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1535;gameobject=txt;offset=197500 | file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1577;gameobject=txt;offset=220268 | file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1605;gameobject=settings_subtitle;offset=235516 | file=level2;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=7144;gameobject=txt;offset=1118860 | file=level2;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=7156;gameobject=settings_subtitle;offset=1125324 | file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4381;gameobject=txt;offset=849308 | file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4393;gameobject=settings_subtitle;offset=855772 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9623;gameobject=txt;offset=2053564 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9635;gameobject=settings_subtitle;offset=2060028 | file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1739;gameobject=txt;offset=284908 | file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1751;gameobject=settings_subtitle;offset=291372 | manual=screenshot_or_glossary	level1;level2;level3;level4;level5;manual	manual;tmp_m_text		Настройки	approved	
+SettingsMenu, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 "Shipmates sunk with the ship.
 Captain Whiskers may wander the sea alone."	file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1718;gameobject=friend_fate;offset=273132	level5	tmp_m_text		"Товарищи затонули вместе с кораблем.
 Капитан Усатик может скитаться по морю в одиночестве."	approved	
 Sick	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4312;gameobject=Text (TMP);offset=811852	level3	tmp_m_text		Болен	approved	
 Sleeping With The Fishes	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1479;gameobject=Title;offset=166988 | file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1548;gameobject=Title;offset=204652 | file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1559;gameobject=Title;offset=210508	level1	tmp_m_text		Сон с рыбами	approved	
 Sleeping with the Fishes	file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1717;gameobject=fate_text;offset=272588	level5	tmp_m_text		Сон с рыбами	approved	
+Sliding : false | Dashing : false | Flying : false	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Soaked but readable.	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingController;object_path_id=4729;gameobject=Task_Fishing;offset=910052	level3	mono_string_candidate		Промокло, но читается.	approved	
 "Something broke during the night."	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4325;gameobject=NoticeText;offset=818844	level3	tmp_m_text		"Что-то сломалось ночью."	approved	
+Speed: 0 | IsGrounded: true | CoyoteTime: 0.5555	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Squid	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingController;object_path_id=4729;gameobject=Task_Fishing;offset=908524	level3	mono_string_candidate		Кальмар	approved	
 Step 1: Grab and Run!	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1521;gameobject=page_Title;offset=189948	level1	tmp_m_text		Шаг 1: хватайте и бегите!	approved	
 Step 2: Survive!	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1532;gameobject=page_Title;offset=195852	level1	tmp_m_text		Шаг 2: выживите!	approved	
@@ -242,6 +578,7 @@ Swordfish	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingC
 Taken aboard.	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1527;gameobject=Desc;offset=193164	level1	tmp_m_text		Вас взяли на борт.	approved	
 Talk	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4772;gameobject=doTask_friendTalk;offset=919072	level3	mono_string_candidate		Поговорить	approved	
 Talk?	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4320;gameobject=text_use;offset=816172	level3	tmp_m_text		Поговорить?	approved	
+TaskRandomBox, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Telescope	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4487;gameobject=telescope;offset=876656 | file=level4;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=9742;gameobject=telescope;offset=2080592	level3;level4	mono_string_candidate		Подзорная труба	approved	
 Thank you...	file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9580;gameobject=ThanksText;offset=2030188 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9597;gameobject=ThanksText;offset=2039340	level4	tmp_m_text		Спасибо...	approved	
 That did not help...	file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9582;gameobject=NoThanksText;offset=2031260 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9591;gameobject=NoThanksText;offset=2036092	level4	tmp_m_text		Это не помогло...	approved	
@@ -269,12 +606,16 @@ Try diving for resources?	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:T
 Try Fishing	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4570;gameobject=doTask_fishing;offset=886560	level3	mono_string_candidate		Попробовать рыбачить	approved	
 Try to sleep back?	file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9590;gameobject=Text (TMP);offset=2035548	level4	tmp_m_text		Попробовать снова уснуть?	approved	
 Tuna	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingController;object_path_id=4729;gameobject=Task_Fishing;offset=908308	level3	mono_string_candidate		Тунец	approved	
+Tutorial_Screen, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Umbrella	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=4643;gameobject=umbrella;offset=894944 | file=level4;kind=mono_string_candidate;script=Assembly-CSharp:CursorInfoMaker;object_path_id=9774;gameobject=umbrella;offset=2084176	level3;level4	mono_string_candidate		Зонт	approved	
+UnityEngine.Object, UnityEngine	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Use Custom Seed?	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1506;gameobject=title_seed;offset=181612	level1	tmp_m_text		Использовать свой сид?	approved	
 "Use the daytime to spend your energy on fishing, eating, doing small tasks, or chatting to your shipmate (if you brought one).
 When you run out of energy, end the day and try to sleep hoping nothing disrupts your rest."	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1520;gameobject=howtoplay_txt;offset=189212	level1	tmp_m_text		"Днем тратьте энергию на рыбалку, еду, мелкие дела или разговоры с попутчиком, если вы его взяли.
 Когда энергия закончится, завершите день и попытайтесь поспать, надеясь, что ничто не нарушит отдых."	approved	
 Useful for fishing!	file=level3;kind=mono_string_candidate;script=Assembly-CSharp:FishingController;object_path_id=4729;gameobject=Task_Fishing;offset=909196	level3	mono_string_candidate		Пригодится для рыбалки!	approved	
+v0.0.0	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
+v0.3.5	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
 Volume Master	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1587;gameobject=SettingName;offset=225948 | file=level2;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=7169;gameobject=SettingName;offset=1132252 | file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4406;gameobject=SettingName;offset=862700 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9648;gameobject=SettingName;offset=2066956 | file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1764;gameobject=SettingName;offset=298300 | manual=screenshot_or_glossary	level1;level2;level3;level4;level5;manual	manual;tmp_m_text		Общая громкость	approved	
 Volume Music	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1582;gameobject=SettingName;offset=223260 | file=level2;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=7139;gameobject=SettingName;offset=1115868 | file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4376;gameobject=SettingName;offset=846316 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9618;gameobject=SettingName;offset=2050572 | file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1734;gameobject=SettingName;offset=281916 | manual=screenshot_or_glossary	level1;level2;level3;level4;level5;manual	manual;tmp_m_text		Музыка	approved	
 Volume SFX	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1571;gameobject=SettingName;offset=217068 | file=level2;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=7137;gameobject=SettingName;offset=1114796 | file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4374;gameobject=SettingName;offset=845244 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9616;gameobject=SettingName;offset=2049500 | file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1732;gameobject=SettingName;offset=280844 | manual=screenshot_or_glossary	level1;level2;level3;level4;level5;manual	manual;tmp_m_text		Звуки	approved	
@@ -298,56 +639,31 @@ Your fate...	file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMesh
 Your search did not yield results.	file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4299;gameobject=ItemText;offset=804908	level3	tmp_m_text		Поиск ничего не дал.	approved	
 You’re the <color=yellow>captain</color> of a ship on a covert delivery mission with a small crew. Without warning, something strikes the vessel, causing severe damage. You wait for the emergency horns. When they sound, you know you need to evacuate immediately.	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1546;gameobject=howtoplay_txt;offset=203340	level1	tmp_m_text		Вы <color=yellow>капитан</color> корабля, который выполняет тайную доставку с небольшой командой. Внезапно что-то ударяет по судну и сильно его повреждает. Вы ждете аварийных сирен. Когда они звучат, становится ясно: нужно немедленно эвакуироваться.	approved	
 | Created by: Taiki <i>(DopplerGhost)</i> | Special Thanks to: TakDor, Merlidan, Drael, and you! |	file=level1;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1568;gameobject=SettingName;offset=215372 | file=level2;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=7145;gameobject=SettingName;offset=1119388 | file=level3;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=4382;gameobject=SettingName;offset=849836 | file=level4;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=9624;gameobject=SettingName;offset=2054092 | file=level5;kind=tmp_m_text;script=Unity.TextMeshPro:TMPro.TextMeshProUGUI;object_path_id=1740;gameobject=SettingName;offset=285436	level1;level2;level3;level4;level5	tmp_m_text		| Автор: Taiki <i>(DopplerGhost)</i> | Особая благодарность: TakDor, Merlidan, Drael и вам! |	approved	
-(Development build)	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-Disabled	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-DopplerGhost	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-EndingController, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-FPS Player	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-FriendHud, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-FriendTalkController, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-game_controller, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-GameNightController, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-GameStoryController, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-Highlighted	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-"itemgive-itemid-n
-itemremove-itemid-n
-itembreak-itemid
-itemfix-itemid
-damage-n
-danger-n
-dangerset-n
-energy-n
-hitfriendenergy-n
-friendsick-n
-curefriend
-feedfriend
-killfriend
-addhappen-happenid,h,h…
-adddistance-n
-endgame-reason
-itemremoverandom
-itembreakrandom
-notice-message
-hitbait-n
-"	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-JournalController, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-"kill
-getfish
-superhelp"	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-LetterWritingController, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-LoreScreen, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-MenuController, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-NightChoiceMaker, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-Normal	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-PauseMenu, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-Player	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-Pressed	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-ScubaAction, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-SettingsMenu, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-Sliding : false | Dashing : false | Flying : false	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-Speed: 0 | IsGrounded: true | CoyoteTime: 0.5555	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-TaskRandomBox, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-Tutorial_Screen, Assembly-CSharp	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-UnityEngine.Object, UnityEngine	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-v0.0.0	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
-v0.3.5	excluded_from_player_facing_queue	extracted/visible_strings.tsv	skip			skip	technical/debug or non-player-facing extraction
+Well, there goes Dorothy...	journal screenshot	manual_screenshot	manual_runtime		Ну вот и Дороти...	approved	manual screenshot gap
+Row’ and I are the only ones left, sitting in this old junk of a lifeboat.	journal screenshot	manual_screenshot	manual_runtime		Мы с Роу остались одни в этой старой развалине спасательной шлюпки.	approved	manual screenshot gap
+I have no idea what struck our ship, and judging by the sound, I honestly don’t want to find out.	journal screenshot	manual_screenshot	manual_runtime		Понятия не имею, что ударило по нашему кораблю, и, судя по звуку, честно говоря, не хочу это выяснять.	approved	manual screenshot gap
+Now all we can do is survive as long as we need. I’m sure help will come soon.	journal screenshot	manual_screenshot	manual_runtime		Теперь нам остаётся только выживать столько, сколько потребуется. Уверен, помощь скоро придёт.	approved	manual screenshot gap
+"Well, there goes Dorothy...
+
+Row’ and I are the only ones left, sitting in this old junk of a lifeboat.
+
+I have no idea what struck our ship, and judging by the sound, I honestly don’t want to find out.
+
+Now all we can do is survive as long as we need. I’m sure help will come soon."	journal screenshot multiline	manual_screenshot	manual_runtime		"Ну вот и Дороти...
+
+Мы с Роу остались одни в этой старой развалине спасательной шлюпки.
+
+Понятия не имею, что ударило по нашему кораблю, и, судя по звуку, честно говоря, не хочу это выяснять.
+
+Теперь нам остаётся только выживать столько, сколько потребуется. Уверен, помощь скоро придёт."	approved	manual screenshot gap
+Well, there goes Dorothy...<br>Row’ and I are the only ones left, sitting in this old junk of a lifeboat.<br>I have no idea what struck our ship, and judging by the sound, I honestly don’t want to find out.<br>Now all we can do is survive as long as we need. I’m sure help will come soon.	journal screenshot br	manual_screenshot	manual_runtime		Ну вот и Дороти...<br>Мы с Роу остались одни в этой старой развалине спасательной шлюпки.<br>Понятия не имею, что ударило по нашему кораблю, и, судя по звуку, честно говоря, не хочу это выяснять.<br>Теперь нам остаётся только выживать столько, сколько потребуется. Уверен, помощь скоро придёт.	approved	manual screenshot gap
+... Why did you choose me?	dialogue screenshot	manual_screenshot	manual_runtime		... Почему ты выбрал меня?	approved	manual screenshot gap
+.. I'm not sold on the idea that all this was a coincidence.	dialogue screenshot	manual_screenshot	manual_runtime		.. Не верится мне, что всё это было совпадением.	approved	manual screenshot gap
+I'm full	hud screenshot	manual_screenshot	manual_runtime		Я сыт	approved	manual status gap
+I still have energy	hud screenshot	manual_screenshot	manual_runtime		У меня ещё есть силы	approved	manual status gap
+I feel healthy	hud screenshot	manual_screenshot	manual_runtime		Я здоров	approved	manual status gap
+Row	friend panel	manual_screenshot	manual_runtime		Роу	approved	manual screenshot gap
+Happy	friend panel	manual_screenshot	manual_runtime		Счастлив	approved	manual screenshot gap
+I'm tired a bit	status screenshot	manual_screenshot	manual_runtime		Я немного устал	approved	manual status gap
+I'm a little tired	status screenshot	manual_screenshot	manual_runtime		Я немного устал	approved	manual status gap
+I am tired a bit	status screenshot	manual_screenshot	manual_runtime		Я немного устал	approved	manual status gap

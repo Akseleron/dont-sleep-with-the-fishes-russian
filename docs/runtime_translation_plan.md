@@ -15,10 +15,10 @@ Inputs:
 Clean queue output:
 
 - Queue: `translations/source_queue.tsv`
-- Total queue rows: 312
-- Active player-facing rows: 281
-- Translated active rows: 281
-- Approved rows: 271
+- Total queue rows: 600
+- Active player-facing rows: 569
+- Translated active rows: 569
+- Approved rows: 559
 - Needs review rows: 10
 - Skipped debug/technical rows: 31
 
@@ -26,6 +26,7 @@ Active row kinds:
 
 - `tmp_m_text`: 168
 - `mono_string_candidate`: 76
+- `manual_runtime`: 288
 - mixed manual/extracted rows: 32
 - manual-only screenshot/glossary rows: 5
 
@@ -70,7 +71,7 @@ Rows marked `needs_review` are translated, but should be checked in context:
 Validation currently passes:
 
 ```text
-validation ok: 281 active translations, 10 needs_review, 31 skip
+validation ok: 569 active translations, 10 needs_review, 31 skip
 ```
 
 The validator checks:
@@ -147,6 +148,58 @@ Next test work:
 2. Verify settings, difficulty select, gameplay HUD, inventory prompts, journal, sleep prompt, and fishing prompt.
 3. If later screens show missing Cyrillic glyphs, configure a TMP Cyrillic fallback via `FallbackFontTextMeshPro`.
 4. If some later texts remain English, inspect `BepInEx/LogOutput.log`, enable XUnity text path logging temporarily, and consider the official `AutoTranslator.IL2CPP.BruteForceFix` only if documented and hashed first.
+
+## Runtime Gap-Fix Pass
+
+Latest observed screenshot gaps were added to `translations/source_queue.tsv` and exported to the XUnity dictionary:
+
+- `Condition:` -> `Состояние:`
+- `Condition: 100%` -> `Состояние: 100%`
+- `Food: 1` -> `Еда: 1`
+- `Food:1` -> `Еда: 1`
+- `Bait: 6` -> `Наживка: 6`
+- `Click To Heal` -> `Нажмите, чтобы полечиться`
+- `End Day` -> `Завершить день`
+- `Mouse Sensitivity` -> `Чувств. мыши`
+
+Added dynamic exact variants:
+
+- `Food: 0` through `Food: 20`
+- `Food:0` through `Food:20`
+- `Bait: 0` through `Bait: 20`
+- `Bait:0` through `Bait:20`
+- `Condition: 0%` through `Condition: 100%`
+- `Condition:0%` through `Condition:100%`
+
+Test-only XUnity config changes were applied only in `game_runtime_test/BepInEx/config/AutoTranslatorConfig.ini`:
+
+```ini
+GeneratePartialTranslations=True
+OutputUntranslatableText=True
+```
+
+The packaged config at `patches/xunity_autotranslator/BepInEx/config/AutoTranslatorConfig.ini` remains conservative:
+
+```ini
+GeneratePartialTranslations=False
+OutputUntranslatableText=False
+```
+
+Visual retest results:
+
+- Difficulty screen remains translated and Cyrillic renders.
+- Settings screen shows `Чувств. мыши`; the previous mouse sensitivity overlap with the slider is fixed.
+- The opening gameplay scene loads with XUnity active.
+- The automated visual pass did not reach the lifeboat HUD where `Condition`, `Food`, `Bait`, `Click To Heal`, and `End Day` are visible, so those exact runtime strings are present in the dictionary but still need in-game confirmation.
+- `End Day` is not marked as texture/sprite yet. It was not observed still-English after the new exact entry and reload/hook refresh. If it remains English in a later manual lifeboat test after `ALT+R`/`ALT+U`, then mark it as probable texture/sprite or unhooked UI text.
+
+Remaining layout issue observed outside the requested gap list:
+
+- `Resume` translated as `Продолжить` wraps awkwardly on the pause menu button in the opening scene. Consider a shorter context-specific translation if XUnity scoping can distinguish that button.
+
+Dynamic value note:
+
+- Numeric exact variants cover the observed ranges requested in the gap-fix pass. If runtime values exceed `Food/Bait` 20 or condition uses non-integer percentages, add more variants or rely on partial translation if it proves stable in testing.
 
 ## Test Checklist
 

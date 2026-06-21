@@ -1,38 +1,42 @@
 source	russian	notes
+Accept	Принять	UI action.
+Adventure	Приключение	Difficulty name.
+Back	Назад	UI action.
+Back to Menu	В меню	UI action.
+Bait: 6	Наживка: 6	Observed runtime HUD string.
+Brightness	Яркость	Settings label.
+Click To Continue	Нажмите, чтобы продолжить	UI prompt.
+Click To Eat	Нажмите, чтобы съесть	Screenshot/manual HUD prompt.
+Click To Heal	Нажмите, чтобы полечиться	Runtime item prompt.
+Condition:	Состояние:	Runtime HUD label.
+Continue	Продолжить	UI action.
+End Day	Завершить день	Core gameplay action.
+Fish Can	Банка рыбы	Item name.
+Fish Food	Консервы	Item/prompt term per glossary.
+Fishnet	Сеть	Item name.
 Food	Еда	Core UI/stat term.
 Food:	Еда:	Core HUD label.
-Click To Eat	Нажмите, чтобы съесть	Screenshot/manual HUD prompt.
-End Day	Завершить день	Core gameplay action.
-Journal	Журнал	Core UI term.
-Settings	Настройки	Core UI term.
-Volume Master	Общая громкость	Settings label.
-Volume Music	Музыка	Settings label; keep short.
-Volume SFX	Звуки	Settings label; keep short.
-Screen Resolution	Разрешение экрана	Settings label.
-Brightness	Яркость	Settings label.
-Mouse Sensitivity	Чувствительность мыши	Settings label.
+Food: 1	Еда: 1	Observed runtime HUD string.
+Go To Sleep?	Лечь спать?	Sleep prompt.
+How to play?	Как играть?	UI label.
+How to Play?	Как играть?	UI title.
 Instant Clicking	Мгновенный клик	Settings label; keep short.
+Journal	Журнал	Core UI term.
+Locked - Play 'Adventure' first!	Закрыто — сначала сыграйте в «Приключение»!	Use Russian punctuation in final text.
+Mouse Sensitivity	Чувств. мыши	Short settings label to avoid slider overlap.
+Play	Играть	UI action.
+Quit	Выйти	UI action.
 Restore Default Settings	Сбросить настройки	Settings action.
-Accept	Принять	UI action.
+Resume	Продолжить	UI action.
+Screen Resolution	Разрешение экрана	Settings label.
 Select Difficulty	Выбор сложности	Difficulty screen title.
 SELECT DIFFICULTY	ВЫБОР СЛОЖНОСТИ	Difficulty screen title, uppercase.
 Selected	Выбрано	Manual screenshot term only; extracted button-state uses are technical.
 SELECTED	ВЫБРАНО	Visible difficulty state.
-Adventure	Приключение	Difficulty name.
+Settings	Настройки	Core UI term.
 Survive the Sea	Выживите в море	Difficulty subtitle.
-Locked - Play 'Adventure' first!	Закрыто — сначала сыграйте в «Приключение»!	Use Russian punctuation in final text.
-Back	Назад	UI action.
-How to play?	Как играть?	UI label.
-How to Play?	Как играть?	UI title.
-Play	Играть	UI action.
-Continue	Продолжить	UI action.
-Quit	Выйти	UI action.
-Resume	Продолжить	UI action.
-Back to Menu	В меню	UI action.
-Go To Sleep?	Лечь спать?	Sleep prompt.
-Click To Continue	Нажмите, чтобы продолжить	UI prompt.
-Fish Food	Консервы	Item/prompt term per glossary.
-Fish Can	Банка рыбы	Item name.
-Fishnet	Сеть	Item name.
-Torn Fishnet	Рваная сеть	Item name.
 Torn Fishing Net	Рваная рыболовная сеть	Item name.
+Torn Fishnet	Рваная сеть	Item name.
+Volume Master	Общая громкость	Settings label.
+Volume Music	Музыка	Settings label; keep short.
+Volume SFX	Звуки	Settings label; keep short.

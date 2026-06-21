@@ -11,7 +11,7 @@ Prepared package:
 
 ## Current Package Contents
 
-The manual dictionary is now generated from `translations/source_queue.tsv`. It currently contains 281 active translations covering visible strings from `extracted/visible_strings.tsv` for `level1` through `level5`, plus screenshot-only HUD/menu strings. The source queue also records 31 skipped debug/technical strings that are intentionally excluded from the final XUnity dictionary.
+The manual dictionary is now generated from `translations/source_queue.tsv`. It currently contains 569 active translations covering visible strings from `extracted/visible_strings.tsv` for `level1` through `level5`, screenshot-only HUD/menu strings, and runtime gap-fix numeric variants. The source queue also records 31 skipped debug/technical strings that are intentionally excluded from the final XUnity dictionary.
 
 - main menu and difficulty select;
 - settings;
