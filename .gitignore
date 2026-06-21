@@ -1,0 +1,6 @@
+game_original/
+game_work/
+*.bak
+.venv/
+__pycache__/
+*.pyc
