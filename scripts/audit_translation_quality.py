@@ -13,6 +13,8 @@ QUEUE = ROOT / "translations/source_queue.tsv"
 RESOURCE_CACHE = ROOT / "translations/resources_textasset_translations.tsv"
 RESOURCE_STRINGS = ROOT / "extracted/resources_dialogue_strings.tsv"
 OUT = ROOT / "extracted/translation_quality_report.tsv"
+SUPPRESSIONS = ROOT / "translations/quality_suppressions.tsv"
+SUPPRESSED_FINDINGS: set[tuple[str, str]] = set()
 
 FIELDS = [
     "source",
@@ -55,6 +57,16 @@ def load_tsv(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(handle, delimiter="\t"))
 
 
+def load_suppressions() -> set[tuple[str, str]]:
+    suppressions: set[tuple[str, str]] = set()
+    for row in load_tsv(SUPPRESSIONS):
+        issue_type = row.get("issue_type", "")
+        source = row.get("source", "")
+        if issue_type and source:
+            suppressions.add((issue_type, source))
+    return suppressions
+
+
 def resource_context_by_source() -> dict[str, list[str]]:
     contexts: dict[str, list[str]] = {}
     for row in load_tsv(RESOURCE_STRINGS):
@@ -75,6 +87,9 @@ def add_issue(
     recommendation: str,
     extra_context: str = "",
 ) -> None:
+    if (issue_type, row.get("source", "")) in SUPPRESSED_FINDINGS:
+        return
+
     issues.append(
         {
             "source": row.get("source", ""),
@@ -134,6 +149,9 @@ def audit_row(row: dict[str, str], issues: list[dict[str, str]], resource_contex
 
 
 def main() -> int:
+    global SUPPRESSED_FINDINGS
+
+    SUPPRESSED_FINDINGS = load_suppressions()
     issues: list[dict[str, str]] = []
     resource_contexts = resource_context_by_source()
 

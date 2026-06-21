@@ -1,0 +1,27 @@
+issue_type	source	reason
+boat_term_risk	Time is running out! Gather whatever you can and toss it into your lifeboat, before the ship sinks. Every item counts! Escape by staying near the boat at the end! However, it can only carry one more person besides you.	reviewed false positive: ship/lifeboat wording is intentional
+boat_term_risk	Well, there goes Dorothy…<br>I’m the only one left, stuck on this old junk of a lifeboat.<br>I have no idea what struck our ship, and judging by the sound, I honestly don’t want to find out.<br>Now all I can do is survive as long as I need. I’m sure help will come soon.	reviewed false positive: ship/lifeboat wording is intentional
+boat_term_risk	"Well, there goes Dorothy...
+
+Row’ and I are the only ones left, sitting in this old junk of a lifeboat.
+
+I have no idea what struck our ship, and judging by the sound, I honestly don’t want to find out.
+
+Now all we can do is survive as long as we need. I’m sure help will come soon."	reviewed false positive: ship/lifeboat wording is intentional
+boat_term_risk	Well, there goes Dorothy...<br>Row’ and I are the only ones left, sitting in this old junk of a lifeboat.<br>I have no idea what struck our ship, and judging by the sound, I honestly don’t want to find out.<br>Now all we can do is survive as long as we need. I’m sure help will come soon.	reviewed false positive: ship/lifeboat wording is intentional
+boat_term_risk	Well, there goes Dorothy…<br>Frederik and I are the only ones left, sitting in this old junk of a lifeboat.<br>I have no idea what struck our ship, and judging by the sound, I honestly don’t want to find out.<br>Now all we can do is survive as long as we need. I’m sure help will come soon.	reviewed false positive: ship/lifeboat wording is intentional
+boat_term_risk	Well, there goes Dorothy…<br>Laurel and I are the only ones left, sitting in this old junk of a lifeboat.<br>I have no idea what struck our ship, and judging by the sound, I honestly don’t want to find out.<br>Now all we can do is survive as long as we need. I’m sure help will come soon.	reviewed false positive: ship/lifeboat wording is intentional
+boat_term_risk	Well, there goes Dorothy…<br>Row’ and I are the only ones left, sitting in this old junk of a lifeboat.<br>I have no idea what struck our ship, and judging by the sound, I honestly don’t want to find out.<br>Now all we can do is survive as long as we need. I’m sure help will come soon.	reviewed false positive: ship/lifeboat wording is intentional
+dialogue_gender_review	Y’know.. I’m really bummed about the ship and the crew.. They were family to me, you get me?	reviewed false positive: speaker/context gender is intentional
+dialogue_gender_review	I- I miss my crew already.. And I really miss my plants. They were everything to me..	reviewed false positive: speaker/context gender is intentional
+dialogue_gender_review	I felt safer when.. He.. was there. H- he had a lot of weapons and tools, for any situation..	reviewed false positive: speaker/context gender is intentional
+dialogue_gender_review	Tired as a barnacle, my friend..	reviewed false positive: speaker/context gender is intentional
+dialogue_gender_review	My head feels heavy, I- I’m really tired..	reviewed false positive: speaker/context gender is intentional
+dialogue_gender_review	Morning! I had a weird dream last night.. There was a guy in a gondola, tryin’ to sell me stuff..	reviewed false positive: speaker/context gender is intentional
+dialogue_gender_review	Once I had a nightmare… I was surrounded by sharks. But they had limbs. Human limbs.	reviewed false positive: speaker/context gender is intentional
+dialogue_gender_review	I had the weirdest dream of my life.. W- we were surrounded by lily pads. Hundreds of them..	reviewed false positive: speaker/context gender is intentional
+dialogue_gender_review	W- wow! I just made that, see? From scrap!	reviewed false positive: speaker/context gender is intentional
+dialogue_gender_review	S- surprised myself, too. And I- I wasn’t even a girl scout, or.. anything like that.	reviewed false positive: speaker/context gender is intentional
+dialogue_gender_review	I’m getting real tired of eating raw fish… I’d even eat a seagull at this point. Ya’ feel me, bud?	reviewed false positive: speaker/context gender is intentional
+dialogue_gender_review	Y’know, these waters… they’re telling me this wasn’t any ordinary transport mission..	reviewed false positive: speaker/context gender is intentional
+dialogue_gender_review	I- I should have brought something here, too.. I only had some leftovers, if we get hungry..	reviewed false positive: speaker/context gender is intentional
