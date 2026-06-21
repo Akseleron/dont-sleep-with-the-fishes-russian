@@ -9,6 +9,7 @@
 "This might come in handy..."="Это может пригодиться..."
 "This might help me navigate..."="Это может помочь с навигацией..."
 (+1 Food!)=(+1 еда!)
+(+2 Food!)=(+2 еды!)
 (Removes the requirement of holding mouse button.)=Без удержания мыши.
 +Faster Hunger\n+Double Damage=+Быстрее голод\n+Двойной урон
 +Slower Hunger\n+Health Regenerates=+Медленнее голод\n+Здоровье восстанавливается
@@ -2393,7 +2394,7 @@ But nothing really happened, so there’s that.. Glad y- you could catch up on s
 But the sound… I -it's still making me uneasy. What made that sound..?=Но этот звук… М-мне до сих пор не по себе. Что могло издать такой звук..?
 By non-flying Dutchman.=От нелетающего голландца.
 By your own means.=Своими силами.
-C- could you lend it to me?=Н- ноже ты сможешь её мне дать?
+C- could you lend it to me?=Н- но ты сможешь отдать её мне?
 Calm=Штиль
 Can I?=Можно?
 Can of Worms=Банка червей
@@ -3122,6 +3123,7 @@ Last night was nauseating, to say the least. Had I slept an hour longer, I might
 Last night was nauseating, to say the least. Had I slept an hour longer, I might have ended up under the boat.<br>Luckily, I managed to stabilize it using that heavy anchor I’ve got here.<br>It did a dandy job of keeping everything still, including myself.=Прошлая ночь была, мягко говоря, тошнотворной. Проспи я ещё час, мог бы оказаться под лодкой.<br>К счастью, я смог удержать её на месте тяжёлым якорем, который был у меня под рукой.<br>Он отлично справился: всё оставалось неподвижным, включая меня.
 Last night was pretty foggy, right? I swear I could make out figures from the fog.=Прошлую ночь было довольно туманно, не так ли? О, я точно видел какие-то фигуры в тумане.
 Last night, I- I heard a voice.. similar to mine. It was.. singing?=Прошлой ночью я- я слышала голос.. похожий на мой. Он.. пел?
+Laurel does not feel well...=Лорел плохо...
 Lau’ would’ve already started a small garden on this boat, haha!=Лорел бы уже разбила на этой лодке маленький садик, ха-ха!
 Left=Налево
 Let Frederik handle it=Фредерик справится
@@ -3544,7 +3546,7 @@ You know about phantom pain, don’t you? When something’s gone, but it still 
 You know what, bud! Let’s try using that map of yours. Maybe we find something useful on it..=Знаешь что, парень! Давай попробуем использовать твою карту. Может быть, мы найдём что-то полезное на ней..
 You look like someone who has not slept in a while. Let me take the night.=Ты выглядишь как кто-то, кто не спал долгое время. Давай я возьму ночь.
 You sank with Dorothy.=Вы затонули вместе с Дороти.
-You saved my life, thank you.. I- I will repay it after we.. you know.. survive. B- But I am sure we will.=Ты спас мою жизнь, спасибо.. Я- я вернусь тебе это когда-нибудь.. ты понимаешь.. выживем. Б- Но я уверен, что мы выживем.
+You saved my life, thank you.. I- I will repay it after we.. you know.. survive. B- But I am sure we will.=Ты спас мне жизнь, спасибо... Я-я когда-нибудь отплачу тебе.
 You seem hungry, pal! Hey, I kept some hardtack in my pocket for a while now..=Ты выглядишь голодным, парень! Эй, я держал кусочек хардтака в кармане какое-то время..
 You seem.. hungry. I actually kept some raisins with me as a snack, b- but you can have it…=Ты выглядишь.. голодным. Я на самом деле держал сухофрукты с собой в качестве закуски, б- но ты можешь его взять…
 You spent a short time underwater.=Вы недолго пробыли под водой.

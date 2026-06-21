@@ -74,6 +74,8 @@ for asset_path in sorted(asset_files):
         try:
             img = getattr(data, "image", None)
             if img:
+                if not width or not height:
+                    width, height = img.size
                 filename = f"{safe_name(asset_path.stem)}__{type_name}__{obj.path_id}__{safe_name(name)}.png"
                 target = IMG_DIR / filename
                 img.save(target)
