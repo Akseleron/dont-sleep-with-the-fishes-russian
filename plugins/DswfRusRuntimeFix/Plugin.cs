@@ -949,7 +949,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             using var writer = new StreamWriter(textFitReportPath, append: true);
             if (first)
             {
-                writer.WriteLine("scan\treason\tscene\tobject_path\tcomponent_type\tactive_in_hierarchy\tenabled\tcurrent_text\tfont_asset_name\tfont_size\tenable_auto_sizing\tword_wrapping\toverflow_mode\talignment\trect_width\trect_height\tpreferred_width\tpreferred_height\trendered_width\trendered_height\tcontains_cyrillic\tlikely_issue");
+                writer.WriteLine("scan\treason\tscene\tobject_path\tcomponent_type\tactive_in_hierarchy\tenabled\tcurrent_text\tfont_asset_name\tfont_material_name\tfont_fallback_assets\tfont_size\tenable_auto_sizing\tword_wrapping\toverflow_mode\talignment\trect_width\trect_height\tpreferred_width\tpreferred_height\trendered_width\trendered_height\tcontains_cyrillic\tlikely_issue");
             }
 
             foreach (var text in Resources.FindObjectsOfTypeAll<TMP_Text>())
@@ -976,6 +976,8 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
                     text.enabled.ToString(),
                     Tsv(currentText),
                     Tsv(text.font != null ? text.font.name : ""),
+                    Tsv(text.fontSharedMaterial != null ? text.fontSharedMaterial.name : ""),
+                    Tsv(TmpFallbackListText(text.font)),
                     text.fontSize.ToString(CultureInfo.InvariantCulture),
                     text.enableAutoSizing.ToString(),
                     text.enableWordWrapping.ToString(),
@@ -1016,6 +1018,8 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
                     text.enabled.ToString(),
                     Tsv(currentText),
                     Tsv(text.font != null ? text.font.name : ""),
+                    Tsv(text.material != null ? text.material.name : ""),
+                    "",
                     text.fontSize.ToString(CultureInfo.InvariantCulture),
                     "False",
                     wraps.ToString(),
@@ -1200,6 +1204,27 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         if (component == null) return "";
         try { return component.GetIl2CppType().FullName; }
         catch { return component.GetType().FullName; }
+    }
+
+    private static string TmpFallbackListText(TMP_FontAsset font)
+    {
+        if (font == null) return "";
+        try
+        {
+            var table = font.fallbackFontAssetTable;
+            if (table == null) return "";
+            var names = new List<string>();
+            for (var i = 0; i < table.Count; i++)
+            {
+                var fallback = table[i];
+                if (fallback != null) names.Add(fallback.name);
+            }
+            return string.Join("|", names);
+        }
+        catch (Exception ex)
+        {
+            return "fallback_list_error:" + ex.GetType().Name + ":" + ex.Message;
+        }
     }
 
     private static string VectorText(Vector2 value) =>

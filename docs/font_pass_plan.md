@@ -63,3 +63,18 @@ No proposed chat font name/link/license is currently recorded in this repo.
 5. Retest dialogue, journal, HUD, fishing results, and cramped buttons after the font change because different Cyrillic metrics can alter layout.
 
 No fonts were downloaded, bundled, or replaced in the current QA cleanup pass.
+
+## 2026-06-22 Runtime Inventory
+
+- Runtime text inventory was written to `debug_reports/tmp_font_usage_inventory.tsv`.
+- Static font inventory was written to `debug_reports/font_inventory.tsv`.
+- Active TMP text objects still report original `Stimcard SDF*` font assets:
+  - `Stimcard SDF OutLine`
+  - `Stimcard SDF`
+  - `Stimcard_LowRes`
+  - `Stimcard SDF OutLine Lowres`
+- Runtime fallback font tables were empty in the captured TMP objects.
+- Static extraction still shows no Cyrillic ranges in the original TMP font assets.
+- `nyashasans.ttf` exists locally at `_manual/nyashasans/nyashasans.ttf` and has Latin/Cyrillic coverage by `fc-scan`, but no license/readme was found next to it, so it must not be bundled yet.
+- XUnity's real TMP keys are `FallbackFontTextMeshPro` and `OverrideFontTextMeshPro`. A runtime-only test with `FallbackFontTextMeshPro=nyashasans.ttf` failed because XUnity attempted the AssetBundle loader path and hit `AssetBundle::LoadFromFile_Internal(System.String,System.UInt32,System.UInt64) was not resolved`.
+- Current recommendation: do not use XUnity TMP font override with raw TTF in this game. Keep the existing font behavior and continue targeted UI-fit fixes unless a licensed TMP font AssetBundle or offline TMP font patch workflow is proven safe.
