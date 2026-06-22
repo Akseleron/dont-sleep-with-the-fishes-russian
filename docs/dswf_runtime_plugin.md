@@ -53,11 +53,21 @@ The replacement mapping uses `Textures/TextureAliases.tsv` for runtime names suc
 
 Important mappings:
 
-- `main_title` -> `sharedassets1__Sprite__260__unnamed_260.png`
+- `MENU/UI/Canvas/title_main_image` -> `sharedassets1__Texture2D__50__unnamed_50.png` through the dedicated `OverwriteExistingSpriteTexture` path
+- `main_title` -> `sharedassets1__Sprite__260__unnamed_260.png` for sprite matching/diagnostics; the main title object bypasses normal sprite replacement
 - `logo_text` -> `sharedassets1__Sprite__260__unnamed_260.png`
 - `newjournalicon` -> `sharedassets3__Sprite__376__unnamed_376.png`
 
-The `main_title` alias now uses the cropped `Sprite 260` replacement for `UnityEngine.UI.Image` targets. The full `sharedassets1__Texture2D__50__unnamed_50.png` replacement must not be applied to `MENU/UI/Canvas/title_main_image` unless a runtime dump proves the visible target is a `RawImage`, `Renderer`, `SpriteRenderer`, or material texture user.
+The main menu title no longer uses a child `RawImage` overlay and no longer assigns a newly created `Sprite`. Manual QA showed that the overlay approach produced a large white rectangle. The current implementation leaves the original `Image.sprite`, sprite rect, pivot, pixels-per-unit, `Image.type`, `preserveAspect`, and `RectTransform` in place, then overwrites the original `main_title` texture contents with the full 1024x1024 replacement texture.
+
+Runtime smoke testing for the overwrite path showed:
+
+- `ImageConversion.LoadImage` fails in this IL2CPP runtime with a `ReadOnlySpan` missing-method error.
+- `Graphics.CopyTexture` reports success for copying `sharedassets1__Texture2D__50__unnamed_50.png` into the existing `main_title` texture.
+- no `RawImage` overlay object is created.
+- no Unity `.assets` files are modified.
+
+This still requires manual visual QA. The smoke test confirms the method call path and absence of crash/NRE only.
 
 Current default config is isolation mode:
 
@@ -76,7 +86,7 @@ Disabled groups are intentionally skipped:
 - `MENU/UI/Canvas_GameModes/Difficulties/HowToPlay/HowToPlayExc`
 - `GameController/SETTINGS_CANVAS/SETTINGS_MENU/logo`
 
-Runtime smoke testing also showed that `Sprite.Create` returns null for `sharedassets1__Sprite__260__unnamed_260.png` in this IL2CPP runtime. The plugin therefore falls back only for `MENU/UI/Canvas/title_main_image` to a child `RawImage` overlay and disables the original `Image` component. This is a manual-QA candidate, not a confirmed visual fix.
+Runtime smoke testing also showed that `Sprite.Create` returns null for `sharedassets1__Sprite__260__unnamed_260.png` in this IL2CPP runtime. For that reason, sprite replacement remains disabled for the main title path and the plugin uses texture-content overwrite instead.
 
 Manual QA protocol for the current build:
 
@@ -86,7 +96,7 @@ Manual QA protocol for the current build:
 4. Enter or continue gameplay. The journal icon/label should remain unpatched in this pass, and the previous white square near the journal UI should not appear.
 5. Return to the main menu. The title should not turn into a persistent white rectangle or revert unexpectedly.
 
-If the `RawImage` overlay is visually wrong, the next texture iteration should keep all other groups disabled and refine only the main title overlay sizing/anchoring before enabling any other replacement group.
+If the title is still visually wrong, the next texture iteration should keep all other groups disabled and refine only the main title texture overwrite path before enabling any other replacement group.
 
 ## Build
 

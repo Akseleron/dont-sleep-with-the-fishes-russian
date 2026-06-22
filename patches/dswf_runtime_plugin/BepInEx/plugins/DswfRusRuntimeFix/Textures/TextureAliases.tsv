@@ -1,4 +1,4 @@
 runtime_name	replacement_stem	notes
-main_title	sharedassets1__Sprite__260__unnamed_260	main menu title UI Image sprite; do not use Texture2D 50 for UI.Image
+main_title	sharedassets1__Sprite__260__unnamed_260	sprite matching/diagnostics only; MENU/UI/Canvas/title_main_image uses dedicated Texture2D 50 overwrite path
 logo_text	sharedassets1__Sprite__260__unnamed_260	title scene logo text sprite; disabled by PatchTitleSplash by default
 newjournalicon	sharedassets3__Sprite__376__unnamed_376	journal/how-to-play icon sprite; disabled by PatchJournalIcon/PatchHowToPlay by default

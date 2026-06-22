@@ -16,7 +16,9 @@
     <Reference Include="Il2CppInterop.Runtime" HintPath="../../game_runtime_test/BepInEx/core/Il2CppInterop.Runtime.dll" Private="false" />
     <Reference Include="Il2Cppmscorlib" HintPath="../../game_runtime_test/BepInEx/interop/Il2Cppmscorlib.dll" Private="false" />
     <Reference Include="UnityEngine.CoreModule" HintPath="../../game_runtime_test/BepInEx/interop/UnityEngine.CoreModule.dll" Private="false" />
+    <Reference Include="UnityEngine.ImageConversionModule" HintPath="../../game_runtime_test/BepInEx/interop/UnityEngine.ImageConversionModule.dll" Private="false" />
     <Reference Include="UnityEngine.TextRenderingModule" HintPath="../../game_runtime_test/BepInEx/interop/UnityEngine.TextRenderingModule.dll" Private="false" />
+    <Reference Include="UnityEngine.UIModule" HintPath="../../game_runtime_test/BepInEx/interop/UnityEngine.UIModule.dll" Private="false" />
     <Reference Include="UnityEngine.UI" HintPath="../../game_runtime_test/BepInEx/interop/UnityEngine.UI.dll" Private="false" />
     <Reference Include="Unity.TextMeshPro" HintPath="../../game_runtime_test/BepInEx/interop/Unity.TextMeshPro.dll" Private="false" />
   </ItemGroup>
