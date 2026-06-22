@@ -609,7 +609,7 @@ First Aid Kit=Аптечка
 First steps!=Первые шаги!
 Fish Can=Банка рыбы
 Fish Caught: <size=75><color=#adf1ff>6=Рыбы поймано: <size=75><color=#adf1ff>6
-Fish Food=Консервы
+Fish Food=Наживка
 Fishlet=Рыбешка
 Fishnet=Сеть
 Fix with tape!=Починить скотчем!
