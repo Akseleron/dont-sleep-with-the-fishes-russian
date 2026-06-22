@@ -15,6 +15,7 @@ using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppInterop.Runtime.Injection;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace DswfRusRuntimeFix;
@@ -66,6 +67,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     private static readonly Regex ReplacementName = new(@"^(?<asset>sharedassets\d+)__(?<type>Texture2D|Sprite)__(?<pathId>\d+)__(?<name>.+)$", RegexOptions.Compiled);
     private readonly Dictionary<string, Replacement> byName = new(StringComparer.OrdinalIgnoreCase);
     private readonly Dictionary<string, Replacement> byStem = new(StringComparer.OrdinalIgnoreCase);
+    private readonly HashSet<string> replacementNames = new(StringComparer.OrdinalIgnoreCase);
     private readonly HashSet<int> patchedImages = new();
     private readonly HashSet<int> failedImages = new();
     private readonly HashSet<int> patchedRawImages = new();
@@ -80,6 +82,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     private Font runtimeUnityFont;
     private bool fontAttempted;
     private string reportPath;
+    private string lastSceneName;
 
     public RuntimeFixBehaviour(IntPtr ptr) : base(ptr) { }
 
@@ -87,8 +90,9 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     {
         scanUntil = Time.realtimeSinceStartup + Math.Max(3f, Plugin.StartupScanSeconds.Value);
         nextScan = 0f;
+        lastSceneName = SafeSceneName();
         reportPath = BuildDebugReportPath();
-        Plugin.LogSource.LogInfo("RuntimeFixBehaviour started.");
+        Plugin.LogSource.LogInfo("RuntimeFixBehaviour started. scene=" + lastSceneName);
         LoadReplacements();
         TrySetupFont();
         ScanAndPatch("startup");
@@ -97,6 +101,21 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     private void Update()
     {
         var now = Time.realtimeSinceStartup;
+        var sceneName = SafeSceneName();
+        if (!string.Equals(lastSceneName, sceneName, StringComparison.Ordinal))
+        {
+            lastSceneName = sceneName;
+            scanUntil = now + Math.Max(3f, Plugin.StartupScanSeconds.Value);
+            nextScan = 0f;
+            patchedImages.Clear();
+            failedImages.Clear();
+            patchedRawImages.Clear();
+            patchedSpriteRenderers.Clear();
+            failedSpriteRenderers.Clear();
+            patchedRenderers.Clear();
+            patchedTmpTexts.Clear();
+            Plugin.LogSource.LogInfo("Scene changed; texture/font scan window reset. scene=" + sceneName);
+        }
         if (now <= scanUntil && now >= nextScan)
         {
             nextScan = now + 1.0f;
@@ -164,6 +183,10 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
                 byStem[repl.Stem] = repl;
                 byName[repl.ExportedName] = repl;
                 byName[$"{repl.ObjectType}:{repl.PathId}"] = repl;
+                replacementNames.Add(repl.Stem);
+                replacementNames.Add(repl.ExportedName);
+                replacementNames.Add(repl.Texture.name);
+                if (!ReferenceEquals(repl.Sprite, null)) replacementNames.Add(repl.Sprite.name);
                 Plugin.LogSource.LogInfo($"Loaded replacement {repl.FileName}: type={repl.ObjectType}, pathId={repl.PathId}, name={repl.ExportedName}, size={tex.width}x{tex.height}");
             }
             catch (Exception ex)
@@ -373,9 +396,11 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             try
             {
                 var id = image.GetInstanceID();
-                if (patchedImages.Contains(id) || failedImages.Contains(id)) continue;
+                var spriteTextureName = image.sprite.texture != null ? image.sprite.texture.name : null;
+                if (failedImages.Contains(id)) continue;
+                if (patchedImages.Contains(id) && IsReplacementName(image.sprite.name, spriteTextureName)) continue;
                 var oldSpriteName = image.sprite.name;
-                var repl = FindReplacement(image.sprite.name, image.sprite.texture != null ? image.sprite.texture.name : null);
+                var repl = FindReplacement(image.sprite.name, spriteTextureName);
                 if (repl == null) continue;
                 var sprite = CreateSpriteLike(repl, image.sprite);
                 image.sprite = sprite;
@@ -401,7 +426,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             try
             {
                 var id = rawImage.GetInstanceID();
-                if (patchedRawImages.Contains(id)) continue;
+                if (patchedRawImages.Contains(id) && IsReplacementName(rawImage.texture.name, null)) continue;
                 var repl = FindReplacement(rawImage.texture.name, null);
                 if (repl == null) continue;
                 rawImage.texture = repl.Texture;
@@ -426,8 +451,10 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             try
             {
                 var id = sr.GetInstanceID();
-                if (patchedSpriteRenderers.Contains(id) || failedSpriteRenderers.Contains(id)) continue;
-                var repl = FindReplacement(sr.sprite.name, sr.sprite.texture != null ? sr.sprite.texture.name : null);
+                var spriteTextureName = sr.sprite.texture != null ? sr.sprite.texture.name : null;
+                if (failedSpriteRenderers.Contains(id)) continue;
+                if (patchedSpriteRenderers.Contains(id) && IsReplacementName(sr.sprite.name, spriteTextureName)) continue;
+                var repl = FindReplacement(sr.sprite.name, spriteTextureName);
                 if (repl == null) continue;
                 sr.sprite = CreateSpriteLike(repl, sr.sprite);
                 patchedSpriteRenderers.Add(id);
@@ -452,7 +479,6 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             try
             {
                 var id = renderer.GetInstanceID();
-                if (patchedRenderers.Contains(id)) continue;
                 var mat = renderer.material;
                 if (mat == null) continue;
                 foreach (var prop in new[] { "_MainTex", "_BaseMap", "_EmissionMap" })
@@ -460,6 +486,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
                     if (!mat.HasProperty(prop)) continue;
                     var tex = mat.GetTexture(prop);
                     if (tex == null) continue;
+                    if (patchedRenderers.Contains(id) && IsReplacementName(tex.name, null)) continue;
                     var repl = FindReplacement(tex.name, null);
                     if (repl == null) continue;
                     mat.SetTexture(prop, repl.Texture);
@@ -488,6 +515,15 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             if (byName.TryGetValue(normalized, out replacement)) return replacement;
         }
         return null;
+    }
+
+    private bool IsReplacementName(string primary, string secondary)
+    {
+        foreach (var key in new[] { primary, secondary })
+        {
+            if (!string.IsNullOrWhiteSpace(key) && replacementNames.Contains(key.Trim())) return true;
+        }
+        return false;
     }
 
     private static Sprite CreateSpriteLike(Replacement repl, Sprite original)
@@ -528,23 +564,43 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             if (string.IsNullOrEmpty(reportPath)) return;
             var first = !File.Exists(reportPath);
             using var writer = new StreamWriter(reportPath, append: true);
-            if (first) writer.WriteLine("scan\treason\tkind\tpath\tsprite\ttexture\twidth\theight");
+            if (first) writer.WriteLine("scan\treason\tscene\tkind\tpath\tactive_in_hierarchy\tsprite\ttexture\tmaterial_property\trect_width\trect_height\ttexture_width\ttexture_height\treplacement_filename\tis_replacement");
             foreach (var image in Resources.FindObjectsOfTypeAll<Image>())
             {
                 if (image == null || image.sprite == null) continue;
                 var tex = image.sprite.texture;
-                writer.WriteLine($"{scanCount}\t{reason}\tImage\t{Tsv(SafeObjectPath(image.gameObject))}\t{Tsv(image.sprite.name)}\t{Tsv(tex != null ? tex.name : "")}\t{(tex != null ? tex.width : 0)}\t{(tex != null ? tex.height : 0)}");
+                var repl = FindReplacement(image.sprite.name, tex != null ? tex.name : null);
+                var size = SafeRectSize(image.rectTransform);
+                writer.WriteLine($"{scanCount}\t{reason}\t{Tsv(SafeSceneName())}\tImage\t{Tsv(SafeObjectPath(image.gameObject))}\t{image.gameObject.activeInHierarchy}\t{Tsv(image.sprite.name)}\t{Tsv(tex != null ? tex.name : "")}\t\t{size.x.ToString(CultureInfo.InvariantCulture)}\t{size.y.ToString(CultureInfo.InvariantCulture)}\t{(tex != null ? tex.width : 0)}\t{(tex != null ? tex.height : 0)}\t{Tsv(repl != null ? repl.FileName : "")}\t{IsReplacementName(image.sprite.name, tex != null ? tex.name : null)}");
             }
             foreach (var sr in Resources.FindObjectsOfTypeAll<SpriteRenderer>())
             {
                 if (sr == null || sr.sprite == null) continue;
                 var tex = sr.sprite.texture;
-                writer.WriteLine($"{scanCount}\t{reason}\tSpriteRenderer\t{Tsv(SafeObjectPath(sr.gameObject))}\t{Tsv(sr.sprite.name)}\t{Tsv(tex != null ? tex.name : "")}\t{(tex != null ? tex.width : 0)}\t{(tex != null ? tex.height : 0)}");
+                var repl = FindReplacement(sr.sprite.name, tex != null ? tex.name : null);
+                writer.WriteLine($"{scanCount}\t{reason}\t{Tsv(SafeSceneName())}\tSpriteRenderer\t{Tsv(SafeObjectPath(sr.gameObject))}\t{sr.gameObject.activeInHierarchy}\t{Tsv(sr.sprite.name)}\t{Tsv(tex != null ? tex.name : "")}\t\t0\t0\t{(tex != null ? tex.width : 0)}\t{(tex != null ? tex.height : 0)}\t{Tsv(repl != null ? repl.FileName : "")}\t{IsReplacementName(sr.sprite.name, tex != null ? tex.name : null)}");
             }
             foreach (var raw in Resources.FindObjectsOfTypeAll<RawImage>())
             {
                 if (raw == null || raw.texture == null) continue;
-                writer.WriteLine($"{scanCount}\t{reason}\tRawImage\t{Tsv(SafeObjectPath(raw.gameObject))}\t\t{Tsv(raw.texture.name)}\t{raw.texture.width}\t{raw.texture.height}");
+                var repl = FindReplacement(raw.texture.name, null);
+                var size = SafeRectSize(raw.rectTransform);
+                writer.WriteLine($"{scanCount}\t{reason}\t{Tsv(SafeSceneName())}\tRawImage\t{Tsv(SafeObjectPath(raw.gameObject))}\t{raw.gameObject.activeInHierarchy}\t\t{Tsv(raw.texture.name)}\t\t{size.x.ToString(CultureInfo.InvariantCulture)}\t{size.y.ToString(CultureInfo.InvariantCulture)}\t{raw.texture.width}\t{raw.texture.height}\t{Tsv(repl != null ? repl.FileName : "")}\t{IsReplacementName(raw.texture.name, null)}");
+            }
+            foreach (var renderer in Resources.FindObjectsOfTypeAll<Renderer>())
+            {
+                if (renderer == null) continue;
+                Material mat = null;
+                try { mat = renderer.material; } catch { }
+                if (mat == null) continue;
+                foreach (var prop in new[] { "_MainTex", "_BaseMap", "_EmissionMap" })
+                {
+                    if (!mat.HasProperty(prop)) continue;
+                    var tex = mat.GetTexture(prop);
+                    if (tex == null) continue;
+                    var repl = FindReplacement(tex.name, null);
+                    writer.WriteLine($"{scanCount}\t{reason}\t{Tsv(SafeSceneName())}\tRenderer\t{Tsv(SafeObjectPath(renderer.gameObject))}\t{renderer.gameObject.activeInHierarchy}\t\t{Tsv(tex.name)}\t{prop}\t0\t0\t{tex.width}\t{tex.height}\t{Tsv(repl != null ? repl.FileName : "")}\t{IsReplacementName(tex.name, null)}");
+                }
             }
         }
         catch (Exception ex)
@@ -564,6 +620,22 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             return Path.Combine(dir, "runtime_visible_texture_names.tsv");
         }
         catch { return null; }
+    }
+
+    private static string SafeSceneName()
+    {
+        try { return SceneManager.GetActiveScene().name ?? ""; }
+        catch { return ""; }
+    }
+
+    private static Vector2 SafeRectSize(RectTransform rectTransform)
+    {
+        try
+        {
+            if (rectTransform != null) return rectTransform.rect.size;
+        }
+        catch { }
+        return Vector2.zero;
     }
 
     private static string SafeObjectPath(GameObject go)

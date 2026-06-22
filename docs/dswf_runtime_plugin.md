@@ -34,7 +34,14 @@ Because no TMP font asset is created, this plugin does not yet fix Cyrillic font
 
 ## Texture Status
 
-Runtime smoke testing confirmed that the plugin loads all 12 translated PNG replacements and applies runtime UI sprite replacements without modifying Unity asset files.
+Runtime smoke testing confirmed that the plugin loads all 13 translated PNG replacements and applies runtime UI sprite replacements without modifying Unity asset files.
+
+The texture pack was later replaced with the complete `fish3` set after runtime QA showed the previous pack was missing some paired `Texture2D` objects. The current packaged set contains 13 PNG files:
+
+- 7 `Texture2D` replacements
+- 6 `Sprite` replacements
+- paired `Texture2D + Sprite` entries for the known title/journal/button assets
+- one standalone `sharedassets3__Texture2D__120__unnamed_120.png` entry for the `ХЛАМ` texture
 
 Confirmed replacements in logs:
 
@@ -43,7 +50,17 @@ Confirmed replacements in logs:
 - journal icon marker: `MENU/UI/Canvas_GameModes/Difficulties/HowToPlay/HowToPlayExc`
 - settings menu logo marker: `GameController/SETTINGS_CANVAS/SETTINGS_MENU/logo`
 
-The replacement mapping uses `Textures/TextureAliases.tsv` for runtime names such as `main_title`, `logo_text`, and `newjournalicon`. Smoke logs showed no magenta visuals and no repeated `NullReferenceException` from the plugin after switching to pre-created runtime sprites.
+The replacement mapping uses `Textures/TextureAliases.tsv` for runtime names such as `main_title`, `logo_text`, and `newjournalicon`.
+
+Important mappings:
+
+- `main_title` -> `sharedassets1__Texture2D__50__unnamed_50.png`
+- `logo_text` -> `sharedassets1__Sprite__260__unnamed_260.png`
+- `newjournalicon` -> `sharedassets3__Sprite__376__unnamed_376.png`
+
+The `main_title` alias intentionally uses the full 1024x1024 `Texture2D` replacement, not the cropped `Sprite 260` replacement. The previous cropped-sprite mapping caused unstable title/menu visuals during manual QA.
+
+Smoke logs showed no magenta visuals and no repeated `NullReferenceException` from the plugin after switching to pre-created runtime sprites and using `ReferenceEquals` for IL2CPP object checks.
 
 Manual visual QA is still required to confirm that scale, placement, and alpha look correct in-game.
 
@@ -81,3 +98,5 @@ The plugin logs:
 - visible texture names when `DumpVisibleTextureNames=true`
 
 Visible texture names are written to `debug_reports/runtime_visible_texture_names.tsv` during runtime tests.
+
+The current dump includes scene name, object path, component type, hierarchy active state, sprite/texture names, material texture property, UI rect size, texture size, matched replacement filename, and whether the current texture is already a plugin replacement. This is intended to diagnose scene changes and cases where a Unity UI object restores the original sprite/texture after the plugin has patched it.
