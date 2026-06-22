@@ -47,7 +47,7 @@ public sealed class Plugin : BasePlugin
         EnableFontFix = Config.Bind("Font", "EnableFontFix", false, "Register a local TTF and create a runtime TMP fallback font asset.");
         OverrideTmpFonts = Config.Bind("Font", "OverrideTmpFonts", false, "Assign the runtime TMP font directly to TMP_Text objects. Fallback mode is safer and is tried first.");
         FontFileName = Config.Bind("Font", "FontFileName", "nyashasans.ttf", "TTF file under BepInEx/plugins/DswfRusRuntimeFix/Fonts.");
-        EnableTextureFix = Config.Bind("Textures", "EnableTextureFix", true, "Replace visible runtime textures/sprites from the Textures folder.");
+        EnableTextureFix = Config.Bind("Textures", "EnableTextureFix", false, "Replace visible runtime textures/sprites from the Textures folder. Disabled by default because offline Unity asset patching is now used for localized textures.");
         PatchMainMenuTitle = Config.Bind("Textures", "PatchMainMenuTitle", true, "Patch only the main menu title UI Image.");
         PatchTitleSplash = Config.Bind("Textures", "PatchTitleSplash", false, "Patch the startup title splash logo images. Disabled until visual QA confirms it is safe.");
         PatchSettingsLogo = Config.Bind("Textures", "PatchSettingsLogo", false, "Patch the settings menu logo. Disabled for isolation testing.");

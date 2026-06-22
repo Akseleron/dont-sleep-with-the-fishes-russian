@@ -70,11 +70,12 @@ Runtime smoke testing for the overwrite path showed:
 - no `RawImage` overlay object is created.
 - no Unity `.assets` files are modified.
 
-This still requires manual visual QA. The smoke test confirms the non-null source texture path, method call path, and absence of crash/NRE only.
+Manual QA after this test still showed English texture assets (`main_title`, `Journal`, `End Day`, `Junk`). Runtime texture replacement is therefore considered visually unsuccessful for now. It remains useful as diagnostics, but texture fixing has moved to an offline Unity `.assets` patcher that preserves Sprite metadata and replaces only Texture2D data in the runtime test copy.
 
 Current default config is isolation mode:
 
-- `PatchMainMenuTitle=true`
+- `EnableTextureFix=false`
+- `PatchMainMenuTitle=false`
 - `PatchTitleSplash=false`
 - `PatchSettingsLogo=false`
 - `PatchJournalIcon=false`
@@ -99,7 +100,12 @@ Manual QA protocol for the current build:
 4. Enter or continue gameplay. The journal icon/label should remain unpatched in this pass, and the previous white square near the journal UI should not appear.
 5. Return to the main menu. The title should not turn into a persistent white rectangle or revert unexpectedly.
 
-If the title is still visually wrong, the next texture iteration should keep all other groups disabled and refine only the main title texture overwrite path before enabling any other replacement group.
+The offline texture patcher scripts are:
+
+- `scripts/inventory_unity_textures.py`
+- `scripts/patch_unity_textures.py`
+
+The first offline test patches only `game_runtime_test/DontSleepWithTheFishes_Data/sharedassets1.assets` Texture2D path id `50` (`main_title`) from `~/Downloads/fish3/sharedassets1__Texture2D__50__unnamed_50.png`. The patcher refuses to write outside `game_runtime_test`, checks the runtime `.assets` SHA against `game_original`, backs up `.assets`/`.resS` under `DontSleepWithTheFishes_Data/_dswf_rus_backup/`, and can restore from that backup. Visual success still requires manual QA.
 
 ## Build
 
