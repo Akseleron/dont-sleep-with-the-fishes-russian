@@ -175,29 +175,23 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
                     PathId = m.Groups["pathId"].Value,
                     ExportedName = m.Groups["name"].Value,
                 };
-                var decoded = SimplePng.Decode(File.ReadAllBytes(path));
                 repl.PngBytes = File.ReadAllBytes(path);
+                var decoded = SimplePng.Decode(repl.PngBytes);
+                repl.Pixels = decoded.Pixels;
                 repl.AlphaMin = decoded.AlphaMin;
                 repl.AlphaMax = decoded.AlphaMax;
-                var tex = new Texture2D(decoded.Width, decoded.Height, TextureFormat.RGBA32, false);
-                tex.name = repl.Stem;
-                tex.wrapMode = TextureWrapMode.Clamp;
-                tex.filterMode = FilterMode.Bilinear;
-                var colors = new Il2CppStructArray<Color32>(decoded.Pixels.Length);
-                for (var i = 0; i < decoded.Pixels.Length; i++) colors[i] = decoded.Pixels[i];
-                tex.SetPixels32(colors);
-                tex.Apply(false, false);
+                repl.Width = decoded.Width;
+                repl.Height = decoded.Height;
+                var tex = CreateTextureFromReplacementPixels(repl, repl.Stem, out var textureCreateDetail);
                 repl.Texture = tex;
-                repl.Width = tex.width;
-                repl.Height = tex.height;
                 byStem[repl.Stem] = repl;
                 byName[repl.Stem] = repl;
                 byName[repl.ExportedName] = repl;
                 byName[$"{repl.ObjectType}:{repl.PathId}"] = repl;
                 replacementNames.Add(repl.Stem);
                 replacementNames.Add(repl.ExportedName);
-                replacementNames.Add(repl.Texture.name);
-                Plugin.LogSource.LogInfo($"Loaded replacement {repl.FileName}: type={repl.ObjectType}, pathId={repl.PathId}, name={repl.ExportedName}, size={tex.width}x{tex.height}");
+                if (repl.Texture != null) replacementNames.Add(repl.Texture.name);
+                Plugin.LogSource.LogInfo($"Loaded replacement {repl.FileName}: type={repl.ObjectType}, pathId={repl.PathId}, name={repl.ExportedName}, size={repl.Width}x{repl.Height}, sourceTextureCreated={repl.Texture != null}, loader='{textureCreateDetail}'");
             }
             catch (Exception ex)
             {
@@ -641,7 +635,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             var bytes = new Il2CppStructArray<byte>(repl.PngBytes.Length);
             for (var i = 0; i < repl.PngBytes.Length; i++) bytes[i] = repl.PngBytes[i];
             var ok = ImageConversion.LoadImage(tex, bytes, false);
-            Plugin.LogSource.LogInfo($"Main title texture overwrite result: path='{path}', component='UnityEngine.UI.Image', sprite='{sprite.name}', originalTexture='{tex.name}', originalSize={tex.width}x{tex.height}, replacement='{repl.FileName}', replacementSize={repl.Width}x{repl.Height}, method='LoadImage', success={ok}.");
+            Plugin.LogSource.LogInfo($"Main title texture overwrite result: path='{path}', component='UnityEngine.UI.Image', sprite='{sprite.name}', originalTexture='{tex.name}', originalSize={tex.width}x{tex.height}, targetFormat='{TextureFormatText(tex)}', targetGraphicsFormat='{GraphicsFormatText(tex)}', replacement='{repl.FileName}', replacementSize={repl.Width}x{repl.Height}, method='LoadImage', success={ok}.");
             if (ok)
             {
                 LogMainMenuTitleTextureOverwriteDiagnostic(path, image, repl, "after-loadimage");
@@ -655,11 +649,25 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             Plugin.LogSource.LogWarning($"Main title texture overwrite failed: path='{path}', method='LoadImage', replacement='{repl.FileName}', error='{loadImageError}'.");
         }
 
+        var source = CreateTextureFromReplacementPixels(repl, MainTitleTextureReplacementStem + "__copy_source", out var sourceCreateDetail);
+        var sourceCreated = source != null;
+        Plugin.LogSource.LogInfo($"Main title source texture creation: path='{path}', replacement='{repl.FileName}', sourceTextureCreated={sourceCreated}, loader='{sourceCreateDetail}', sourceSize={(source != null ? source.width : 0)}x{(source != null ? source.height : 0)}, sourceFormat='{TextureFormatText(source)}', sourceGraphicsFormat='{GraphicsFormatText(source)}', sourceNativePtr='{NativeTexturePtrText(source)}', targetTexture='{tex.name}', targetSize={tex.width}x{tex.height}, targetFormat='{TextureFormatText(tex)}', targetGraphicsFormat='{GraphicsFormatText(tex)}', targetNativePtr='{NativeTexturePtrText(tex)}'.");
+        if (source == null)
+        {
+            Plugin.LogSource.LogWarning($"Main title texture overwrite skipped: path='{path}', reason='source texture creation failed', replacement='{repl.FileName}', loader='{sourceCreateDetail}', previousLoadImageError='{loadImageError}'. Vanilla title left untouched.");
+            return false;
+        }
+        if (source.width != tex.width || source.height != tex.height)
+        {
+            Plugin.LogSource.LogWarning($"Main title texture overwrite skipped: path='{path}', reason='source/target dimension mismatch', sourceSize={source.width}x{source.height}, targetSize={tex.width}x{tex.height}, previousLoadImageError='{loadImageError}'. Vanilla title left untouched.");
+            return false;
+        }
+
         var copyTextureError = "";
         try
         {
-            Graphics.CopyTexture(repl.Texture, tex);
-            Plugin.LogSource.LogInfo($"Main title texture overwrite result: path='{path}', component='UnityEngine.UI.Image', sprite='{sprite.name}', originalTexture='{tex.name}', originalSize={tex.width}x{tex.height}, replacement='{repl.FileName}', replacementSize={repl.Width}x{repl.Height}, method='Graphics.CopyTexture', success=True, previousLoadImageError='{loadImageError}'.");
+            Graphics.CopyTexture(source, tex);
+            Plugin.LogSource.LogInfo($"Main title texture overwrite result: path='{path}', component='UnityEngine.UI.Image', sprite='{sprite.name}', originalTexture='{tex.name}', originalSize={tex.width}x{tex.height}, replacement='{repl.FileName}', replacementSize={repl.Width}x{repl.Height}, sourceTextureCreated=True, sourceTextureNull=False, method='Graphics.CopyTexture', success=True, previousLoadImageError='{loadImageError}', sourceFormat='{TextureFormatText(source)}', targetFormat='{TextureFormatText(tex)}', sourceGraphicsFormat='{GraphicsFormatText(source)}', targetGraphicsFormat='{GraphicsFormatText(tex)}'.");
             LogMainMenuTitleTextureOverwriteDiagnostic(path, image, repl, "after-copytexture");
             return true;
         }
@@ -669,8 +677,60 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             Plugin.LogSource.LogWarning($"Main title texture overwrite failed: path='{path}', method='Graphics.CopyTexture', replacement='{repl.FileName}', error='{copyTextureError}', previousLoadImageError='{loadImageError}'.");
         }
 
+        try
+        {
+            var ok = Graphics.ConvertTexture(source, tex);
+            Plugin.LogSource.LogInfo($"Main title texture overwrite result: path='{path}', component='UnityEngine.UI.Image', sprite='{sprite.name}', originalTexture='{tex.name}', originalSize={tex.width}x{tex.height}, replacement='{repl.FileName}', replacementSize={repl.Width}x{repl.Height}, sourceTextureCreated=True, sourceTextureNull=False, method='Graphics.ConvertTexture', success={ok}, previousLoadImageError='{loadImageError}', previousCopyTextureError='{copyTextureError}', sourceFormat='{TextureFormatText(source)}', targetFormat='{TextureFormatText(tex)}', sourceGraphicsFormat='{GraphicsFormatText(source)}', targetGraphicsFormat='{GraphicsFormatText(tex)}'.");
+            if (ok)
+            {
+                LogMainMenuTitleTextureOverwriteDiagnostic(path, image, repl, "after-converttexture");
+                return true;
+            }
+        }
+        catch (Exception ex)
+        {
+            Plugin.LogSource.LogWarning($"Main title texture overwrite failed: path='{path}', method='Graphics.ConvertTexture', replacement='{repl.FileName}', error='{ex.GetType().Name}: {ex.Message}', previousLoadImageError='{loadImageError}', previousCopyTextureError='{copyTextureError}'.");
+        }
+
         Plugin.LogSource.LogWarning($"Main title texture overwrite skipped: path='{path}', reason='all overwrite methods failed', loadImage='{loadImageError}', copyTexture='{copyTextureError}'. Vanilla title left untouched.");
         return false;
+    }
+
+    [HideFromIl2Cpp]
+    private static Texture2D CreateTextureFromReplacementPixels(Replacement repl, string textureName, out string detail)
+    {
+        try
+        {
+            if (repl.Pixels == null || repl.Pixels.Length != repl.Width * repl.Height)
+            {
+                var decoded = SimplePng.Decode(repl.PngBytes);
+                repl.Pixels = decoded.Pixels;
+                repl.Width = decoded.Width;
+                repl.Height = decoded.Height;
+                repl.AlphaMin = decoded.AlphaMin;
+                repl.AlphaMax = decoded.AlphaMax;
+            }
+            var tex = new Texture2D(repl.Width, repl.Height, TextureFormat.RGBA32, false);
+            tex.name = textureName;
+            tex.wrapMode = TextureWrapMode.Clamp;
+            tex.filterMode = FilterMode.Bilinear;
+            var colors = new Il2CppStructArray<Color32>(repl.Pixels.Length);
+            for (var i = 0; i < repl.Pixels.Length; i++) colors[i] = repl.Pixels[i];
+            tex.SetPixels32(colors);
+            tex.Apply(false, false);
+            if (tex == null)
+            {
+                detail = "managed_png_decode:SetPixels32+Apply produced Unity-null Texture2D";
+                return null;
+            }
+            detail = $"managed_png_decode:SetPixels32+Apply format='{TextureFormatText(tex)}' graphicsFormat='{GraphicsFormatText(tex)}' nativePtr='{NativeTexturePtrText(tex)}'";
+            return tex;
+        }
+        catch (Exception ex)
+        {
+            detail = "managed_png_decode:SetPixels32+Apply failed: " + ex.GetType().Name + ": " + ex.Message;
+            return null;
+        }
     }
 
     [HideFromIl2Cpp]
@@ -686,7 +746,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             Plugin.LogSource.LogInfo(
                 "MainTitle texture overwrite diagnostic " +
                 $"phase='{phase}', path='{path}', component='UnityEngine.UI.Image', active={image.gameObject.activeInHierarchy}, imageEnabled={image.enabled}, " +
-                $"sprite='{(sprite != null ? sprite.name : "")}', texture='{(tex != null ? tex.name : "")}', textureSize={(tex != null ? tex.width : 0)}x{(tex != null ? tex.height : 0)}, " +
+                $"sprite='{(sprite != null ? sprite.name : "")}', texture='{(tex != null ? tex.name : "")}', textureSize={(tex != null ? tex.width : 0)}x{(tex != null ? tex.height : 0)}, targetFormat='{TextureFormatText(tex)}', targetGraphicsFormat='{GraphicsFormatText(tex)}', " +
                 $"spriteRect={RectText(spriteRect)}, spritePivot={VectorText(spritePivot)}, pixelsPerUnit={(sprite != null ? sprite.pixelsPerUnit.ToString(CultureInfo.InvariantCulture) : "")}, " +
                 $"imageType='{image.type}', preserveAspect={image.preserveAspect}, rectTransformSize={VectorText(size)}, anchoredPosition={VectorText(image.rectTransform.anchoredPosition)}, " +
                 $"replacement='{repl.FileName}', replacementType='{repl.ObjectType}', replacementPng={repl.Width}x{repl.Height}, replacementAlpha={repl.AlphaMin}-{repl.AlphaMax}");
@@ -1014,6 +1074,27 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         value.b.ToString(CultureInfo.InvariantCulture) + "," +
         value.a.ToString(CultureInfo.InvariantCulture);
 
+    private static string TextureFormatText(Texture2D tex)
+    {
+        if (tex == null) return "null";
+        try { return tex.format.ToString(); }
+        catch (Exception ex) { return "unavailable:" + ex.GetType().Name + ":" + ex.Message; }
+    }
+
+    private static string GraphicsFormatText(Texture tex)
+    {
+        if (tex == null) return "null";
+        try { return tex.graphicsFormat.ToString(); }
+        catch (Exception ex) { return "unavailable:" + ex.GetType().Name + ":" + ex.Message; }
+    }
+
+    private static string NativeTexturePtrText(Texture tex)
+    {
+        if (tex == null) return "null";
+        try { return tex.GetNativeTexturePtr().ToString("x"); }
+        catch (Exception ex) { return "unavailable:" + ex.GetType().Name + ":" + ex.Message; }
+    }
+
     private static string SafeTag(GameObject go)
     {
         try { return go.tag ?? ""; }
@@ -1076,6 +1157,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         public string PathId;
         public string ExportedName;
         public byte[] PngBytes;
+        public Color32[] Pixels;
         public Texture2D Texture;
         public int Width;
         public int Height;

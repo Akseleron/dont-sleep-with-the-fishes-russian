@@ -63,11 +63,14 @@ The main menu title no longer uses a child `RawImage` overlay and no longer assi
 Runtime smoke testing for the overwrite path showed:
 
 - `ImageConversion.LoadImage` fails in this IL2CPP runtime with a `ReadOnlySpan` missing-method error.
-- `Graphics.CopyTexture` reports success for copying `sharedassets1__Texture2D__50__unnamed_50.png` into the existing `main_title` texture.
+- the plugin decodes PNGs with its managed `SimplePng` decoder and creates a fresh RGBA32 `Texture2D` through `SetPixels32`/`Apply`.
+- source texture creation is now logged separately with `sourceTextureCreated`, size, format, graphics format, and native pointer.
+- `Graphics.CopyTexture` is attempted only after the source texture is non-null and dimensions match the target.
+- the latest smoke test reported `sourceTextureCreated=True`, `sourceTextureNull=False`, source `RGBA32`/`R8G8B8A8_SRGB`, target `BC7`/`RGBA_BC7_SRGB`, then `Graphics.CopyTexture success=True`.
 - no `RawImage` overlay object is created.
 - no Unity `.assets` files are modified.
 
-This still requires manual visual QA. The smoke test confirms the method call path and absence of crash/NRE only.
+This still requires manual visual QA. The smoke test confirms the non-null source texture path, method call path, and absence of crash/NRE only.
 
 Current default config is isolation mode:
 
