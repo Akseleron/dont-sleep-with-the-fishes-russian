@@ -1,0 +1,6 @@
+source	current_ru	location	kind	context	category	severity	proposed_fix	action	notes
+End Day	Завершить день	runtime screenshots / texture export	known_texture_candidate		likely_texture_only	medium		texture_redraw	texture or sprite name/candidate; requires visual confirmation; method=manual_known_texture_candidate
+Item Found	Найден предмет	runtime screenshots / texture export	known_texture_candidate		likely_texture_only	medium		texture_redraw	texture or sprite name/candidate; requires visual confirmation; method=manual_known_texture_candidate
+Journal	Журнал	runtime screenshots / texture export	known_texture_candidate		likely_texture_only	medium		texture_redraw	texture or sprite name/candidate; requires visual confirmation; method=manual_known_texture_candidate
+JUNK		runtime screenshots / texture export	known_texture_candidate		likely_texture_only	medium		texture_redraw	texture or sprite name/candidate; requires visual confirmation; method=manual_known_texture_candidate
+main menu/title/logo text		runtime screenshots / texture export	known_texture_candidate		likely_texture_only	medium		texture_redraw	texture or sprite name/candidate; requires visual confirmation; method=manual_known_texture_candidate
