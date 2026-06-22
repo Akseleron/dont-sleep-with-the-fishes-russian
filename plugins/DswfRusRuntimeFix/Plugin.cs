@@ -32,6 +32,7 @@ public sealed class Plugin : BasePlugin
     internal static ConfigEntry<bool> EnableTextureFix;
     internal static ConfigEntry<bool> OverrideTmpFonts;
     internal static ConfigEntry<bool> DumpVisibleTextureNames;
+    internal static ConfigEntry<bool> DumpVisibleTextFit;
     internal static ConfigEntry<string> FontFileName;
     internal static ConfigEntry<float> StartupScanSeconds;
     internal static ConfigEntry<bool> PatchMainMenuTitle;
@@ -55,6 +56,7 @@ public sealed class Plugin : BasePlugin
         PatchHowToPlay = Config.Bind("Textures", "PatchHowToPlay", false, "Patch how-to-play/menu icon textures. Disabled for isolation testing.");
         PatchGameplay3DTextures = Config.Bind("Textures", "PatchGameplay3DTextures", false, "Patch RawImage, SpriteRenderer, and Renderer material textures.");
         DumpVisibleTextureNames = Config.Bind("Diagnostics", "DumpVisibleTextureNames", true, "Write visible texture/component names to ../debug_reports/runtime_visible_texture_names.tsv during scans.");
+        DumpVisibleTextFit = Config.Bind("Diagnostics", "DumpVisibleTextFit", true, "Write visible TMP/UI text fit data to ../debug_reports/ui_text_fit_inventory.tsv during scans.");
         StartupScanSeconds = Config.Bind("Diagnostics", "StartupScanSeconds", 15f, "Scan repeatedly for this many seconds after startup/scene load.");
 
         try
@@ -96,6 +98,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     private bool fontAttempted;
     private string reportPath;
     private string componentReportPath;
+    private string textFitReportPath;
     private string lastSceneName;
     private readonly List<Sprite> createdReplacementSprites = new();
 
@@ -108,6 +111,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         lastSceneName = SafeSceneName();
         reportPath = BuildDebugReportPath("runtime_visible_texture_targets.tsv");
         componentReportPath = BuildDebugReportPath("runtime_problem_texture_components.tsv");
+        textFitReportPath = BuildDebugReportPath("ui_text_fit_inventory.tsv");
         Plugin.LogSource.LogInfo("RuntimeFixBehaviour started. scene=" + lastSceneName);
         LoadReplacements();
         TrySetupFont();
@@ -359,6 +363,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         }
         if (Plugin.DumpVisibleTextureNames.Value) DumpVisibleTextureNames(reason);
         if (Plugin.DumpVisibleTextureNames.Value) DumpProblemComponents(reason);
+        if (Plugin.DumpVisibleTextFit.Value) DumpVisibleTextFit(reason);
         Plugin.LogSource.LogInfo($"Scan {scanCount} ({reason}) complete. TMP patched={tmp}, Images={images}, RawImages={raw}, SpriteRenderers={sprites}, Renderers={renderers}");
     }
 
@@ -935,6 +940,104 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         }
     }
 
+    private void DumpVisibleTextFit(string reason)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(textFitReportPath)) return;
+            var first = !File.Exists(textFitReportPath);
+            using var writer = new StreamWriter(textFitReportPath, append: true);
+            if (first)
+            {
+                writer.WriteLine("scan\treason\tscene\tobject_path\tcomponent_type\tactive_in_hierarchy\tenabled\tcurrent_text\tfont_asset_name\tfont_size\tenable_auto_sizing\tword_wrapping\toverflow_mode\talignment\trect_width\trect_height\tpreferred_width\tpreferred_height\trendered_width\trendered_height\tcontains_cyrillic\tlikely_issue");
+            }
+
+            foreach (var text in Resources.FindObjectsOfTypeAll<TMP_Text>())
+            {
+                if (text == null || text.gameObject == null) continue;
+                if (!text.gameObject.activeInHierarchy || !text.enabled) continue;
+
+                var rect = SafeRectSize(text.rectTransform);
+                var preferredWidth = SafeFloat(() => text.preferredWidth);
+                var preferredHeight = SafeFloat(() => text.preferredHeight);
+                var renderedWidth = SafeFloat(() => text.renderedWidth);
+                var renderedHeight = SafeFloat(() => text.renderedHeight);
+                var currentText = SafeText(() => text.text);
+                var issue = FitIssue(rect, preferredWidth, preferredHeight, renderedWidth, renderedHeight, currentText, text.enableWordWrapping);
+
+                writer.WriteLine(string.Join("\t", new[]
+                {
+                    scanCount.ToString(CultureInfo.InvariantCulture),
+                    Tsv(reason),
+                    Tsv(SafeSceneName()),
+                    Tsv(SafeObjectPath(text.gameObject)),
+                    Tsv(ComponentTypeName(text)),
+                    text.gameObject.activeInHierarchy.ToString(),
+                    text.enabled.ToString(),
+                    Tsv(currentText),
+                    Tsv(text.font != null ? text.font.name : ""),
+                    text.fontSize.ToString(CultureInfo.InvariantCulture),
+                    text.enableAutoSizing.ToString(),
+                    text.enableWordWrapping.ToString(),
+                    Tsv(text.overflowMode.ToString()),
+                    Tsv(text.alignment.ToString()),
+                    rect.x.ToString(CultureInfo.InvariantCulture),
+                    rect.y.ToString(CultureInfo.InvariantCulture),
+                    preferredWidth.ToString(CultureInfo.InvariantCulture),
+                    preferredHeight.ToString(CultureInfo.InvariantCulture),
+                    renderedWidth.ToString(CultureInfo.InvariantCulture),
+                    renderedHeight.ToString(CultureInfo.InvariantCulture),
+                    ContainsCyrillic(currentText).ToString(),
+                    Tsv(issue),
+                }));
+            }
+
+            foreach (var text in Resources.FindObjectsOfTypeAll<UnityEngine.UI.Text>())
+            {
+                if (text == null || text.gameObject == null) continue;
+                if (!text.gameObject.activeInHierarchy || !text.enabled) continue;
+
+                var rectTransform = text.GetComponent<RectTransform>();
+                var rect = SafeRectSize(rectTransform);
+                var currentText = SafeText(() => text.text);
+                var wraps = text.horizontalOverflow == HorizontalWrapMode.Wrap;
+                var preferredWidth = SafeFloat(() => text.preferredWidth);
+                var preferredHeight = SafeFloat(() => text.preferredHeight);
+                var issue = FitIssue(rect, preferredWidth, preferredHeight, 0f, 0f, currentText, wraps);
+
+                writer.WriteLine(string.Join("\t", new[]
+                {
+                    scanCount.ToString(CultureInfo.InvariantCulture),
+                    Tsv(reason),
+                    Tsv(SafeSceneName()),
+                    Tsv(SafeObjectPath(text.gameObject)),
+                    Tsv(ComponentTypeName(text)),
+                    text.gameObject.activeInHierarchy.ToString(),
+                    text.enabled.ToString(),
+                    Tsv(currentText),
+                    Tsv(text.font != null ? text.font.name : ""),
+                    text.fontSize.ToString(CultureInfo.InvariantCulture),
+                    "False",
+                    wraps.ToString(),
+                    Tsv(text.verticalOverflow.ToString()),
+                    Tsv(text.alignment.ToString()),
+                    rect.x.ToString(CultureInfo.InvariantCulture),
+                    rect.y.ToString(CultureInfo.InvariantCulture),
+                    preferredWidth.ToString(CultureInfo.InvariantCulture),
+                    preferredHeight.ToString(CultureInfo.InvariantCulture),
+                    "",
+                    "",
+                    ContainsCyrillic(currentText).ToString(),
+                    Tsv(issue),
+                }));
+            }
+        }
+        catch (Exception ex)
+        {
+            Plugin.LogSource.LogWarning("Visible text fit dump failed: " + ex.Message);
+        }
+    }
+
     private static void AddNeighborhood(GameObject go, Dictionary<int, GameObject> objects)
     {
         AddObject(go, objects);
@@ -1054,6 +1157,49 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         }
         catch { }
         return Vector2.zero;
+    }
+
+    private static float SafeFloat(Func<float> getter)
+    {
+        try { return getter(); }
+        catch { return 0f; }
+    }
+
+    private static string SafeText(Func<string> getter)
+    {
+        try { return getter() ?? ""; }
+        catch (Exception ex) { return "text_unavailable:" + ex.GetType().Name + ":" + ex.Message; }
+    }
+
+    private static bool ContainsCyrillic(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return false;
+        foreach (var c in text)
+        {
+            if (c >= '\u0400' && c <= '\u04FF') return true;
+        }
+        return false;
+    }
+
+    private static string FitIssue(Vector2 rect, float preferredWidth, float preferredHeight, float renderedWidth, float renderedHeight, string text, bool wraps)
+    {
+        if (string.IsNullOrWhiteSpace(text)) return "ok";
+        if (rect.x <= 0f || rect.y <= 0f) return "unknown_rect";
+
+        var width = Math.Max(preferredWidth, renderedWidth);
+        var height = Math.Max(preferredHeight, renderedHeight);
+        if (height > rect.y + 2f) return "clipped_or_height_risk";
+        if (!wraps && width > rect.x + 2f) return "clipped_or_width_risk";
+        if (wraps && width > rect.x + 2f) return "wrapped_or_width_risk";
+        if (text.Contains("\n", StringComparison.Ordinal) || text.Contains("\r", StringComparison.Ordinal)) return "explicit_multiline";
+        return "ok";
+    }
+
+    private static string ComponentTypeName(Component component)
+    {
+        if (component == null) return "";
+        try { return component.GetIl2CppType().FullName; }
+        catch { return component.GetType().FullName; }
     }
 
     private static string VectorText(Vector2 value) =>
