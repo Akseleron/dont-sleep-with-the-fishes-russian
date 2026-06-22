@@ -15,7 +15,7 @@ Packaged plugin files live under:
 
 - `patches/dswf_runtime_plugin/BepInEx/plugins/DswfRusRuntimeFix/DswfRusRuntimeFix.dll`
 - `patches/dswf_runtime_plugin/BepInEx/plugins/DswfRusRuntimeFix/Textures/*.png`
-- `patches/dswf_runtime_plugin/BepInEx/config/DswfRusRuntimeFix.cfg`
+- `patches/dswf_runtime_plugin/BepInEx/config/ru.dswf.runtimefix.cfg`
 
 The plugin loads replacement PNGs from `BepInEx/plugins/DswfRusRuntimeFix/Textures/` and scans runtime UI objects, sprite renderers, raw images, and renderer material texture slots. It assigns replacement runtime textures/sprites to components and does not modify Unity asset files.
 
@@ -34,7 +34,13 @@ Because no TMP font asset is created, this plugin does not yet fix Cyrillic font
 
 ## Texture Status
 
-Runtime smoke testing confirmed that the plugin loads all 13 translated PNG replacements and applies runtime UI sprite replacements without modifying Unity asset files.
+Runtime smoke testing confirms only that the plugin loads the translated PNG replacements, does not modify Unity asset files, and can run without crash/NRE in the current isolation mode. It does not prove visual correctness. Manual QA after `6ed0532` showed that log-only "Texture replacement applied" was not enough:
+
+- the main menu title became a large white rectangle;
+- title splash objects briefly showed the Russian title in the wrong place;
+- a white square appeared near the gameplay journal UI while the journal label stayed English.
+
+Those findings mean texture replacement must be advanced one target group at a time and verified visually.
 
 The texture pack was later replaced with the complete `fish3` set after runtime QA showed the previous pack was missing some paired `Texture2D` objects. The current packaged set contains 13 PNG files:
 
@@ -43,26 +49,44 @@ The texture pack was later replaced with the complete `fish3` set after runtime 
 - paired `Texture2D + Sprite` entries for the known title/journal/button assets
 - one standalone `sharedassets3__Texture2D__120__unnamed_120.png` entry for the `ХЛАМ` texture
 
-Confirmed replacements in logs:
-
-- title scene logo images: `TITLE/UI/Canvas/text`, `textred`, `textblue`
-- main menu title marker: `MENU/UI/Canvas/title_main_image`
-- journal icon marker: `MENU/UI/Canvas_GameModes/Difficulties/HowToPlay/HowToPlayExc`
-- settings menu logo marker: `GameController/SETTINGS_CANVAS/SETTINGS_MENU/logo`
-
 The replacement mapping uses `Textures/TextureAliases.tsv` for runtime names such as `main_title`, `logo_text`, and `newjournalicon`.
 
 Important mappings:
 
-- `main_title` -> `sharedassets1__Texture2D__50__unnamed_50.png`
+- `main_title` -> `sharedassets1__Sprite__260__unnamed_260.png`
 - `logo_text` -> `sharedassets1__Sprite__260__unnamed_260.png`
 - `newjournalicon` -> `sharedassets3__Sprite__376__unnamed_376.png`
 
-The `main_title` alias intentionally uses the full 1024x1024 `Texture2D` replacement, not the cropped `Sprite 260` replacement. The previous cropped-sprite mapping caused unstable title/menu visuals during manual QA.
+The `main_title` alias now uses the cropped `Sprite 260` replacement for `UnityEngine.UI.Image` targets. The full `sharedassets1__Texture2D__50__unnamed_50.png` replacement must not be applied to `MENU/UI/Canvas/title_main_image` unless a runtime dump proves the visible target is a `RawImage`, `Renderer`, `SpriteRenderer`, or material texture user.
 
-Smoke logs showed no magenta visuals and no repeated `NullReferenceException` from the plugin after switching to pre-created runtime sprites and using `ReferenceEquals` for IL2CPP object checks.
+Current default config is isolation mode:
 
-Manual visual QA is still required to confirm that scale, placement, and alpha look correct in-game.
+- `PatchMainMenuTitle=true`
+- `PatchTitleSplash=false`
+- `PatchSettingsLogo=false`
+- `PatchJournalIcon=false`
+- `PatchHowToPlay=false`
+- `PatchGameplay3DTextures=false`
+
+Disabled groups are intentionally skipped:
+
+- `TITLE/UI/Canvas/text`
+- `TITLE/UI/Canvas/textred`
+- `TITLE/UI/Canvas/textblue`
+- `MENU/UI/Canvas_GameModes/Difficulties/HowToPlay/HowToPlayExc`
+- `GameController/SETTINGS_CANVAS/SETTINGS_MENU/logo`
+
+Runtime smoke testing also showed that `Sprite.Create` returns null for `sharedassets1__Sprite__260__unnamed_260.png` in this IL2CPP runtime. The plugin therefore falls back only for `MENU/UI/Canvas/title_main_image` to a child `RawImage` overlay and disables the original `Image` component. This is a manual-QA candidate, not a confirmed visual fix.
+
+Manual QA protocol for the current build:
+
+1. Launch the game and watch the startup/title splash. The huge Russian `НЕ СПИТЕ С РЫБАМИ` should not appear over the splash in this isolation mode.
+2. On the first main menu, check whether the title is Russian and whether the large white rectangle is gone.
+3. Open settings. The settings logo should remain unpatched in this pass.
+4. Enter or continue gameplay. The journal icon/label should remain unpatched in this pass, and the previous white square near the journal UI should not appear.
+5. Return to the main menu. The title should not turn into a persistent white rectangle or revert unexpectedly.
+
+If the `RawImage` overlay is visually wrong, the next texture iteration should keep all other groups disabled and refine only the main title overlay sizing/anchoring before enabling any other replacement group.
 
 ## Build
 
@@ -97,6 +121,6 @@ The plugin logs:
 - component replacement counts per scan
 - visible texture names when `DumpVisibleTextureNames=true`
 
-Visible texture names are written to `debug_reports/runtime_visible_texture_names.tsv` during runtime tests.
+Visible texture names are written to `debug_reports/runtime_visible_texture_targets.tsv` during runtime tests. Problem-object component dumps are written to `debug_reports/runtime_problem_texture_components.tsv`.
 
 The current dump includes scene name, object path, component type, hierarchy active state, sprite/texture names, material texture property, UI rect size, texture size, matched replacement filename, and whether the current texture is already a plugin replacement. This is intended to diagnose scene changes and cases where a Unity UI object restores the original sprite/texture after the plugin has patched it.

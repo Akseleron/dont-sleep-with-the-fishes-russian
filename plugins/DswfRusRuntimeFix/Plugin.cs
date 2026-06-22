@@ -34,14 +34,26 @@ public sealed class Plugin : BasePlugin
     internal static ConfigEntry<bool> DumpVisibleTextureNames;
     internal static ConfigEntry<string> FontFileName;
     internal static ConfigEntry<float> StartupScanSeconds;
+    internal static ConfigEntry<bool> PatchMainMenuTitle;
+    internal static ConfigEntry<bool> PatchTitleSplash;
+    internal static ConfigEntry<bool> PatchSettingsLogo;
+    internal static ConfigEntry<bool> PatchJournalIcon;
+    internal static ConfigEntry<bool> PatchHowToPlay;
+    internal static ConfigEntry<bool> PatchGameplay3DTextures;
 
     public override void Load()
     {
         LogSource = Log;
-        EnableFontFix = Config.Bind("Font", "EnableFontFix", true, "Register a local TTF and create a runtime TMP fallback font asset.");
+        EnableFontFix = Config.Bind("Font", "EnableFontFix", false, "Register a local TTF and create a runtime TMP fallback font asset.");
         OverrideTmpFonts = Config.Bind("Font", "OverrideTmpFonts", false, "Assign the runtime TMP font directly to TMP_Text objects. Fallback mode is safer and is tried first.");
         FontFileName = Config.Bind("Font", "FontFileName", "nyashasans.ttf", "TTF file under BepInEx/plugins/DswfRusRuntimeFix/Fonts.");
         EnableTextureFix = Config.Bind("Textures", "EnableTextureFix", true, "Replace visible runtime textures/sprites from the Textures folder.");
+        PatchMainMenuTitle = Config.Bind("Textures", "PatchMainMenuTitle", true, "Patch only the main menu title UI Image.");
+        PatchTitleSplash = Config.Bind("Textures", "PatchTitleSplash", false, "Patch the startup title splash logo images. Disabled until visual QA confirms it is safe.");
+        PatchSettingsLogo = Config.Bind("Textures", "PatchSettingsLogo", false, "Patch the settings menu logo. Disabled for isolation testing.");
+        PatchJournalIcon = Config.Bind("Textures", "PatchJournalIcon", false, "Patch the gameplay journal icon. Disabled for isolation testing.");
+        PatchHowToPlay = Config.Bind("Textures", "PatchHowToPlay", false, "Patch how-to-play/menu icon textures. Disabled for isolation testing.");
+        PatchGameplay3DTextures = Config.Bind("Textures", "PatchGameplay3DTextures", false, "Patch RawImage, SpriteRenderer, and Renderer material textures.");
         DumpVisibleTextureNames = Config.Bind("Diagnostics", "DumpVisibleTextureNames", true, "Write visible texture/component names to ../debug_reports/runtime_visible_texture_names.tsv during scans.");
         StartupScanSeconds = Config.Bind("Diagnostics", "StartupScanSeconds", 15f, "Scan repeatedly for this many seconds after startup/scene load.");
 
@@ -75,6 +87,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     private readonly HashSet<int> failedSpriteRenderers = new();
     private readonly HashSet<int> patchedRenderers = new();
     private readonly HashSet<int> patchedTmpTexts = new();
+    private readonly Dictionary<int, RawImage> imageOverlays = new();
     private float scanUntil;
     private float nextScan;
     private int scanCount;
@@ -82,7 +95,9 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     private Font runtimeUnityFont;
     private bool fontAttempted;
     private string reportPath;
+    private string componentReportPath;
     private string lastSceneName;
+    private readonly List<Sprite> createdReplacementSprites = new();
 
     public RuntimeFixBehaviour(IntPtr ptr) : base(ptr) { }
 
@@ -91,7 +106,8 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         scanUntil = Time.realtimeSinceStartup + Math.Max(3f, Plugin.StartupScanSeconds.Value);
         nextScan = 0f;
         lastSceneName = SafeSceneName();
-        reportPath = BuildDebugReportPath();
+        reportPath = BuildDebugReportPath("runtime_visible_texture_targets.tsv");
+        componentReportPath = BuildDebugReportPath("runtime_problem_texture_components.tsv");
         Plugin.LogSource.LogInfo("RuntimeFixBehaviour started. scene=" + lastSceneName);
         LoadReplacements();
         TrySetupFont();
@@ -109,6 +125,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             nextScan = 0f;
             patchedImages.Clear();
             failedImages.Clear();
+            imageOverlays.Clear();
             patchedRawImages.Clear();
             patchedSpriteRenderers.Clear();
             failedSpriteRenderers.Clear();
@@ -160,8 +177,10 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
                     ExportedName = m.Groups["name"].Value,
                 };
                 var decoded = SimplePng.Decode(File.ReadAllBytes(path));
+                repl.AlphaMin = decoded.AlphaMin;
+                repl.AlphaMax = decoded.AlphaMax;
                 var tex = new Texture2D(decoded.Width, decoded.Height, TextureFormat.RGBA32, false);
-                tex.name = repl.ExportedName;
+                tex.name = repl.Stem;
                 tex.wrapMode = TextureWrapMode.Clamp;
                 tex.filterMode = FilterMode.Bilinear;
                 var colors = new Il2CppStructArray<Color32>(decoded.Pixels.Length);
@@ -171,22 +190,13 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
                 repl.Texture = tex;
                 repl.Width = tex.width;
                 repl.Height = tex.height;
-                try
-                {
-                    repl.Sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100f);
-                    repl.Sprite.name = repl.ExportedName;
-                }
-                catch (Exception ex)
-                {
-                    Plugin.LogSource.LogWarning($"Could not pre-create sprite for {repl.FileName}: {ex.Message}");
-                }
                 byStem[repl.Stem] = repl;
+                byName[repl.Stem] = repl;
                 byName[repl.ExportedName] = repl;
                 byName[$"{repl.ObjectType}:{repl.PathId}"] = repl;
                 replacementNames.Add(repl.Stem);
                 replacementNames.Add(repl.ExportedName);
                 replacementNames.Add(repl.Texture.name);
-                if (!ReferenceEquals(repl.Sprite, null)) replacementNames.Add(repl.Sprite.name);
                 Plugin.LogSource.LogInfo($"Loaded replacement {repl.FileName}: type={repl.ObjectType}, pathId={repl.PathId}, name={repl.ExportedName}, size={tex.width}x{tex.height}");
             }
             catch (Exception ex)
@@ -354,6 +364,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             renderers = PatchRenderers();
         }
         if (Plugin.DumpVisibleTextureNames.Value) DumpVisibleTextureNames(reason);
+        if (Plugin.DumpVisibleTextureNames.Value) DumpProblemComponents(reason);
         Plugin.LogSource.LogInfo($"Scan {scanCount} ({reason}) complete. TMP patched={tmp}, Images={images}, RawImages={raw}, SpriteRenderers={sprites}, Renderers={renderers}");
     }
 
@@ -396,17 +407,36 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             try
             {
                 var id = image.GetInstanceID();
-                var spriteTextureName = image.sprite.texture != null ? image.sprite.texture.name : null;
                 if (failedImages.Contains(id)) continue;
+                if (imageOverlays.ContainsKey(id)) continue;
+                var path = SafeObjectPath(image.gameObject);
+                var spriteTextureName = image.sprite.texture != null ? image.sprite.texture.name : null;
                 if (patchedImages.Contains(id) && IsReplacementName(image.sprite.name, spriteTextureName)) continue;
                 var oldSpriteName = image.sprite.name;
-                var repl = FindReplacement(image.sprite.name, spriteTextureName);
+                var decision = GetImageDecision(path, image.sprite.name, spriteTextureName);
+                var repl = decision.Replacement;
                 if (repl == null) continue;
-                var sprite = CreateSpriteLike(repl, image.sprite);
+                if (!string.Equals(decision.SkipReason, "apply", StringComparison.Ordinal)) continue;
+                Sprite sprite;
+                try
+                {
+                    sprite = CreateSpriteLike(repl, image.sprite);
+                }
+                catch (Exception ex) when (IsMainMenuTitlePath(path))
+                {
+                    if (ApplyMainMenuTitleRawImageOverlay(image, repl, path, ex.Message))
+                    {
+                        patchedImages.Add(id);
+                        changed++;
+                        continue;
+                    }
+                    throw;
+                }
+                if (IsMainMenuTitlePath(path)) LogMainMenuTitleDetails(path, image, repl, sprite, "before-apply");
                 image.sprite = sprite;
                 patchedImages.Add(id);
                 changed++;
-                Plugin.LogSource.LogInfo($"Texture replacement applied: UI.Image path='{SafeObjectPath(image.gameObject)}' oldSprite='{oldSpriteName}' replacement='{repl.FileName}'");
+                Plugin.LogSource.LogInfo($"Texture replacement applied: UI.Image path='{path}' oldSprite='{oldSpriteName}' replacement='{repl.FileName}' group='{decision.Group}'");
             }
             catch (Exception ex)
             {
@@ -427,7 +457,8 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             {
                 var id = rawImage.GetInstanceID();
                 if (patchedRawImages.Contains(id) && IsReplacementName(rawImage.texture.name, null)) continue;
-                var repl = FindReplacement(rawImage.texture.name, null);
+                if (!Plugin.PatchGameplay3DTextures.Value) continue;
+                var repl = FindReplacement("Texture2D", rawImage.texture.name, null);
                 if (repl == null) continue;
                 rawImage.texture = repl.Texture;
                 patchedRawImages.Add(id);
@@ -454,7 +485,8 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
                 var spriteTextureName = sr.sprite.texture != null ? sr.sprite.texture.name : null;
                 if (failedSpriteRenderers.Contains(id)) continue;
                 if (patchedSpriteRenderers.Contains(id) && IsReplacementName(sr.sprite.name, spriteTextureName)) continue;
-                var repl = FindReplacement(sr.sprite.name, spriteTextureName);
+                if (!Plugin.PatchGameplay3DTextures.Value) continue;
+                var repl = FindReplacement("Sprite", sr.sprite.name, spriteTextureName);
                 if (repl == null) continue;
                 sr.sprite = CreateSpriteLike(repl, sr.sprite);
                 patchedSpriteRenderers.Add(id);
@@ -487,7 +519,8 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
                     var tex = mat.GetTexture(prop);
                     if (tex == null) continue;
                     if (patchedRenderers.Contains(id) && IsReplacementName(tex.name, null)) continue;
-                    var repl = FindReplacement(tex.name, null);
+                    if (!Plugin.PatchGameplay3DTextures.Value) continue;
+                    var repl = FindReplacement("Texture2D", tex.name, null);
                     if (repl == null) continue;
                     mat.SetTexture(prop, repl.Texture);
                     patchedRenderers.Add(id);
@@ -505,17 +538,20 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     }
 
     [HideFromIl2Cpp]
-    private Replacement FindReplacement(string primary, string secondary)
+    private Replacement FindReplacement(string objectType, string primary, string secondary)
     {
         foreach (var key in new[] { primary, secondary })
         {
             if (string.IsNullOrWhiteSpace(key)) continue;
-            if (byName.TryGetValue(key, out var replacement)) return replacement;
+            if (byName.TryGetValue(key, out var replacement) && ReplacementTypeMatches(replacement, objectType)) return replacement;
             var normalized = key.Trim();
-            if (byName.TryGetValue(normalized, out replacement)) return replacement;
+            if (byName.TryGetValue(normalized, out replacement) && ReplacementTypeMatches(replacement, objectType)) return replacement;
         }
         return null;
     }
+
+    private static bool ReplacementTypeMatches(Replacement replacement, string objectType) =>
+        replacement != null && (string.IsNullOrEmpty(objectType) || string.Equals(replacement.ObjectType, objectType, StringComparison.OrdinalIgnoreCase));
 
     private bool IsReplacementName(string primary, string secondary)
     {
@@ -526,10 +562,129 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         return false;
     }
 
-    private static Sprite CreateSpriteLike(Replacement repl, Sprite original)
+    [HideFromIl2Cpp]
+    private ImageDecision GetImageDecision(string path, string spriteName, string textureName)
     {
-        if (!ReferenceEquals(repl.Sprite, null)) return repl.Sprite;
+        var replacement = FindReplacement("Sprite", spriteName, textureName);
+        var group = ClassifyImageTarget(path);
+        if (replacement == null) return new ImageDecision(null, group, "no_sprite_replacement_candidate");
+        if (!IsImageGroupEnabled(group)) return new ImageDecision(replacement, group, $"disabled_{group}");
+        return new ImageDecision(replacement, group, "apply");
+    }
 
+    private static string ClassifyImageTarget(string path)
+    {
+        if (IsMainMenuTitlePath(path)) return "main_menu_title";
+        if (path == "TITLE/UI/Canvas/text" || path == "TITLE/UI/Canvas/textred" || path == "TITLE/UI/Canvas/textblue") return "title_splash";
+        if (path == "GameController/SETTINGS_CANVAS/SETTINGS_MENU/logo") return "settings_logo";
+        if (path.Contains("HowToPlayExc", StringComparison.Ordinal)) return "how_to_play";
+        if (path.Contains("JournalHolder/JournalButton", StringComparison.Ordinal) || path.Contains("JournalButtonOff", StringComparison.Ordinal)) return "journal_icon";
+        return "unknown_image";
+    }
+
+    private static bool IsImageGroupEnabled(string group) => group switch
+    {
+        "main_menu_title" => Plugin.PatchMainMenuTitle.Value,
+        "title_splash" => Plugin.PatchTitleSplash.Value,
+        "settings_logo" => Plugin.PatchSettingsLogo.Value,
+        "journal_icon" => Plugin.PatchJournalIcon.Value,
+        "how_to_play" => Plugin.PatchHowToPlay.Value,
+        _ => false,
+    };
+
+    private static bool IsMainMenuTitlePath(string path) => path == "MENU/UI/Canvas/title_main_image";
+
+    private static bool IsProblemPath(string path)
+    {
+        if (string.IsNullOrEmpty(path)) return false;
+        return path == "MENU/UI/Canvas/title_main_image"
+            || path.StartsWith("MENU/UI/Canvas/title_main_image/", StringComparison.Ordinal)
+            || path.StartsWith("TITLE/UI/Canvas", StringComparison.Ordinal)
+            || path.Contains("JournalHolder/JournalButton", StringComparison.Ordinal)
+            || path.Contains("JournalButtonOff", StringComparison.Ordinal)
+            || path.Contains("HowToPlayExc", StringComparison.Ordinal);
+    }
+
+    [HideFromIl2Cpp]
+    private void LogMainMenuTitleDetails(string path, Image image, Replacement repl, Sprite created, string phase)
+    {
+        try
+        {
+            var original = image.sprite;
+            var originalRect = original != null ? original.rect : Rect.zero;
+            var originalPivot = original != null ? original.pivot : Vector2.zero;
+            var originalTexture = original != null ? original.texture : null;
+            var createdRect = created != null ? created.rect : Rect.zero;
+            var createdPivot = created != null ? created.pivot : Vector2.zero;
+            var size = SafeRectSize(image.rectTransform);
+            Plugin.LogSource.LogInfo(
+                "MainMenuTitle diagnostic " +
+                $"phase='{phase}', path='{path}', active={image.gameObject.activeInHierarchy}, rectTransform={size.x.ToString(CultureInfo.InvariantCulture)}x{size.y.ToString(CultureInfo.InvariantCulture)}, " +
+                $"sprite='{(original != null ? original.name : "")}', spriteTexture='{(originalTexture != null ? originalTexture.name : "")}', " +
+                $"spriteRect={originalRect.width.ToString(CultureInfo.InvariantCulture)}x{originalRect.height.ToString(CultureInfo.InvariantCulture)}, " +
+                $"spritePivot={originalPivot.x.ToString(CultureInfo.InvariantCulture)},{originalPivot.y.ToString(CultureInfo.InvariantCulture)}, " +
+                $"spriteTextureSize={(originalTexture != null ? originalTexture.width : 0)}x{(originalTexture != null ? originalTexture.height : 0)}, " +
+                $"replacement='{repl.FileName}', replacementType='{repl.ObjectType}', replacementPng={repl.Width}x{repl.Height}, replacementAlpha={repl.AlphaMin}-{repl.AlphaMax}, " +
+                $"createdSpriteRect={createdRect.width.ToString(CultureInfo.InvariantCulture)}x{createdRect.height.ToString(CultureInfo.InvariantCulture)}, " +
+                $"createdSpritePivot={createdPivot.x.ToString(CultureInfo.InvariantCulture)},{createdPivot.y.ToString(CultureInfo.InvariantCulture)}");
+        }
+        catch (Exception ex)
+        {
+            Plugin.LogSource.LogWarning("MainMenuTitle diagnostic failed: " + ex.Message);
+        }
+    }
+
+    [HideFromIl2Cpp]
+    private bool ApplyMainMenuTitleRawImageOverlay(Image image, Replacement repl, string path, string spriteFailure)
+    {
+        try
+        {
+            var id = image.GetInstanceID();
+            if (imageOverlays.ContainsKey(id)) return true;
+
+            var overlayObject = new GameObject("DswfRusRuntimeFix_MainTitleOverlay");
+            overlayObject.transform.SetParent(image.transform, false);
+            overlayObject.layer = image.gameObject.layer;
+
+            var rect = overlayObject.AddComponent<RectTransform>();
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.localScale = Vector3.one;
+
+            var raw = overlayObject.AddComponent<RawImage>();
+            raw.texture = repl.Texture;
+            raw.color = Color.white;
+            raw.raycastTarget = false;
+            try
+            {
+                var fitter = overlayObject.AddComponent<AspectRatioFitter>();
+                fitter.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+                fitter.aspectRatio = repl.Width > 0 && repl.Height > 0 ? (float)repl.Width / repl.Height : 1f;
+            }
+            catch (Exception ex)
+            {
+                Plugin.LogSource.LogWarning("Main menu title overlay AspectRatioFitter failed: " + ex.Message);
+            }
+
+            image.enabled = false;
+            imageOverlays[id] = raw;
+            Plugin.LogSource.LogWarning($"Sprite replacement unavailable for main menu title ({spriteFailure}); using RawImage overlay fallback.");
+            Plugin.LogSource.LogInfo($"Texture replacement applied: UI.Image overlay path='{path}' overlayPath='{SafeObjectPath(overlayObject)}' oldSprite='{image.sprite.name}' replacement='{repl.FileName}' group='main_menu_title_overlay' texture='{(raw.texture != null ? raw.texture.name : "")}' textureSize={repl.Width}x{repl.Height}");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Plugin.LogSource.LogWarning($"Main menu title RawImage overlay failed on '{path}': {ex}");
+            return false;
+        }
+    }
+
+    [HideFromIl2Cpp]
+    private Sprite CreateSpriteLike(Replacement repl, Sprite original)
+    {
         var rect = new Rect(0, 0, repl.Width, repl.Height);
         var normalizedPivot = new Vector2(0.5f, 0.5f);
         var pixelsPerUnit = 100f;
@@ -552,9 +707,60 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             Plugin.LogSource.LogWarning("Could not read original sprite layout; using centered fallback sprite layout: " + ex.Message);
         }
 
-        var sprite = Sprite.Create(repl.Texture, rect, normalizedPivot, pixelsPerUnit);
-        sprite.name = repl.ExportedName;
+        var sprite = TryCreateSprite(repl, rect, normalizedPivot, pixelsPerUnit);
+        if (sprite == null)
+        {
+            throw new InvalidOperationException($"Sprite.Create returned null for {repl.FileName} ({repl.Width}x{repl.Height}).");
+        }
+        sprite.name = repl.Stem;
+        createdReplacementSprites.Add(sprite);
         return sprite;
+    }
+
+    [HideFromIl2Cpp]
+    private static Sprite TryCreateSprite(Replacement repl, Rect rect, Vector2 normalizedPivot, float pixelsPerUnit)
+    {
+        try
+        {
+            var sprite = Sprite.Create(repl.Texture, rect, normalizedPivot, pixelsPerUnit, 0, SpriteMeshType.FullRect, Vector4.zero, false);
+            if (sprite != null) return sprite;
+        }
+        catch (Exception ex)
+        {
+            Plugin.LogSource.LogWarning($"Sprite.Create full overload failed for {repl.FileName}: {ex.Message}");
+        }
+
+        try
+        {
+            var sprite = Sprite.Create(repl.Texture, rect, normalizedPivot, pixelsPerUnit, 0, SpriteMeshType.FullRect);
+            if (sprite != null) return sprite;
+        }
+        catch (Exception ex)
+        {
+            Plugin.LogSource.LogWarning($"Sprite.Create mesh overload failed for {repl.FileName}: {ex.Message}");
+        }
+
+        try
+        {
+            var sprite = Sprite.Create(repl.Texture, rect, normalizedPivot, pixelsPerUnit);
+            if (sprite != null) return sprite;
+        }
+        catch (Exception ex)
+        {
+            Plugin.LogSource.LogWarning($"Sprite.Create ppu overload failed for {repl.FileName}: {ex.Message}");
+        }
+
+        try
+        {
+            var sprite = Sprite.Create(repl.Texture, rect, normalizedPivot);
+            if (sprite != null) return sprite;
+        }
+        catch (Exception ex)
+        {
+            Plugin.LogSource.LogWarning($"Sprite.Create minimal overload failed for {repl.FileName}: {ex.Message}");
+        }
+
+        return null;
     }
 
     private void DumpVisibleTextureNames(string reason)
@@ -564,28 +770,38 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             if (string.IsNullOrEmpty(reportPath)) return;
             var first = !File.Exists(reportPath);
             using var writer = new StreamWriter(reportPath, append: true);
-            if (first) writer.WriteLine("scan\treason\tscene\tkind\tpath\tactive_in_hierarchy\tsprite\ttexture\tmaterial_property\trect_width\trect_height\ttexture_width\ttexture_height\treplacement_filename\tis_replacement");
+            if (first) writer.WriteLine("scan\treason\tscene\tobject_path\tcomponent_type\tactive_in_hierarchy\tenabled\trect_width\trect_height\tsprite_name\tsprite_texture_name\traw_image_texture_name\trenderer_material_texture_name\tmaterial_property\treplacement_candidate\treplacement_applied\tskip_reason");
             foreach (var image in Resources.FindObjectsOfTypeAll<Image>())
             {
                 if (image == null || image.sprite == null) continue;
+                var path = SafeObjectPath(image.gameObject);
                 var tex = image.sprite.texture;
-                var repl = FindReplacement(image.sprite.name, tex != null ? tex.name : null);
+                var decision = GetImageDecision(path, image.sprite.name, tex != null ? tex.name : null);
                 var size = SafeRectSize(image.rectTransform);
-                writer.WriteLine($"{scanCount}\t{reason}\t{Tsv(SafeSceneName())}\tImage\t{Tsv(SafeObjectPath(image.gameObject))}\t{image.gameObject.activeInHierarchy}\t{Tsv(image.sprite.name)}\t{Tsv(tex != null ? tex.name : "")}\t\t{size.x.ToString(CultureInfo.InvariantCulture)}\t{size.y.ToString(CultureInfo.InvariantCulture)}\t{(tex != null ? tex.width : 0)}\t{(tex != null ? tex.height : 0)}\t{Tsv(repl != null ? repl.FileName : "")}\t{IsReplacementName(image.sprite.name, tex != null ? tex.name : null)}");
+                var overlayApplied = imageOverlays.ContainsKey(image.GetInstanceID());
+                var applied = overlayApplied || IsReplacementName(image.sprite.name, tex != null ? tex.name : null);
+                var skipReason = overlayApplied ? "overlay_applied_raw_image" : (applied ? "already_replaced" : decision.SkipReason);
+                writer.WriteLine($"{scanCount}\t{reason}\t{Tsv(SafeSceneName())}\t{Tsv(path)}\tImage\t{image.gameObject.activeInHierarchy}\t{image.enabled}\t{size.x.ToString(CultureInfo.InvariantCulture)}\t{size.y.ToString(CultureInfo.InvariantCulture)}\t{Tsv(image.sprite.name)}\t{Tsv(tex != null ? tex.name : "")}\t\t\t\t{Tsv(decision.Replacement != null ? decision.Replacement.FileName : "")}\t{applied}\t{Tsv(skipReason)}");
             }
             foreach (var sr in Resources.FindObjectsOfTypeAll<SpriteRenderer>())
             {
                 if (sr == null || sr.sprite == null) continue;
                 var tex = sr.sprite.texture;
-                var repl = FindReplacement(sr.sprite.name, tex != null ? tex.name : null);
-                writer.WriteLine($"{scanCount}\t{reason}\t{Tsv(SafeSceneName())}\tSpriteRenderer\t{Tsv(SafeObjectPath(sr.gameObject))}\t{sr.gameObject.activeInHierarchy}\t{Tsv(sr.sprite.name)}\t{Tsv(tex != null ? tex.name : "")}\t\t0\t0\t{(tex != null ? tex.width : 0)}\t{(tex != null ? tex.height : 0)}\t{Tsv(repl != null ? repl.FileName : "")}\t{IsReplacementName(sr.sprite.name, tex != null ? tex.name : null)}");
+                var repl = FindReplacement("Sprite", sr.sprite.name, tex != null ? tex.name : null);
+                var applied = IsReplacementName(sr.sprite.name, tex != null ? tex.name : null);
+                var skip = Plugin.PatchGameplay3DTextures.Value ? (repl != null ? "apply_if_seen" : "no_sprite_replacement_candidate") : "disabled_gameplay_3d_textures";
+                var skipReason = applied ? "already_replaced" : skip;
+                writer.WriteLine($"{scanCount}\t{reason}\t{Tsv(SafeSceneName())}\t{Tsv(SafeObjectPath(sr.gameObject))}\tSpriteRenderer\t{sr.gameObject.activeInHierarchy}\t{sr.enabled}\t0\t0\t{Tsv(sr.sprite.name)}\t{Tsv(tex != null ? tex.name : "")}\t\t\t\t{Tsv(repl != null ? repl.FileName : "")}\t{applied}\t{Tsv(skipReason)}");
             }
             foreach (var raw in Resources.FindObjectsOfTypeAll<RawImage>())
             {
                 if (raw == null || raw.texture == null) continue;
-                var repl = FindReplacement(raw.texture.name, null);
+                var repl = FindReplacement("Texture2D", raw.texture.name, null);
                 var size = SafeRectSize(raw.rectTransform);
-                writer.WriteLine($"{scanCount}\t{reason}\t{Tsv(SafeSceneName())}\tRawImage\t{Tsv(SafeObjectPath(raw.gameObject))}\t{raw.gameObject.activeInHierarchy}\t\t{Tsv(raw.texture.name)}\t\t{size.x.ToString(CultureInfo.InvariantCulture)}\t{size.y.ToString(CultureInfo.InvariantCulture)}\t{raw.texture.width}\t{raw.texture.height}\t{Tsv(repl != null ? repl.FileName : "")}\t{IsReplacementName(raw.texture.name, null)}");
+                var applied = IsReplacementName(raw.texture.name, null);
+                var skip = Plugin.PatchGameplay3DTextures.Value ? (repl != null ? "apply_if_seen" : "no_texture2d_replacement_candidate") : "disabled_gameplay_3d_textures";
+                var skipReason = applied ? "already_replaced" : skip;
+                writer.WriteLine($"{scanCount}\t{reason}\t{Tsv(SafeSceneName())}\t{Tsv(SafeObjectPath(raw.gameObject))}\tRawImage\t{raw.gameObject.activeInHierarchy}\t{raw.enabled}\t{size.x.ToString(CultureInfo.InvariantCulture)}\t{size.y.ToString(CultureInfo.InvariantCulture)}\t\t\t{Tsv(raw.texture.name)}\t\t\t{Tsv(repl != null ? repl.FileName : "")}\t{applied}\t{Tsv(skipReason)}");
             }
             foreach (var renderer in Resources.FindObjectsOfTypeAll<Renderer>())
             {
@@ -598,8 +814,11 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
                     if (!mat.HasProperty(prop)) continue;
                     var tex = mat.GetTexture(prop);
                     if (tex == null) continue;
-                    var repl = FindReplacement(tex.name, null);
-                    writer.WriteLine($"{scanCount}\t{reason}\t{Tsv(SafeSceneName())}\tRenderer\t{Tsv(SafeObjectPath(renderer.gameObject))}\t{renderer.gameObject.activeInHierarchy}\t\t{Tsv(tex.name)}\t{prop}\t0\t0\t{tex.width}\t{tex.height}\t{Tsv(repl != null ? repl.FileName : "")}\t{IsReplacementName(tex.name, null)}");
+                    var repl = FindReplacement("Texture2D", tex.name, null);
+                    var applied = IsReplacementName(tex.name, null);
+                    var skip = Plugin.PatchGameplay3DTextures.Value ? (repl != null ? "apply_if_seen" : "no_texture2d_replacement_candidate") : "disabled_gameplay_3d_textures";
+                    var skipReason = applied ? "already_replaced" : skip;
+                    writer.WriteLine($"{scanCount}\t{reason}\t{Tsv(SafeSceneName())}\t{Tsv(SafeObjectPath(renderer.gameObject))}\tRenderer\t{renderer.gameObject.activeInHierarchy}\t{renderer.enabled}\t0\t0\t\t\t\t{Tsv(tex.name)}\t{prop}\t{Tsv(repl != null ? repl.FileName : "")}\t{applied}\t{Tsv(skipReason)}");
                 }
             }
         }
@@ -609,7 +828,70 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         }
     }
 
-    private static string BuildDebugReportPath()
+    private void DumpProblemComponents(string reason)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(componentReportPath)) return;
+            var first = !File.Exists(componentReportPath);
+            using var writer = new StreamWriter(componentReportPath, append: true);
+            if (first) writer.WriteLine("scan\treason\tscene\tobject_path\tactive_in_hierarchy\tcomponent_type\tenabled\tdetails");
+
+            foreach (var image in Resources.FindObjectsOfTypeAll<Image>())
+            {
+                if (image == null) continue;
+                var path = SafeObjectPath(image.gameObject);
+                if (!IsProblemPath(path)) continue;
+                var tex = image.sprite != null ? image.sprite.texture : null;
+                var size = SafeRectSize(image.rectTransform);
+                var details = $"rect={size.x.ToString(CultureInfo.InvariantCulture)}x{size.y.ToString(CultureInfo.InvariantCulture)}; sprite={(image.sprite != null ? image.sprite.name : "")}; texture={(tex != null ? tex.name : "")}; group={ClassifyImageTarget(path)}";
+                writer.WriteLine($"{scanCount}\t{reason}\t{Tsv(SafeSceneName())}\t{Tsv(path)}\t{image.gameObject.activeInHierarchy}\t{Tsv(image.GetIl2CppType().FullName)}\t{image.enabled}\t{Tsv(details)}");
+            }
+            foreach (var raw in Resources.FindObjectsOfTypeAll<RawImage>())
+            {
+                if (raw == null) continue;
+                var path = SafeObjectPath(raw.gameObject);
+                if (!IsProblemPath(path)) continue;
+                var size = SafeRectSize(raw.rectTransform);
+                var details = $"rect={size.x.ToString(CultureInfo.InvariantCulture)}x{size.y.ToString(CultureInfo.InvariantCulture)}; texture={(raw.texture != null ? raw.texture.name : "")}";
+                writer.WriteLine($"{scanCount}\t{reason}\t{Tsv(SafeSceneName())}\t{Tsv(path)}\t{raw.gameObject.activeInHierarchy}\t{Tsv(raw.GetIl2CppType().FullName)}\t{raw.enabled}\t{Tsv(details)}");
+            }
+            foreach (var sr in Resources.FindObjectsOfTypeAll<SpriteRenderer>())
+            {
+                if (sr == null) continue;
+                var path = SafeObjectPath(sr.gameObject);
+                if (!IsProblemPath(path)) continue;
+                var tex = sr.sprite != null ? sr.sprite.texture : null;
+                var details = $"sprite={(sr.sprite != null ? sr.sprite.name : "")}; texture={(tex != null ? tex.name : "")}";
+                writer.WriteLine($"{scanCount}\t{reason}\t{Tsv(SafeSceneName())}\t{Tsv(path)}\t{sr.gameObject.activeInHierarchy}\t{Tsv(sr.GetIl2CppType().FullName)}\t{sr.enabled}\t{Tsv(details)}");
+            }
+            foreach (var renderer in Resources.FindObjectsOfTypeAll<Renderer>())
+            {
+                if (renderer == null) continue;
+                var path = SafeObjectPath(renderer.gameObject);
+                if (!IsProblemPath(path)) continue;
+                var tex = "";
+                try
+                {
+                    var mat = renderer.material;
+                    if (mat != null && mat.HasProperty("_MainTex"))
+                    {
+                        var t = mat.GetTexture("_MainTex");
+                        tex = t != null ? t.name : "";
+                    }
+                }
+                catch { }
+                var details = "mainTexture=" + tex;
+                writer.WriteLine($"{scanCount}\t{reason}\t{Tsv(SafeSceneName())}\t{Tsv(path)}\t{renderer.gameObject.activeInHierarchy}\t{Tsv(renderer.GetIl2CppType().FullName)}\t{renderer.enabled}\t{Tsv(details)}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Plugin.LogSource.LogWarning("Problem component dump failed: " + ex.Message);
+        }
+    }
+
+    private static string BuildDebugReportPath(string fileName)
     {
         try
         {
@@ -617,7 +899,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             if (string.IsNullOrEmpty(projectRoot)) return null;
             var dir = Path.Combine(projectRoot, "debug_reports");
             Directory.CreateDirectory(dir);
-            return Path.Combine(dir, "runtime_visible_texture_names.tsv");
+            return Path.Combine(dir, fileName);
         }
         catch { return null; }
     }
@@ -667,9 +949,24 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         public string PathId;
         public string ExportedName;
         public Texture2D Texture;
-        public Sprite Sprite;
         public int Width;
         public int Height;
+        public byte AlphaMin;
+        public byte AlphaMax;
+    }
+
+    private sealed class ImageDecision
+    {
+        public readonly Replacement Replacement;
+        public readonly string Group;
+        public readonly string SkipReason;
+
+        public ImageDecision(Replacement replacement, string group, string skipReason)
+        {
+            Replacement = replacement;
+            Group = group;
+            SkipReason = skipReason;
+        }
     }
 
     private sealed class DecodedPng
@@ -677,6 +974,8 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         public int Width;
         public int Height;
         public Color32[] Pixels;
+        public byte AlphaMin;
+        public byte AlphaMax;
     }
 
     private static class SimplePng
@@ -761,6 +1060,8 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             }
 
             var pixels = new Color32[width * height];
+            byte alphaMin = 255;
+            byte alphaMax = 0;
             for (var y = 0; y < height; y++)
             {
                 var row = y * stride;
@@ -775,10 +1076,12 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
                         6 => new Color32(recon[p], recon[p + 1], recon[p + 2], recon[p + 3]),
                         _ => new Color32(255, 0, 255, 255),
                     };
+                    if (c.a < alphaMin) alphaMin = c.a;
+                    if (c.a > alphaMax) alphaMax = c.a;
                     pixels[(height - 1 - y) * width + x] = c;
                 }
             }
-            return new DecodedPng { Width = width, Height = height, Pixels = pixels };
+            return new DecodedPng { Width = width, Height = height, Pixels = pixels, AlphaMin = alphaMin, AlphaMax = alphaMax };
         }
 
         private static int ReadInt32(byte[] data, int offset) =>
