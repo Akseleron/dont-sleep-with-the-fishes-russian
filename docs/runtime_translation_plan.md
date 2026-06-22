@@ -553,7 +553,8 @@ Runtime-visible text fixes:
 
 Fishing dynamic text:
 
-- `Weight:` exact numeric rows remain removed from `translations/source_queue.tsv`; `weight_rows_left = 0`.
+- Plain `Weight:` exact numeric rows remain removed from `translations/source_queue.tsv`; `weight_rows_left = 0`.
+- The remaining generated rich exact rows, such as `<b>Weight:</b> 12.34kg`, were also removed. Rich exact `<b>Weight:</b> Xkg` rows should stay at 0.
 - Added one suffix key for splitter support:
   - `(+2 Food!)` -> `(+2 еды!)`
 - Added `patches/xunity_autotranslator/BepInEx/Translation/ru/Text/FishingRegex.txt`.
@@ -563,6 +564,7 @@ Fishing dynamic text:
   - `<b>Weight:</b> Xkg` -> `<b>Вес:</b> X кг`
   - splitter regex for `<FishName> (+N Food!)`
 - This still needs runtime testing. If XUnity does not see the dynamic TMP text, the regex file will not help and the next step remains official BruteForceFix testing or a small BepInEx/Harmony runtime formatting plugin.
+- If runtime logs do not show or apply the `Weight` strings, do not restore exact numeric dictionary rows; treat the line as dynamic/unhooked text and use a later BepInEx/Harmony formatter plugin if needed.
 - Detailed notes are in `docs/weight_issue_notes.md`.
 
 Texture export:

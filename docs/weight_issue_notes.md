@@ -19,7 +19,10 @@
   - exact ranges do not cover all possible runtime values, such as `Weight: 25.97kg`;
   - screenshots showed weight still English even when some exact-style entries existed;
   - thousands of generated exact rows made the dictionary noisy without fixing the root problem.
-- Current expected state: `weight_rows_left = 0` in `translations/source_queue.tsv`.
+- Follow-up cleanup also removed the remaining rich exact generated rows such as
+  `<b>Weight:</b> 12.34kg`.
+- Current expected state: plain `Weight: Xkg` rows = 0 and rich exact
+  `<b>Weight:</b> Xkg` rows = 0 in `translations/source_queue.tsv`.
 
 ## Current Minimal XUnity Regex Experiment
 
@@ -58,6 +61,8 @@
 ## Later Options
 
 - If `FishingRegex.txt` works, keep the regex file and do not restore exact numeric ranges.
+- If runtime logs do not show or apply the weight string, keep treating this as
+  dynamic/unhooked text rather than restoring exact dictionary ranges.
 - If XUnity never logs or translates the dynamic value, test official `AutoTranslator.IL2CPP.BruteForceFix` in `game_runtime_test` only.
 - If BruteForceFix fails, implement a small BepInEx/Harmony runtime plugin that patches the fishing result UI formatting directly:
   - `<FishName> (+N Food!)`
