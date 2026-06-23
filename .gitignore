@@ -7,3 +7,15 @@ __pycache__/
 *.pyc
 
 debug_reports/
+
+# Local tools and manual working files
+.tools/
+.tools-gui/
+_manual/
+
+# Python cache
+
+# Runtime logs / generated game files
+BepInEx/LogOutput.log
+BepInEx/ErrorLog.log
+*_wineprefix/
