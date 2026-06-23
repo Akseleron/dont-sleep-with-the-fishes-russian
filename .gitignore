@@ -19,3 +19,7 @@ _manual/
 BepInEx/LogOutput.log
 BepInEx/ErrorLog.log
 *_wineprefix/
+
+# Build and release artifacts
+build/
+dist/**/*.spec

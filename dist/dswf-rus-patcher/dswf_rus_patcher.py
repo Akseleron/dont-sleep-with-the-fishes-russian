@@ -27,7 +27,7 @@ from tkinter import (
 from tkinter import ttk
 
 
-PATCHER_VERSION = "0.1.1"
+PATCHER_VERSION = "0.1.2"
 GAME_EXE = "DontSleepWithTheFishes.exe"
 DATA_DIR_NAME = "DontSleepWithTheFishes_Data"
 PATCH_DIR_NAME = "_dswf_rus_patch"
@@ -412,6 +412,30 @@ def apply_texture_patches(session: InstallSession) -> None:
     session.log(f"Texture report written: {report_path}")
 
 
+
+def raise_if_texture_patch_failed(session: InstallSession) -> None:
+    report = patch_root(session.data_dir) / "texture_patch_report.tsv"
+    if not report.exists():
+        raise RuntimeError(f"Texture patch report not found: {report}")
+
+    failed: list[str] = []
+
+    with report.open("r", encoding="utf-8", newline="") as handle:
+        reader = csv.DictReader(handle, delimiter="\t")
+        for row in reader:
+            if row.get("status") == "failed":
+                asset_file = row.get("asset_file", "?")
+                path_id = row.get("path_id", "?")
+                notes = row.get("notes", "")
+                failed.append(f"{asset_file}:{path_id} {notes}".strip())
+
+    if failed:
+        preview = "\n".join(failed[:12])
+        raise RuntimeError(
+            "Texture patch failed. Installation was stopped because the localization "
+            "would be incomplete.\n" + preview
+        )
+
 def install_patch(game_dir: Path, use_text: bool, use_textures: bool, use_fonts: bool, log) -> None:
     game_dir, data_dir = validate_game_dir(game_dir)
 
@@ -432,6 +456,7 @@ def install_patch(game_dir: Path, use_text: bool, use_textures: bool, use_fonts:
     if use_textures:
         components.append("textures")
         apply_texture_patches(session)
+        raise_if_texture_patch_failed(session)
 
     if use_fonts:
         components.append("fonts_not_implemented")
