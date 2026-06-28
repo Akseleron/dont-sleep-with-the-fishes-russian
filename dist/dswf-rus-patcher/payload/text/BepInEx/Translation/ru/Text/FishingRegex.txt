@@ -3,3 +3,11 @@
 r:"^Weight: ([0-9]+(?:\.[0-9]+)?)kg$"=Вес: $1 кг
 r:"^<b>Weight:</b> ([0-9]+(?:\.[0-9]+)?)kg$"=<b>Вес:</b> $1 кг
 sr:"^(?<fish>[\S\s]+) (?<food>\(\+[0-9]+ Food!\))$"=${fish} ${food}
+# Regex translations for dynamic non-fishing UI prefixes.
+r:"^Nails Left: ([0-9]+)$"=Гвоздей осталось: $1
+r:"^Days Survived: (<size=75><color=#adf1ff>.+)$"=Дней выжито: $1
+r:"^Food Eaten: (<size=75><color=#adf1ff>.+)$"=Еды съедено: $1
+r:"^Fish Caught: (<size=75><color=#adf1ff>.+)$"=Рыбы поймано: $1
+r:"^Items Used: (<size=75><color=#adf1ff>.+)$"=Предметов использовано: $1
+r:"^Cause of Death: (<size=75><color=#ff4400>.+)$"=Причина смерти: $1
+r:"^Company's Note: (<size=70><color=#ffea8c>.+)$"=Заметка компании: $1

@@ -69,6 +69,9 @@ WINEDLLOVERRIDES="winhttp=n,b"
 - Left notification for `Items Found`.
 - Broken item notification for `Item Broken`.
 - Scuba damage notification.
+- Barrel/search/island prompt screens.
+- End/death screen and stats screen.
+- Nail minigame prompt with `Nails Left: N`.
 - Fishing result with plain `Weight: Xkg`, if visible.
 - Fishing result with rich text `<b>Weight:</b> Xkg`, if visible.
 
@@ -84,8 +87,47 @@ WINEDLLOVERRIDES="winhttp=n,b"
 - `Search Results` -> `Результаты`
 - `Item Found` -> `Предмет найден`
 - `Items Found` -> `Найдено:`
+- `Visit the small island?` -> `Посетить островок?`
+- `Get the Barrel!` -> `Достать бочку!`
+- `Support?` -> `Помочь?`
+- `Bait guarantees catches today.` -> `С наживкой улов гарантирован.`
+- `Cause of Death:` -> `Причина смерти:`
+- `Your boat fell apart.` -> `Шлюпка развалилась.`
+- `Days Survived:` -> `Дней выжито:`
+- `Food Eaten:` -> `Еды съедено:`
+- `Fish Caught:` -> `Рыбы поймано:`
+- `Items Used:` -> `Предметов использовано:`
+- `Company's Note:` -> `Заметка компании:`
+- `Calculated risk.` -> `Рассчитанный риск.`
+- `Dragged to the seafloor.` -> `Утащило на дно.`
+- `Everything under control.` -> `Всё под контролем.`
+- `The End` -> `Конец`
+- `Click to Cancel!` -> `Нажмите, чтобы отменить!`
+- `Empty...` -> `Пусто...`
+- `Nails Left: N` -> `Гвоздей осталось: N`
+- `You are unprepared.` -> `Вы не готовы.`
+- `Item Lost` -> `Потеряно`
+- `Items Lost` -> `Потеряно`
+- `You lost an item to the sea.` -> `Предмет унесло в море.`
 - `Weight: Xkg` behavior
 - `<b>Weight:</b> Xkg` behavior
+
+## Known Layout Checks
+
+- Result/search paper overlap: verify whether `Результаты` still overlaps with the visible `ПОИСКА` layer.
+- Search/no-result paper text overlap: verify `Ничего не найдено.` on the no-result paper.
+- Left notification clipping: verify `Предмет найден`, `Найдено:`, `Потеряно`, `Сломано`, and `Шлюпка сломана`.
+- Item card text clipping: verify compact item names, especially `Энергетик` and long item descriptions.
+- End/death screen stats: verify stat labels, company note title, and cause-of-death prefix.
+- Dynamic prefix strings: verify `Nails Left: N` and fish `Weight: Xkg` / `<b>Weight:</b> Xkg`.
+
+## Texture Checks
+
+- `--skip-textures` does not validate texture replacement.
+- Texture validation requires either:
+  - dev install with `--apply-textures`
+  - full GUI patcher texture application
+- Runtime texture replacement must remain disabled; only offline texture patches should be tested.
 
 ## Logs To Collect
 
@@ -99,7 +141,7 @@ rg -n "XUnity|AutoTranslator|DswfRus|RuntimeFix|Translation|ERROR|Exception" gam
 ```
 
 ```bash
-rg -n "Energy Bar|Fishing Net|Flare Gun|Item Broken|Your search did not yield results|You found|Scuba set was damaged|Search Results|Item Found|Items Found|Weight|kg" game_runtime_test_v1_1_3/BepInEx
+rg -n "Energy Bar|Fishing Net|Flare Gun|Item Broken|Item Lost|Items Lost|Your search did not yield results|You found|Scuba set was damaged|Search Results|Item Found|Items Found|Visit the small island|Get the Barrel|Support|Cause of Death|Days Survived|Nails Left|Weight|kg" game_runtime_test_v1_1_3/BepInEx
 ```
 
 ```bash
