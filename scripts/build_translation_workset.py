@@ -55,7 +55,7 @@ KNOWN_FIXES = [
     {
         "source_text": "Item Broken",
         "category": "notification",
-        "recommended_translation": "",
+        "recommended_translation": "Предмет сломан",
         "notes": "Known bug: singular Item Broken remains untranslated.",
     },
     {
@@ -66,6 +66,48 @@ KNOWN_FIXES = [
     },
 ]
 WEIGHT_RE = re.compile(r"\b(?:Weight|kg|Food!\)|Red Snapper|Clownfish|Swordfish|Bass|Sardine|Squid)\b", re.I)
+REAL_ITEM_NAMES = {
+    "Anchor",
+    "Bait",
+    "Broken Anchor",
+    "Broken Compass",
+    "Broken Flashlight",
+    "Broken Harpoon Gun",
+    "Broken Scuba Set",
+    "Broken Telescope",
+    "Bucket",
+    "Can of Worms",
+    "Duct Tape",
+    "Energy Bar",
+    "Fishing Net",
+    "Fishnet",
+    "Flare Gun",
+    "Food",
+    "Harpoon Gun",
+    "Scuba Set",
+    "Torn Fishing Net",
+}
+INTERNAL_EXACT = {
+    "AllVisualItems",
+    "FishedInfoHolder",
+    "Item",
+    "Item Background",
+    "Item Checkmark",
+    "Item Label",
+    "ItemGenerator",
+    "ResultsItems",
+    "RollFriendSearch",
+    "ScubaGoggles",
+    "ScubaImage",
+    "ScubaSearchHud",
+    "SearchAccepted",
+    "SearchDenied",
+}
+OBJECT_ONLY_RE = re.compile(
+    r"^(?:bait|ducttape|flaregun|food_fish|hookgun|net|scuba_set|itemImage|mixamorig:[A-Za-z0-9_:. -]+)"
+    r"(?: \([0-9]+\))?(?: N)?$"
+)
+CAMEL_HELPER_RE = re.compile(r"^[a-z]+(?:[A-Z][A-Za-z0-9]*)+$")
 
 
 def read_tsv(path: Path) -> list[dict[str, str]]:
@@ -158,11 +200,42 @@ def object_context(row: dict[str, str], object_index: dict[tuple[str, str], dict
     return "; ".join(part for part in parts if not part.endswith("="))
 
 
+def is_internal_source_text(source: str) -> bool:
+    stripped = source.strip()
+    if not stripped or stripped in REAL_ITEM_NAMES:
+        return False
+    if stripped in INTERNAL_EXACT:
+        return True
+    if OBJECT_ONLY_RE.match(stripped):
+        return True
+    if stripped.startswith("mixamorig:"):
+        return True
+    if CAMEL_HELPER_RE.match(stripped) and not re.search(r"\s", stripped):
+        return True
+    return False
+
+
+def is_actual_text_field(row: dict[str, str]) -> bool:
+    field = row.get("field_path", "")
+    if field.endswith(("m_Text", ".m_Text")):
+        return True
+    return any(part in field for part in ("TextMeshPro", "TMP_Text", ".text", ".Text"))
+
+
+def workset_priority_status(row: dict[str, str], default_priority: int, default_status: str) -> tuple[int, str]:
+    source = row.get("source_text", "")
+    if is_internal_source_text(source) and not is_actual_text_field(row):
+        return 9, "ignore-technical"
+    return default_priority, default_status
+
+
 def neighbouring(row: dict[str, str]) -> str:
     return " || ".join(part for part in [row.get("context_before", ""), row.get("context_after", "")] if part)
 
 
 def where_to_fix(source: str, category: str, sources_in_queue: set[str]) -> str:
+    if is_internal_source_text(source):
+        return "ignore unless runtime evidence shows this helper/object name is displayed"
     if WEIGHT_RE.search(source):
         return "diagnostic only: choose XUnity regex or runtime plugin strategy; do not add exact numeric rows or bare kg"
     if source in sources_in_queue:
@@ -173,6 +246,8 @@ def where_to_fix(source: str, category: str, sources_in_queue: set[str]) -> str:
 
 
 def risk_for(row: dict[str, str], source: str) -> str:
+    if is_internal_source_text(source):
+        return "none: likely internal object/helper name"
     if WEIGHT_RE.search(source):
         return "high: dynamic runtime formatting and false replacement risk"
     if row.get("status") == "suspicious-mapping":
@@ -265,6 +340,8 @@ def main() -> None:
 
     work_rows: list[dict[str, str]] = []
     for known in KNOWN_FIXES:
+        current = translation_for(known["source_text"], translations)
+        known_status = "done" if known["recommended_translation"] and current == known["recommended_translation"] else "todo"
         fake = {
             "asset_file": "known_visual_ui_bugs",
             "object_type": "manual",
@@ -273,7 +350,7 @@ def main() -> None:
             "field_path": "",
             "source_text": known["source_text"],
             "category": known["category"],
-            "status": "todo",
+            "status": known_status,
             "notes": known["notes"],
         }
         add_row(
@@ -284,26 +361,30 @@ def main() -> None:
             sources_in_queue,
             object_index,
             recommended=known["recommended_translation"],
-            status="todo",
+            status=known_status,
             notes=known["notes"],
         )
 
     for row in mapping:
-        add_row(work_rows, 2, row, translations, sources_in_queue, object_index, status=row.get("status") or "needs-review")
+        priority, status = workset_priority_status(row, 2, row.get("status") or "needs-review")
+        add_row(work_rows, priority, row, translations, sources_in_queue, object_index, status=status)
 
     for row in untranslated:
         if row.get("object_type") == "TextAsset" or row.get("category") in {"event", "dialogue"}:
-            add_row(work_rows, 3, row, translations, sources_in_queue, object_index)
+            priority, status = workset_priority_status(row, 3, "needs-review")
+            add_row(work_rows, priority, row, translations, sources_in_queue, object_index, status=status)
 
     for row in inv113:
         if row.get("version") != "v1.1.3":
             continue
         if row.get("normalized_source_text", "") not in old_norms:
-            add_row(work_rows, 4, row, translations, sources_in_queue, object_index, status="new-v1.1.3")
+            priority, status = workset_priority_status(row, 4, "new-v1.1.3")
+            add_row(work_rows, priority, row, translations, sources_in_queue, object_index, status=status)
 
     for row in untranslated:
         if row.get("category") in {"ui", "item", "notification", "result/search"}:
-            add_row(work_rows, 5, row, translations, sources_in_queue, object_index)
+            priority, status = workset_priority_status(row, 5, "todo")
+            add_row(work_rows, priority, row, translations, sources_in_queue, object_index, status=status)
 
     for row in [*untranslated, *binary_weight_rows()]:
         if WEIGHT_RE.search(row.get("source_text", "")):
