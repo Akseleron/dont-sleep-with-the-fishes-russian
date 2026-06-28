@@ -7,6 +7,7 @@ r:"^([\S\s]*?)([\r\n]+)Weight: ([0-9]+(?:\.[0-9]+)?)kg([\S\s]*)$"=$1$2Вес: $3
 sr:"^(?<fish>[\S\s]+) (?<food>\(\+[0-9]+ Food!\))$"=${fish} ${food}
 # Regex translations for dynamic non-fishing UI prefixes.
 r:"^Nails Left: ([0-9]+)$"=Гвоздей осталось: $1
+r:"^Runs: ([0-9]+) Record: ([0-9]+) Days$"=Забегов: $1 Рекорд: $2 дн.
 r:"^Days Survived: (<size=75><color=#adf1ff>.+)$"=Дней выжито: $1
 r:"^Food Eaten: (<size=75><color=#adf1ff>.+)$"=Еды съедено: $1
 r:"^Fish Caught: (<size=75><color=#adf1ff>.+)$"=Рыбы поймано: $1

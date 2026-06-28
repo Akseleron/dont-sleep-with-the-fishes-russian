@@ -32,6 +32,79 @@ Default dev install does not patch Unity assets and does not apply offline textu
 .venv-tools/bin/python scripts/dev_install_to_game.py game_runtime_test_v1_1_3 --clean-bepinex --skip-textures
 ```
 
+## Windows Audit Patch Workflow
+
+Build the Windows audit patch ZIP without game files:
+
+```bash
+.venv-tools/bin/python scripts/package_windows_audit_patch.py
+```
+
+Generated ZIP:
+
+```text
+build/dswf-rus-audit-patch-v1.1.3-windows.zip
+```
+
+Send this ZIP to testers. They should extract it into their own folder containing `DontSleepWithTheFishes.exe`, then run:
+
+```text
+run_dswf_rus_audit.bat
+```
+
+The audit ZIP enables:
+
+```ini
+EnableVisibleTextAudit = true
+VisibleTextAuditMode = AllText
+VisibleTextAuditIntervalSeconds = 0.25
+VisibleTextAuditMaxScansPerScene = 200
+```
+
+Normal tracked payload config must remain:
+
+```ini
+EnableVisibleTextAudit = false
+```
+
+## Tester Log Collection
+
+After closing the game, Windows testers run:
+
+```text
+collect_audit_logs.bat
+```
+
+They should send back:
+
+```text
+dswf_audit_logs_<COMPUTERNAME>_<YYYYMMDD_HHMMSS>.zip
+```
+
+The collector includes `BepInEx/dswf_audit/`, `LogOutput.log`, `ErrorLog.log` if present, runtime config, and `tester_notes.txt`. It must not include game files.
+
+## Merge Tester Logs
+
+Put returned ZIPs into an ignored local folder:
+
+```text
+tester_audits/
+```
+
+Then run:
+
+```bash
+.venv-tools/bin/python scripts/merge_tester_audits.py tester_audits
+```
+
+Review:
+
+- `docs/v1_1_3_merged_runtime_visible_text_by_location.tsv`
+- `docs/v1_1_3_merged_runtime_visible_text_by_text.tsv`
+- `docs/v1_1_3_merged_runtime_english_review.tsv`
+- `docs/v1_1_3_merged_runtime_layout_risk.tsv`
+- `docs/v1_1_3_tester_audit_merge_report.md`
+
 After every translation/runtime-plugin commit, reinstall the dev payload before testing:
 
 ```bash
@@ -66,7 +139,7 @@ WINEDLLOVERRIDES="winhttp=n,b"
 
 ## Visible English Audit
 
-The runtime plugin includes a disabled development audit for visible English text. To enable it for a test run, edit:
+The runtime plugin includes a disabled development audit for visible text. To enable it for a manual dev test run, edit:
 
 ```text
 game_runtime_test_v1_1_3/BepInEx/config/ru.dswf.runtimefix.cfg
@@ -76,6 +149,7 @@ Set:
 
 ```ini
 EnableVisibleTextAudit = true
+VisibleTextAuditMode = AllText
 VisibleTextAuditIntervalSeconds = 1
 VisibleTextAuditMaxScansPerScene = 30
 ```
@@ -83,17 +157,17 @@ VisibleTextAuditMaxScansPerScene = 30
 Then launch normally with `./run_dswf_rus.sh`. The audit writes:
 
 ```text
-game_runtime_test_v1_1_3/BepInEx/visible_english_audit.tsv
+game_runtime_test_v1_1_3/BepInEx/dswf_audit/
 ```
 
 Collect this file after runtime testing, but do not commit it. Useful inspection commands:
 
 ```bash
-column -t -s $'\t' game_runtime_test_v1_1_3/BepInEx/visible_english_audit.tsv | less -S
+find game_runtime_test_v1_1_3/BepInEx/dswf_audit -maxdepth 3 -type f | sort
 ```
 
 ```bash
-rg -n "OptionsMenu|HealthStatusHUD|FriendSupportPanel|LeftNotification|FishingResultCard|EndingStatsScreen|UnknownNeedsContext" game_runtime_test_v1_1_3/BepInEx/visible_english_audit.tsv
+rg -n "OptionsMenu|HealthStatusHUD|FriendSupportPanel|LeftNotification|FishingResultCard|EndingStatsScreen|UnknownNeedsContext|mixed|layout" game_runtime_test_v1_1_3/BepInEx/dswf_audit
 ```
 
 ## Screenshots To Capture
@@ -191,6 +265,14 @@ rg -n "OptionsMenu|HealthStatusHUD|FriendSupportPanel|LeftNotification|FishingRe
 - Item card text clipping: verify compact item names/descriptions, especially `Энергетик`, `Компас сломан`, `Акваланг сломан`, `Можно починить.`, and `Намокло, но читаемо.`
 - End/death screen stats: verify stat labels, company note title, and cause-of-death prefix.
 - Dynamic prefix strings: verify `Nails Left: N` and fish `Weight: Xkg` / `<b>Weight:</b> Xkg`.
+- Main menu stats: verify `Runs: X Record: Y Days` becomes `Забегов: X Рекорд: Y дн.`
+- Mixed RU/EN ending lines: verify `Company's Note: "Everything under control."` and Russian-prefix/English-note variants.
+
+All-text audit notes:
+
+- `AllText` captures Russian and English text, so it can find clipping/awkward Russian.
+- `visible_mixed_ru_en_unique.tsv` is the first place to check for partially translated runtime strings.
+- `layout_risk.tsv` is heuristic; confirm real visual problems with screenshots.
 
 ## UI Block Checks
 

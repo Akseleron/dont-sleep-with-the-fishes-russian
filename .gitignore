@@ -25,3 +25,4 @@ BepInEx/ErrorLog.log
 build/
 dist/**/*.spec
 game_runtime_test_v1_1_3/
+tester_audits/

@@ -34,8 +34,16 @@ public sealed class Plugin : BasePlugin
     internal static ConfigEntry<bool> DumpVisibleTextureNames;
     internal static ConfigEntry<bool> DumpVisibleTextFit;
     internal static ConfigEntry<bool> EnableVisibleTextAudit;
+    internal static ConfigEntry<string> VisibleTextAuditMode;
     internal static ConfigEntry<float> VisibleTextAuditIntervalSeconds;
     internal static ConfigEntry<int> VisibleTextAuditMaxScansPerScene;
+    internal static ConfigEntry<string> VisibleTextAuditOutputRoot;
+    internal static ConfigEntry<bool> VisibleTextAuditWriteRawSession;
+    internal static ConfigEntry<bool> VisibleTextAuditWriteUniqueSession;
+    internal static ConfigEntry<bool> VisibleTextAuditWriteGlobalUnique;
+    internal static ConfigEntry<bool> VisibleTextAuditIncludeLayoutRisk;
+    internal static ConfigEntry<string> VisibleTextAuditTesterId;
+    internal static ConfigEntry<float> VisibleTextAuditMinIntervalForAllText;
     internal static ConfigEntry<string> FontFileName;
     internal static ConfigEntry<float> StartupScanSeconds;
     internal static ConfigEntry<bool> PatchMainMenuTitle;
@@ -61,8 +69,16 @@ public sealed class Plugin : BasePlugin
         DumpVisibleTextureNames = Config.Bind("Diagnostics", "DumpVisibleTextureNames", true, "Write visible texture/component names to ../debug_reports/runtime_visible_texture_names.tsv during scans.");
         DumpVisibleTextFit = Config.Bind("Diagnostics", "DumpVisibleTextFit", true, "Write visible TMP/UI text fit data to ../debug_reports/ui_text_fit_inventory.tsv during scans.");
         EnableVisibleTextAudit = Config.Bind("Diagnostics", "EnableVisibleTextAudit", false, "Development only: write likely English visible UI text to BepInEx/visible_english_audit.tsv. Does not modify text.");
+        VisibleTextAuditMode = Config.Bind("Diagnostics", "VisibleTextAuditMode", "EnglishOnly", "Visible text audit mode: EnglishOnly, MixedRuEn, or AllText.");
         VisibleTextAuditIntervalSeconds = Config.Bind("Diagnostics", "VisibleTextAuditIntervalSeconds", 1.0f, "Seconds between visible-English audit scans while the scene startup scan window is active.");
         VisibleTextAuditMaxScansPerScene = Config.Bind("Diagnostics", "VisibleTextAuditMaxScansPerScene", 30, "Maximum visible-English audit scans per scene.");
+        VisibleTextAuditOutputRoot = Config.Bind("Diagnostics", "VisibleTextAuditOutputRoot", "BepInEx/dswf_audit", "Visible text audit output folder, relative to the game root unless rooted.");
+        VisibleTextAuditWriteRawSession = Config.Bind("Diagnostics", "VisibleTextAuditWriteRawSession", true, "Write per-session raw visible text rows.");
+        VisibleTextAuditWriteUniqueSession = Config.Bind("Diagnostics", "VisibleTextAuditWriteUniqueSession", true, "Write per-session deduplicated visible text files.");
+        VisibleTextAuditWriteGlobalUnique = Config.Bind("Diagnostics", "VisibleTextAuditWriteGlobalUnique", true, "Maintain cumulative deduplicated visible text files under the audit root.");
+        VisibleTextAuditIncludeLayoutRisk = Config.Bind("Diagnostics", "VisibleTextAuditIncludeLayoutRisk", true, "Calculate layout-risk columns and reports for visible text audit rows.");
+        VisibleTextAuditTesterId = Config.Bind("Diagnostics", "VisibleTextAuditTesterId", "auto", "Tester identifier for visible text audit session folders. Use auto for machine/user fallback.");
+        VisibleTextAuditMinIntervalForAllText = Config.Bind("Diagnostics", "VisibleTextAuditMinIntervalForAllText", 0.25f, "Minimum seconds between scans when VisibleTextAuditMode=AllText.");
         StartupScanSeconds = Config.Bind("Diagnostics", "StartupScanSeconds", 15f, "Scan repeatedly for this many seconds after startup/scene load.");
 
         try
@@ -107,10 +123,27 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     private string reportPath;
     private string componentReportPath;
     private string textFitReportPath;
-    private string visibleEnglishAuditPath;
+    private string visibleAuditRootPath;
+    private string visibleAuditSessionPath;
+    private string visibleAuditRawPath;
+    private string visibleAuditSessionId;
+    private string visibleAuditTesterId;
     private string lastSceneName;
     private float nextVisibleTextAuditScan;
     private int visibleTextAuditScanCountForScene;
+    private int visibleTextAuditTotalScans;
+    private int visibleTextAuditLastScanned;
+    private int visibleTextAuditLastWritten;
+    private readonly Dictionary<string, AuditAggregate> sessionUniqueByLocation = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, AuditAggregate> sessionUniqueByText = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, AuditAggregate> sessionEnglishUnique = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, AuditAggregate> sessionMixedUnique = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, AuditAggregate> sessionLayoutRisk = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, AuditAggregate> globalUniqueByLocation = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, AuditAggregate> globalUniqueByText = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, AuditAggregate> globalEnglishUnique = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, AuditAggregate> globalMixedUnique = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, AuditAggregate> globalLayoutRisk = new(StringComparer.Ordinal);
     private readonly List<Sprite> createdReplacementSprites = new();
 
     public RuntimeFixBehaviour(IntPtr ptr) : base(ptr) { }
@@ -123,7 +156,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         reportPath = BuildDebugReportPath("runtime_visible_texture_targets.tsv");
         componentReportPath = BuildDebugReportPath("runtime_problem_texture_components.tsv");
         textFitReportPath = BuildDebugReportPath("ui_text_fit_inventory.tsv");
-        visibleEnglishAuditPath = BuildGameBepInExPath("visible_english_audit.tsv");
+        InitVisibleTextAuditSession();
         Plugin.LogSource.LogInfo("RuntimeFixBehaviour started. scene=" + lastSceneName);
         LoadReplacements();
         TrySetupFont();
@@ -378,7 +411,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         if (Plugin.DumpVisibleTextureNames.Value) DumpVisibleTextureNames(reason);
         if (Plugin.DumpVisibleTextureNames.Value) DumpProblemComponents(reason);
         if (Plugin.DumpVisibleTextFit.Value) DumpVisibleTextFit(reason);
-        if (Plugin.EnableVisibleTextAudit.Value) DumpVisibleEnglishAudit(reason);
+        if (Plugin.EnableVisibleTextAudit.Value) DumpVisibleTextAudit(reason);
         Plugin.LogSource.LogInfo($"Scan {scanCount} ({reason}) complete. TMP patched={tmp}, Images={images}, RawImages={raw}, SpriteRenderers={sprites}, Renderers={renderers}");
     }
 
@@ -1057,90 +1090,162 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         }
     }
 
-    private void DumpVisibleEnglishAudit(string reason)
+    [HideFromIl2Cpp]
+    private void InitVisibleTextAuditSession()
     {
+        if (!Plugin.EnableVisibleTextAudit.Value) return;
         try
         {
-            if (string.IsNullOrEmpty(visibleEnglishAuditPath)) return;
-            if (visibleTextAuditScanCountForScene >= Math.Max(0, Plugin.VisibleTextAuditMaxScansPerScene.Value)) return;
-
-            var now = Time.realtimeSinceStartup;
-            if (now < nextVisibleTextAuditScan) return;
-            nextVisibleTextAuditScan = now + Math.Max(0.1f, Plugin.VisibleTextAuditIntervalSeconds.Value);
-            visibleTextAuditScanCountForScene++;
-
-            var first = !File.Exists(visibleEnglishAuditPath);
-            var scanned = 0;
-            var found = 0;
-            using var writer = new StreamWriter(visibleEnglishAuditPath, append: true);
-            if (first)
-            {
-                writer.WriteLine("scene\tscan_number\tcomponent_type\tgameobject_name\tfull_transform_path\tcurrent_text\tnormalized_text\tparent_path_block_guess\trect_width\trect_height\tfont_size\tactive_in_hierarchy\tnotes");
-            }
-
-            foreach (var text in Resources.FindObjectsOfTypeAll<TMP_Text>())
-            {
-                if (text == null || text.gameObject == null) continue;
-                if (!text.gameObject.activeInHierarchy || !text.enabled) continue;
-                scanned++;
-                var currentText = SafeText(() => text.text);
-                if (!IsLikelyVisibleEnglish(currentText)) continue;
-                found++;
-                var rect = SafeRectSize(text.rectTransform);
-                WriteVisibleEnglishAuditRow(writer, text, text.gameObject, currentText, rect, text.fontSize, "TMP_Text");
-            }
-
-            foreach (var text in Resources.FindObjectsOfTypeAll<UnityEngine.UI.Text>())
-            {
-                if (text == null || text.gameObject == null) continue;
-                if (!text.gameObject.activeInHierarchy || !text.enabled) continue;
-                scanned++;
-                var currentText = SafeText(() => text.text);
-                if (!IsLikelyVisibleEnglish(currentText)) continue;
-                found++;
-                var rect = SafeRectSize(text.GetComponent<RectTransform>());
-                WriteVisibleEnglishAuditRow(writer, text, text.gameObject, currentText, rect, text.fontSize, "UnityEngine.UI.Text");
-            }
-
-            Plugin.LogSource.LogInfo($"Visible English audit scan {visibleTextAuditScanCountForScene}: scanned={scanned}, likelyEnglish={found}, path='{visibleEnglishAuditPath}'");
+            visibleAuditTesterId = ResolveTesterId(Plugin.VisibleTextAuditTesterId.Value);
+            visibleAuditSessionId = "session_" + DateTime.UtcNow.ToString("yyyyMMdd_HHmmss", CultureInfo.InvariantCulture) + "_" + SanitizeFileName(visibleAuditTesterId);
+            visibleAuditRootPath = ResolveAuditRootPath(Plugin.VisibleTextAuditOutputRoot.Value);
+            visibleAuditSessionPath = Path.Combine(visibleAuditRootPath, "sessions", visibleAuditSessionId);
+            visibleAuditRawPath = Path.Combine(visibleAuditSessionPath, "visible_text_raw.tsv");
+            Directory.CreateDirectory(visibleAuditSessionPath);
+            if (Plugin.VisibleTextAuditWriteGlobalUnique.Value) LoadGlobalVisibleAuditAggregates();
+            WriteSessionSummary();
+            Plugin.LogSource.LogInfo($"Visible text audit enabled. mode={Plugin.VisibleTextAuditMode.Value}, session='{visibleAuditSessionId}', root='{visibleAuditRootPath}'");
         }
         catch (Exception ex)
         {
-            Plugin.LogSource.LogWarning("Visible English audit failed: " + ex.Message);
+            Plugin.LogSource.LogWarning("Visible text audit session init failed: " + ex.Message);
+            visibleAuditRootPath = null;
+            visibleAuditSessionPath = null;
+            visibleAuditRawPath = null;
         }
     }
 
-    private void WriteVisibleEnglishAuditRow(StreamWriter writer, Component component, GameObject go, string currentText, Vector2 rect, float fontSize, string fallbackType)
+    [HideFromIl2Cpp]
+    private void DumpVisibleTextAudit(string reason)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(visibleAuditSessionPath)) InitVisibleTextAuditSession();
+            if (string.IsNullOrEmpty(visibleAuditSessionPath)) return;
+            if (visibleTextAuditScanCountForScene >= Math.Max(0, Plugin.VisibleTextAuditMaxScansPerScene.Value)) return;
+
+            var mode = NormalizedAuditMode();
+            var now = Time.realtimeSinceStartup;
+            var requestedInterval = Math.Max(0.1f, Plugin.VisibleTextAuditIntervalSeconds.Value);
+            if (mode == "AllText") requestedInterval = Math.Max(Plugin.VisibleTextAuditMinIntervalForAllText.Value, requestedInterval);
+            if (now < nextVisibleTextAuditScan) return;
+            nextVisibleTextAuditScan = now + requestedInterval;
+            visibleTextAuditScanCountForScene++;
+            visibleTextAuditTotalScans++;
+
+            var records = new List<AuditRecord>();
+            var scanned = 0;
+            CollectTmpAuditRecords(records, ref scanned);
+            CollectUnityTextAuditRecords(records, ref scanned);
+
+            var written = 0;
+            foreach (var record in records)
+            {
+                if (!ShouldWriteAuditRecord(record, mode)) continue;
+                written++;
+                if (Plugin.VisibleTextAuditWriteRawSession.Value) AppendRawAuditRecord(record);
+                AddAuditRecordToAggregates(record);
+            }
+
+            if (Plugin.VisibleTextAuditWriteUniqueSession.Value) WriteSessionUniqueFiles();
+            if (Plugin.VisibleTextAuditWriteGlobalUnique.Value) WriteGlobalUniqueFiles();
+            visibleTextAuditLastScanned = scanned;
+            visibleTextAuditLastWritten = written;
+            WriteSessionSummary();
+            if (Plugin.VisibleTextAuditWriteGlobalUnique.Value) WriteGlobalAuditSummary();
+            Plugin.LogSource.LogInfo($"Visible text audit scan {visibleTextAuditTotalScans}: mode={mode}, scanned={scanned}, written={written}, session='{visibleAuditSessionId}', root='{visibleAuditRootPath}'");
+        }
+        catch (Exception ex)
+        {
+            Plugin.LogSource.LogWarning("Visible text audit failed: " + ex.Message);
+        }
+    }
+
+    [HideFromIl2Cpp]
+    private void CollectTmpAuditRecords(List<AuditRecord> records, ref int scanned)
+    {
+        foreach (var text in Resources.FindObjectsOfTypeAll<TMP_Text>())
+        {
+            if (text == null || text.gameObject == null) continue;
+            if (!text.gameObject.activeInHierarchy || !text.enabled) continue;
+            scanned++;
+            var currentText = SafeText(() => text.text);
+            var rect = SafeRectSize(text.rectTransform);
+            records.Add(BuildAuditRecord(text, text.gameObject, currentText, rect, text.fontSize, SafeFloat(() => text.preferredWidth), SafeFloat(() => text.preferredHeight), "TMP_Text", ""));
+        }
+    }
+
+    [HideFromIl2Cpp]
+    private void CollectUnityTextAuditRecords(List<AuditRecord> records, ref int scanned)
+    {
+        foreach (var text in Resources.FindObjectsOfTypeAll<UnityEngine.UI.Text>())
+        {
+            if (text == null || text.gameObject == null) continue;
+            if (!text.gameObject.activeInHierarchy || !text.enabled) continue;
+            scanned++;
+            var currentText = SafeText(() => text.text);
+            var rect = SafeRectSize(text.GetComponent<RectTransform>());
+            records.Add(BuildAuditRecord(text, text.gameObject, currentText, rect, text.fontSize, SafeFloat(() => text.preferredWidth), SafeFloat(() => text.preferredHeight), "UnityEngine.UI.Text", "overflow_not_available"));
+        }
+    }
+
+    [HideFromIl2Cpp]
+    private AuditRecord BuildAuditRecord(Component component, GameObject go, string currentText, Vector2 rect, float fontSize, float preferredWidth, float preferredHeight, string fallbackType, string baseNotes)
     {
         var path = SafeObjectPath(go);
         var normalized = NormalizeVisibleText(currentText);
-        writer.WriteLine(string.Join("\t", new[]
+        var block = GuessVisibleTextBlock(path, normalized);
+        var hasLatin = HasLatin(normalized);
+        var hasCyrillic = ContainsCyrillic(normalized);
+        var technical = IsTechnicalVisibleText(normalized);
+        var englishLikely = hasLatin && !hasCyrillic && !technical && EnglishWord.IsMatch(normalized);
+        var mixed = hasLatin && hasCyrillic && !technical;
+        var layoutNotes = "";
+        var overflowEstimated = Plugin.VisibleTextAuditIncludeLayoutRisk.Value && IsLayoutRisk(block, normalized, rect, preferredWidth, preferredHeight, out layoutNotes);
+        var notes = JoinNotes(baseNotes, technical ? "technical_or_branding" : "", VisibleTextNotes(currentText, rect), layoutNotes);
+        return new AuditRecord
         {
-            Tsv(SafeSceneName()),
-            visibleTextAuditScanCountForScene.ToString(CultureInfo.InvariantCulture),
-            Tsv(ComponentTypeName(component) ?? fallbackType),
-            Tsv(go != null ? go.name : ""),
-            Tsv(path),
-            Tsv(currentText),
-            Tsv(normalized),
-            Tsv(GuessVisibleTextBlock(path, normalized)),
-            rect.x.ToString(CultureInfo.InvariantCulture),
-            rect.y.ToString(CultureInfo.InvariantCulture),
-            fontSize.ToString(CultureInfo.InvariantCulture),
-            (go != null && go.activeInHierarchy).ToString(),
-            Tsv(VisibleEnglishNotes(currentText, rect)),
-        }));
+            SessionId = visibleAuditSessionId ?? "",
+            TesterId = visibleAuditTesterId ?? "",
+            TimestampUtc = DateTime.UtcNow.ToString("o", CultureInfo.InvariantCulture),
+            Scene = SafeSceneName(),
+            ScanNumber = visibleTextAuditScanCountForScene,
+            ComponentType = ComponentTypeName(component) ?? fallbackType,
+            GameObjectName = go != null ? go.name : "",
+            FullTransformPath = path,
+            CurrentText = currentText ?? "",
+            NormalizedText = normalized,
+            BlockGuess = block,
+            RectWidth = rect.x,
+            RectHeight = rect.y,
+            FontSize = fontSize,
+            PreferredWidth = preferredWidth,
+            PreferredHeight = preferredHeight,
+            IsOverflowing = overflowEstimated,
+            ActiveInHierarchy = go != null && go.activeInHierarchy,
+            HasLatin = hasLatin,
+            HasCyrillic = hasCyrillic,
+            IsEnglishLikely = englishLikely,
+            IsMixedRuEn = mixed,
+            IsLayoutRisk = overflowEstimated,
+            Notes = notes,
+        };
     }
 
-    private static bool IsLikelyVisibleEnglish(string text)
+    private static bool ShouldWriteAuditRecord(AuditRecord record, string mode)
     {
-        if (string.IsNullOrWhiteSpace(text)) return false;
-        var normalized = NormalizeVisibleText(text);
-        if (normalized.Length < 2) return false;
-        if (ContainsCyrillic(normalized)) return false;
-        if (!EnglishWord.IsMatch(normalized)) return false;
-        if (TechnicalVisibleText.IsMatch(normalized)) return false;
-        return true;
+        if (string.IsNullOrWhiteSpace(record.NormalizedText)) return false;
+        if (mode == "AllText") return true;
+        if (mode == "MixedRuEn") return record.IsEnglishLikely || record.IsMixedRuEn || record.IsLayoutRisk;
+        return record.IsEnglishLikely;
+    }
+
+    private string NormalizedAuditMode()
+    {
+        var mode = (Plugin.VisibleTextAuditMode.Value ?? "EnglishOnly").Trim();
+        if (string.Equals(mode, "AllText", StringComparison.OrdinalIgnoreCase)) return "AllText";
+        if (string.Equals(mode, "MixedRuEn", StringComparison.OrdinalIgnoreCase)) return "MixedRuEn";
+        return "EnglishOnly";
     }
 
     private static string NormalizeVisibleText(string text)
@@ -1170,13 +1275,262 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         return "UnknownNeedsContext";
     }
 
-    private static string VisibleEnglishNotes(string text, Vector2 rect)
+    [HideFromIl2Cpp]
+    private void AppendRawAuditRecord(AuditRecord record)
+    {
+        var first = !File.Exists(visibleAuditRawPath);
+        using var writer = new StreamWriter(visibleAuditRawPath, append: true);
+        if (first)
+        {
+            writer.WriteLine("session_id\ttester_id\ttimestamp_utc\tscene\tscan_number\tcomponent_type\tgameobject_name\tfull_transform_path\tcurrent_text\tnormalized_text\tblock_guess\trect_width\trect_height\tfont_size\tpreferred_width\tpreferred_height\tis_overflowing\tactive_in_hierarchy\thas_latin\thas_cyrillic\tis_english_likely\tis_mixed_ru_en\tis_layout_risk\tnotes");
+        }
+        writer.WriteLine(record.RawTsvRow());
+    }
+
+    [HideFromIl2Cpp]
+    private void AddAuditRecordToAggregates(AuditRecord record)
+    {
+        UpsertAggregate(sessionUniqueByLocation, LocationKey(record), record);
+        UpsertAggregate(sessionUniqueByText, TextKey(record), record);
+        if (record.IsEnglishLikely) UpsertAggregate(sessionEnglishUnique, TextKey(record), record);
+        if (record.IsMixedRuEn) UpsertAggregate(sessionMixedUnique, TextKey(record), record);
+        if (record.IsLayoutRisk) UpsertAggregate(sessionLayoutRisk, LocationKey(record), record);
+        if (!Plugin.VisibleTextAuditWriteGlobalUnique.Value) return;
+        UpsertAggregate(globalUniqueByLocation, LocationKey(record), record);
+        UpsertAggregate(globalUniqueByText, TextKey(record), record);
+        if (record.IsEnglishLikely) UpsertAggregate(globalEnglishUnique, TextKey(record), record);
+        if (record.IsMixedRuEn) UpsertAggregate(globalMixedUnique, TextKey(record), record);
+        if (record.IsLayoutRisk) UpsertAggregate(globalLayoutRisk, LocationKey(record), record);
+    }
+
+    [HideFromIl2Cpp]
+    private void WriteSessionUniqueFiles()
+    {
+        WriteAggregateFile(Path.Combine(visibleAuditSessionPath, "visible_text_unique_by_location.tsv"), sessionUniqueByLocation);
+        WriteAggregateFile(Path.Combine(visibleAuditSessionPath, "visible_text_unique_by_text.tsv"), sessionUniqueByText);
+        WriteAggregateFile(Path.Combine(visibleAuditSessionPath, "visible_english_unique.tsv"), sessionEnglishUnique);
+        WriteAggregateFile(Path.Combine(visibleAuditSessionPath, "visible_mixed_ru_en_unique.tsv"), sessionMixedUnique);
+        WriteAggregateFile(Path.Combine(visibleAuditSessionPath, "layout_risk.tsv"), sessionLayoutRisk);
+    }
+
+    [HideFromIl2Cpp]
+    private void WriteGlobalUniqueFiles()
+    {
+        WriteAggregateFile(Path.Combine(visibleAuditRootPath, "all_unique_visible_text_by_location.tsv"), globalUniqueByLocation);
+        WriteAggregateFile(Path.Combine(visibleAuditRootPath, "all_unique_visible_text_by_text.tsv"), globalUniqueByText);
+        WriteAggregateFile(Path.Combine(visibleAuditRootPath, "all_unique_english_text.tsv"), globalEnglishUnique);
+        WriteAggregateFile(Path.Combine(visibleAuditRootPath, "all_unique_mixed_ru_en_text.tsv"), globalMixedUnique);
+        WriteAggregateFile(Path.Combine(visibleAuditRootPath, "all_layout_risk.tsv"), globalLayoutRisk);
+    }
+
+    [HideFromIl2Cpp]
+    private static void WriteAggregateFile(string path, Dictionary<string, AuditAggregate> rows)
+    {
+        Directory.CreateDirectory(Path.GetDirectoryName(path));
+        using var writer = new StreamWriter(path, append: false);
+        writer.WriteLine(AuditAggregate.Header);
+        foreach (var row in rows.OrderBy(r => r.Value.BlockGuess).ThenBy(r => r.Value.NormalizedText, StringComparer.OrdinalIgnoreCase).ThenBy(r => r.Value.FullTransformPath, StringComparer.Ordinal))
+        {
+            writer.WriteLine(row.Value.ToTsvRow(row.Key));
+        }
+    }
+
+    [HideFromIl2Cpp]
+    private void LoadGlobalVisibleAuditAggregates()
+    {
+        LoadAggregateFile(Path.Combine(visibleAuditRootPath, "all_unique_visible_text_by_location.tsv"), globalUniqueByLocation);
+        LoadAggregateFile(Path.Combine(visibleAuditRootPath, "all_unique_visible_text_by_text.tsv"), globalUniqueByText);
+        LoadAggregateFile(Path.Combine(visibleAuditRootPath, "all_unique_english_text.tsv"), globalEnglishUnique);
+        LoadAggregateFile(Path.Combine(visibleAuditRootPath, "all_unique_mixed_ru_en_text.tsv"), globalMixedUnique);
+        LoadAggregateFile(Path.Combine(visibleAuditRootPath, "all_layout_risk.tsv"), globalLayoutRisk);
+    }
+
+    [HideFromIl2Cpp]
+    private static void LoadAggregateFile(string path, Dictionary<string, AuditAggregate> target)
+    {
+        if (!File.Exists(path)) return;
+        var lines = File.ReadAllLines(path);
+        if (lines.Length < 2) return;
+        var headers = lines[0].Split('\t');
+        var index = new Dictionary<string, int>(StringComparer.Ordinal);
+        for (var i = 0; i < headers.Length; i++) index[headers[i]] = i;
+        for (var i = 1; i < lines.Length; i++)
+        {
+            if (string.IsNullOrWhiteSpace(lines[i])) continue;
+            var parts = lines[i].Split('\t');
+            var key = GetTsv(parts, index, "key");
+            if (string.IsNullOrEmpty(key)) continue;
+            target[key] = AuditAggregate.FromTsv(parts, index);
+        }
+    }
+
+    [HideFromIl2Cpp]
+    private void WriteSessionSummary()
+    {
+        if (string.IsNullOrEmpty(visibleAuditSessionPath)) return;
+        var path = Path.Combine(visibleAuditSessionPath, "session_summary.txt");
+        File.WriteAllLines(path, new[]
+        {
+            "DSWF Russian visible text audit session",
+            "session_id=" + (visibleAuditSessionId ?? ""),
+            "tester_id=" + (visibleAuditTesterId ?? ""),
+            "timestamp_utc=" + DateTime.UtcNow.ToString("o", CultureInfo.InvariantCulture),
+            "mode=" + NormalizedAuditMode(),
+            "raw_rows_last_scan=" + visibleTextAuditLastWritten.ToString(CultureInfo.InvariantCulture),
+            "components_scanned_last_scan=" + visibleTextAuditLastScanned.ToString(CultureInfo.InvariantCulture),
+            "total_scans=" + visibleTextAuditTotalScans.ToString(CultureInfo.InvariantCulture),
+            "unique_by_location=" + sessionUniqueByLocation.Count.ToString(CultureInfo.InvariantCulture),
+            "unique_by_text=" + sessionUniqueByText.Count.ToString(CultureInfo.InvariantCulture),
+            "english_unique=" + sessionEnglishUnique.Count.ToString(CultureInfo.InvariantCulture),
+            "mixed_ru_en_unique=" + sessionMixedUnique.Count.ToString(CultureInfo.InvariantCulture),
+            "layout_risk=" + sessionLayoutRisk.Count.ToString(CultureInfo.InvariantCulture),
+        });
+    }
+
+    [HideFromIl2Cpp]
+    private void WriteGlobalAuditSummary()
+    {
+        if (string.IsNullOrEmpty(visibleAuditRootPath)) return;
+        var path = Path.Combine(visibleAuditRootPath, "audit_summary.txt");
+        File.WriteAllLines(path, new[]
+        {
+            "DSWF Russian visible text audit cumulative summary",
+            "timestamp_utc=" + DateTime.UtcNow.ToString("o", CultureInfo.InvariantCulture),
+            "last_session_id=" + (visibleAuditSessionId ?? ""),
+            "last_tester_id=" + (visibleAuditTesterId ?? ""),
+            "unique_by_location=" + globalUniqueByLocation.Count.ToString(CultureInfo.InvariantCulture),
+            "unique_by_text=" + globalUniqueByText.Count.ToString(CultureInfo.InvariantCulture),
+            "english_unique=" + globalEnglishUnique.Count.ToString(CultureInfo.InvariantCulture),
+            "mixed_ru_en_unique=" + globalMixedUnique.Count.ToString(CultureInfo.InvariantCulture),
+            "layout_risk=" + globalLayoutRisk.Count.ToString(CultureInfo.InvariantCulture),
+        });
+    }
+
+    private static void UpsertAggregate(Dictionary<string, AuditAggregate> rows, string key, AuditRecord record)
+    {
+        if (!rows.TryGetValue(key, out var aggregate))
+        {
+            rows[key] = AuditAggregate.FromRecord(record);
+            return;
+        }
+        aggregate.Update(record);
+    }
+
+    private static string LocationKey(AuditRecord record) => record.Scene + "\u001f" + record.FullTransformPath + "\u001f" + record.NormalizedText;
+
+    private static string TextKey(AuditRecord record) => record.NormalizedText;
+
+    private static bool IsLayoutRisk(string block, string text, Vector2 rect, float preferredWidth, float preferredHeight, out string notes)
+    {
+        var noteList = new List<string>();
+        var risk = false;
+        if (rect.x > 0f && preferredWidth > rect.x * 1.05f)
+        {
+            risk = true;
+            noteList.Add("preferred_width_gt_rect");
+        }
+        if (rect.y > 0f && preferredHeight > rect.y * 1.05f)
+        {
+            risk = true;
+            noteList.Add("preferred_height_gt_rect");
+        }
+        if (!string.IsNullOrEmpty(text) && (text.Contains("...", StringComparison.Ordinal) || text.Contains("…", StringComparison.Ordinal)))
+        {
+            if (block == "LeftNotification" || block == "ItemCard" || block == "ItemTooltip" || block == "OptionsMenu" || block == "SearchResultPaper")
+            {
+                risk = true;
+                noteList.Add("ellipsis_in_cramped_block");
+            }
+        }
+        if (ContainsCyrillic(text) && text.Length > 24 && (block == "LeftNotification" || block == "ItemCard" || block == "ItemTooltip"))
+        {
+            risk = true;
+            noteList.Add("long_cyrillic_in_cramped_block");
+        }
+        notes = string.Join("|", noteList);
+        return risk;
+    }
+
+    private static string VisibleTextNotes(string text, Vector2 rect)
     {
         var notes = new List<string>();
         if (text.Contains("\n", StringComparison.Ordinal) || text.Contains("\r", StringComparison.Ordinal)) notes.Add("multiline");
         if (rect.x > 0f && rect.x < 160f) notes.Add("narrow_rect");
         if (text.Length > 40) notes.Add("long_text");
         return string.Join("|", notes);
+    }
+
+    private static bool HasLatin(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return false;
+        foreach (var c in text)
+        {
+            if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) return true;
+        }
+        return false;
+    }
+
+    private static bool IsTechnicalVisibleText(string normalized)
+    {
+        if (string.IsNullOrWhiteSpace(normalized)) return true;
+        if (string.Equals(normalized, "DopplerGhost", StringComparison.OrdinalIgnoreCase)) return true;
+        if (normalized.StartsWith("SEED", StringComparison.OrdinalIgnoreCase)) return true;
+        if (Regex.IsMatch(normalized, @"^v?\d+\.\d+(?:\.\d+)?(?:[a-z0-9._-]*)?$", RegexOptions.IgnoreCase)) return true;
+        if (Regex.IsMatch(normalized, @"^[A-Z]$")) return true;
+        if (Regex.IsMatch(normalized, @"^[A-Za-z]:\\|/|\\") && !normalized.Contains(" ", StringComparison.Ordinal)) return true;
+        return TechnicalVisibleText.IsMatch(normalized);
+    }
+
+    private static string JoinNotes(params string[] parts) =>
+        string.Join("|", parts.Where(part => !string.IsNullOrWhiteSpace(part)));
+
+    private static string ResolveTesterId(string configured)
+    {
+        if (!string.IsNullOrWhiteSpace(configured) && !string.Equals(configured.Trim(), "auto", StringComparison.OrdinalIgnoreCase))
+        {
+            return configured.Trim();
+        }
+        var machine = Environment.MachineName;
+        if (!string.IsNullOrWhiteSpace(machine)) return machine.Trim();
+        var user = Environment.UserName;
+        return string.IsNullOrWhiteSpace(user) ? "tester" : user.Trim();
+    }
+
+    private static string ResolveAuditRootPath(string configured)
+    {
+        var value = string.IsNullOrWhiteSpace(configured) ? "BepInEx/dswf_audit" : configured.Trim();
+        value = value.Replace('/', Path.DirectorySeparatorChar);
+        if (Path.IsPathRooted(value)) return value;
+        return Path.Combine(Paths.GameRootPath, value);
+    }
+
+    private static string SanitizeFileName(string value)
+    {
+        var invalid = Path.GetInvalidFileNameChars();
+        var chars = (value ?? "tester").Select(c => invalid.Contains(c) ? '_' : c).ToArray();
+        var result = new string(chars).Trim();
+        return string.IsNullOrWhiteSpace(result) ? "tester" : result;
+    }
+
+    private static string GetTsv(string[] parts, Dictionary<string, int> index, string name)
+    {
+        if (!index.TryGetValue(name, out var i) || i < 0 || i >= parts.Length) return "";
+        return parts[i];
+    }
+
+    private static int ParseInt(string value)
+    {
+        return int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var result) ? result : 0;
+    }
+
+    private static float ParseFloat(string value)
+    {
+        return float.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out var result) ? result : 0f;
+    }
+
+    private static bool ParseBool(string value)
+    {
+        return bool.TryParse(value, out var result) && result;
     }
 
     private static void AddNeighborhood(GameObject go, Dictionary<int, GameObject> objects)
@@ -1467,6 +1821,8 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
 
     private static string Tsv(string value) => (value ?? "").Replace("\t", " ").Replace("\r", " ").Replace("\n", " ");
 
+    private static string FloatText(float value) => value.ToString(CultureInfo.InvariantCulture);
+
     private sealed class Replacement
     {
         public string FileName;
@@ -1496,6 +1852,208 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             Group = group;
             SkipReason = skipReason;
         }
+    }
+
+    private sealed class AuditRecord
+    {
+        public string SessionId;
+        public string TesterId;
+        public string TimestampUtc;
+        public string Scene;
+        public int ScanNumber;
+        public string ComponentType;
+        public string GameObjectName;
+        public string FullTransformPath;
+        public string CurrentText;
+        public string NormalizedText;
+        public string BlockGuess;
+        public float RectWidth;
+        public float RectHeight;
+        public float FontSize;
+        public float PreferredWidth;
+        public float PreferredHeight;
+        public bool IsOverflowing;
+        public bool ActiveInHierarchy;
+        public bool HasLatin;
+        public bool HasCyrillic;
+        public bool IsEnglishLikely;
+        public bool IsMixedRuEn;
+        public bool IsLayoutRisk;
+        public string Notes;
+
+        public string RawTsvRow() => string.Join("\t", new[]
+        {
+            Tsv(SessionId),
+            Tsv(TesterId),
+            Tsv(TimestampUtc),
+            Tsv(Scene),
+            ScanNumber.ToString(CultureInfo.InvariantCulture),
+            Tsv(ComponentType),
+            Tsv(GameObjectName),
+            Tsv(FullTransformPath),
+            Tsv(CurrentText),
+            Tsv(NormalizedText),
+            Tsv(BlockGuess),
+            FloatText(RectWidth),
+            FloatText(RectHeight),
+            FloatText(FontSize),
+            FloatText(PreferredWidth),
+            FloatText(PreferredHeight),
+            IsOverflowing.ToString(),
+            ActiveInHierarchy.ToString(),
+            HasLatin.ToString(),
+            HasCyrillic.ToString(),
+            IsEnglishLikely.ToString(),
+            IsMixedRuEn.ToString(),
+            IsLayoutRisk.ToString(),
+            Tsv(Notes),
+        });
+    }
+
+    private sealed class AuditAggregate
+    {
+        public const string Header = "key\tseen_count\tfirst_seen_session\tlast_seen_session\tfirst_seen_scene\tlast_seen_scene\tfirst_seen_tester\tlast_seen_tester\tseen_testers_count\tseen_sessions_count\tseen_testers\tseen_sessions\tscene\tblock_guess\tfull_transform_path\tsample_current_text\tnormalized_text\tcomponent_type\tgameobject_name\trect_width\trect_height\tfont_size\tpreferred_width\tpreferred_height\tis_overflowing\thas_latin\thas_cyrillic\tis_english_likely\tis_mixed_ru_en\tis_layout_risk\tnotes";
+        public int SeenCount;
+        public string FirstSeenSession;
+        public string LastSeenSession;
+        public string FirstSeenScene;
+        public string LastSeenScene;
+        public string FirstSeenTester;
+        public string LastSeenTester;
+        public readonly HashSet<string> SeenTesters = new(StringComparer.Ordinal);
+        public readonly HashSet<string> SeenSessions = new(StringComparer.Ordinal);
+        public string Scene;
+        public string BlockGuess;
+        public string FullTransformPath;
+        public string SampleCurrentText;
+        public string NormalizedText;
+        public string ComponentType;
+        public string GameObjectName;
+        public float RectWidth;
+        public float RectHeight;
+        public float FontSize;
+        public float PreferredWidth;
+        public float PreferredHeight;
+        public bool IsOverflowing;
+        public bool HasLatin;
+        public bool HasCyrillic;
+        public bool IsEnglishLikely;
+        public bool IsMixedRuEn;
+        public bool IsLayoutRisk;
+        public string Notes;
+
+        public static AuditAggregate FromRecord(AuditRecord record)
+        {
+            var aggregate = new AuditAggregate
+            {
+                FirstSeenSession = record.SessionId,
+                FirstSeenScene = record.Scene,
+                FirstSeenTester = record.TesterId,
+                Scene = record.Scene,
+                BlockGuess = record.BlockGuess,
+                FullTransformPath = record.FullTransformPath,
+                SampleCurrentText = record.CurrentText,
+                NormalizedText = record.NormalizedText,
+                ComponentType = record.ComponentType,
+                GameObjectName = record.GameObjectName,
+                RectWidth = record.RectWidth,
+                RectHeight = record.RectHeight,
+                FontSize = record.FontSize,
+                PreferredWidth = record.PreferredWidth,
+                PreferredHeight = record.PreferredHeight,
+                Notes = "",
+            };
+            aggregate.Update(record);
+            return aggregate;
+        }
+
+        public static AuditAggregate FromTsv(string[] parts, Dictionary<string, int> index)
+        {
+            var aggregate = new AuditAggregate
+            {
+                SeenCount = ParseInt(GetTsv(parts, index, "seen_count")),
+                FirstSeenSession = GetTsv(parts, index, "first_seen_session"),
+                LastSeenSession = GetTsv(parts, index, "last_seen_session"),
+                FirstSeenScene = GetTsv(parts, index, "first_seen_scene"),
+                LastSeenScene = GetTsv(parts, index, "last_seen_scene"),
+                FirstSeenTester = GetTsv(parts, index, "first_seen_tester"),
+                LastSeenTester = GetTsv(parts, index, "last_seen_tester"),
+                Scene = GetTsv(parts, index, "scene"),
+                BlockGuess = GetTsv(parts, index, "block_guess"),
+                FullTransformPath = GetTsv(parts, index, "full_transform_path"),
+                SampleCurrentText = GetTsv(parts, index, "sample_current_text"),
+                NormalizedText = GetTsv(parts, index, "normalized_text"),
+                ComponentType = GetTsv(parts, index, "component_type"),
+                GameObjectName = GetTsv(parts, index, "gameobject_name"),
+                RectWidth = ParseFloat(GetTsv(parts, index, "rect_width")),
+                RectHeight = ParseFloat(GetTsv(parts, index, "rect_height")),
+                FontSize = ParseFloat(GetTsv(parts, index, "font_size")),
+                PreferredWidth = ParseFloat(GetTsv(parts, index, "preferred_width")),
+                PreferredHeight = ParseFloat(GetTsv(parts, index, "preferred_height")),
+                IsOverflowing = ParseBool(GetTsv(parts, index, "is_overflowing")),
+                HasLatin = ParseBool(GetTsv(parts, index, "has_latin")),
+                HasCyrillic = ParseBool(GetTsv(parts, index, "has_cyrillic")),
+                IsEnglishLikely = ParseBool(GetTsv(parts, index, "is_english_likely")),
+                IsMixedRuEn = ParseBool(GetTsv(parts, index, "is_mixed_ru_en")),
+                IsLayoutRisk = ParseBool(GetTsv(parts, index, "is_layout_risk")),
+                Notes = GetTsv(parts, index, "notes"),
+            };
+            foreach (var tester in GetTsv(parts, index, "seen_testers").Split('|')) if (!string.IsNullOrEmpty(tester)) aggregate.SeenTesters.Add(tester);
+            foreach (var session in GetTsv(parts, index, "seen_sessions").Split('|')) if (!string.IsNullOrEmpty(session)) aggregate.SeenSessions.Add(session);
+            return aggregate;
+        }
+
+        public void Update(AuditRecord record)
+        {
+            SeenCount++;
+            LastSeenSession = record.SessionId;
+            LastSeenScene = record.Scene;
+            LastSeenTester = record.TesterId;
+            if (!string.IsNullOrEmpty(record.TesterId)) SeenTesters.Add(record.TesterId);
+            if (!string.IsNullOrEmpty(record.SessionId)) SeenSessions.Add(record.SessionId);
+            IsOverflowing = IsOverflowing || record.IsOverflowing;
+            HasLatin = HasLatin || record.HasLatin;
+            HasCyrillic = HasCyrillic || record.HasCyrillic;
+            IsEnglishLikely = IsEnglishLikely || record.IsEnglishLikely;
+            IsMixedRuEn = IsMixedRuEn || record.IsMixedRuEn;
+            IsLayoutRisk = IsLayoutRisk || record.IsLayoutRisk;
+            if (!string.IsNullOrEmpty(record.Notes) && (string.IsNullOrEmpty(Notes) || !Notes.Contains(record.Notes, StringComparison.Ordinal))) Notes = JoinNotes(Notes, record.Notes);
+        }
+
+        public string ToTsvRow(string key) => string.Join("\t", new[]
+        {
+            Tsv(key),
+            SeenCount.ToString(CultureInfo.InvariantCulture),
+            Tsv(FirstSeenSession),
+            Tsv(LastSeenSession),
+            Tsv(FirstSeenScene),
+            Tsv(LastSeenScene),
+            Tsv(FirstSeenTester),
+            Tsv(LastSeenTester),
+            SeenTesters.Count.ToString(CultureInfo.InvariantCulture),
+            SeenSessions.Count.ToString(CultureInfo.InvariantCulture),
+            Tsv(string.Join("|", SeenTesters.OrderBy(v => v, StringComparer.Ordinal))),
+            Tsv(string.Join("|", SeenSessions.OrderBy(v => v, StringComparer.Ordinal))),
+            Tsv(Scene),
+            Tsv(BlockGuess),
+            Tsv(FullTransformPath),
+            Tsv(SampleCurrentText),
+            Tsv(NormalizedText),
+            Tsv(ComponentType),
+            Tsv(GameObjectName),
+            FloatText(RectWidth),
+            FloatText(RectHeight),
+            FloatText(FontSize),
+            FloatText(PreferredWidth),
+            FloatText(PreferredHeight),
+            IsOverflowing.ToString(),
+            HasLatin.ToString(),
+            HasCyrillic.ToString(),
+            IsEnglishLikely.ToString(),
+            IsMixedRuEn.ToString(),
+            IsLayoutRisk.ToString(),
+            Tsv(Notes),
+        });
     }
 
     private sealed class DecodedPng
