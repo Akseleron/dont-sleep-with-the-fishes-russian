@@ -33,6 +33,9 @@ public sealed class Plugin : BasePlugin
     internal static ConfigEntry<bool> OverrideTmpFonts;
     internal static ConfigEntry<bool> DumpVisibleTextureNames;
     internal static ConfigEntry<bool> DumpVisibleTextFit;
+    internal static ConfigEntry<bool> EnableVisibleTextAudit;
+    internal static ConfigEntry<float> VisibleTextAuditIntervalSeconds;
+    internal static ConfigEntry<int> VisibleTextAuditMaxScansPerScene;
     internal static ConfigEntry<string> FontFileName;
     internal static ConfigEntry<float> StartupScanSeconds;
     internal static ConfigEntry<bool> PatchMainMenuTitle;
@@ -57,6 +60,9 @@ public sealed class Plugin : BasePlugin
         PatchGameplay3DTextures = Config.Bind("Textures", "PatchGameplay3DTextures", false, "Patch RawImage, SpriteRenderer, and Renderer material textures.");
         DumpVisibleTextureNames = Config.Bind("Diagnostics", "DumpVisibleTextureNames", true, "Write visible texture/component names to ../debug_reports/runtime_visible_texture_names.tsv during scans.");
         DumpVisibleTextFit = Config.Bind("Diagnostics", "DumpVisibleTextFit", true, "Write visible TMP/UI text fit data to ../debug_reports/ui_text_fit_inventory.tsv during scans.");
+        EnableVisibleTextAudit = Config.Bind("Diagnostics", "EnableVisibleTextAudit", false, "Development only: write likely English visible UI text to BepInEx/visible_english_audit.tsv. Does not modify text.");
+        VisibleTextAuditIntervalSeconds = Config.Bind("Diagnostics", "VisibleTextAuditIntervalSeconds", 1.0f, "Seconds between visible-English audit scans while the scene startup scan window is active.");
+        VisibleTextAuditMaxScansPerScene = Config.Bind("Diagnostics", "VisibleTextAuditMaxScansPerScene", 30, "Maximum visible-English audit scans per scene.");
         StartupScanSeconds = Config.Bind("Diagnostics", "StartupScanSeconds", 15f, "Scan repeatedly for this many seconds after startup/scene load.");
 
         try
@@ -79,6 +85,8 @@ public sealed class Plugin : BasePlugin
 public sealed class RuntimeFixBehaviour : MonoBehaviour
 {
     private static readonly Regex ReplacementName = new(@"^(?<asset>sharedassets\d+)__(?<type>Texture2D|Sprite)__(?<pathId>\d+)__(?<name>.+)$", RegexOptions.Compiled);
+    private static readonly Regex EnglishWord = new(@"[A-Za-z][A-Za-z']{1,}", RegexOptions.Compiled);
+    private static readonly Regex TechnicalVisibleText = new(@"^(?:[A-Za-z0-9_./\\-]+\.(?:dll|exe|png|assets?)|[A-Fa-f0-9]{16,}|[A-Za-z_][A-Za-z0-9_]*(?:Controller|Manager|Renderer|Animator|Canvas|Holder|Pivot|Model|Prefab))$", RegexOptions.Compiled);
     private const string MainTitleTextureReplacementStem = "sharedassets1__Texture2D__50__unnamed_50";
     private readonly Dictionary<string, Replacement> byName = new(StringComparer.OrdinalIgnoreCase);
     private readonly Dictionary<string, Replacement> byStem = new(StringComparer.OrdinalIgnoreCase);
@@ -99,7 +107,10 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     private string reportPath;
     private string componentReportPath;
     private string textFitReportPath;
+    private string visibleEnglishAuditPath;
     private string lastSceneName;
+    private float nextVisibleTextAuditScan;
+    private int visibleTextAuditScanCountForScene;
     private readonly List<Sprite> createdReplacementSprites = new();
 
     public RuntimeFixBehaviour(IntPtr ptr) : base(ptr) { }
@@ -112,6 +123,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         reportPath = BuildDebugReportPath("runtime_visible_texture_targets.tsv");
         componentReportPath = BuildDebugReportPath("runtime_problem_texture_components.tsv");
         textFitReportPath = BuildDebugReportPath("ui_text_fit_inventory.tsv");
+        visibleEnglishAuditPath = BuildGameBepInExPath("visible_english_audit.tsv");
         Plugin.LogSource.LogInfo("RuntimeFixBehaviour started. scene=" + lastSceneName);
         LoadReplacements();
         TrySetupFont();
@@ -134,6 +146,8 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             failedSpriteRenderers.Clear();
             patchedRenderers.Clear();
             patchedTmpTexts.Clear();
+            visibleTextAuditScanCountForScene = 0;
+            nextVisibleTextAuditScan = 0f;
             Plugin.LogSource.LogInfo("Scene changed; texture/font scan window reset. scene=" + sceneName);
         }
         if (now <= scanUntil && now >= nextScan)
@@ -364,6 +378,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         if (Plugin.DumpVisibleTextureNames.Value) DumpVisibleTextureNames(reason);
         if (Plugin.DumpVisibleTextureNames.Value) DumpProblemComponents(reason);
         if (Plugin.DumpVisibleTextFit.Value) DumpVisibleTextFit(reason);
+        if (Plugin.EnableVisibleTextAudit.Value) DumpVisibleEnglishAudit(reason);
         Plugin.LogSource.LogInfo($"Scan {scanCount} ({reason}) complete. TMP patched={tmp}, Images={images}, RawImages={raw}, SpriteRenderers={sprites}, Renderers={renderers}");
     }
 
@@ -1042,6 +1057,128 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         }
     }
 
+    private void DumpVisibleEnglishAudit(string reason)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(visibleEnglishAuditPath)) return;
+            if (visibleTextAuditScanCountForScene >= Math.Max(0, Plugin.VisibleTextAuditMaxScansPerScene.Value)) return;
+
+            var now = Time.realtimeSinceStartup;
+            if (now < nextVisibleTextAuditScan) return;
+            nextVisibleTextAuditScan = now + Math.Max(0.1f, Plugin.VisibleTextAuditIntervalSeconds.Value);
+            visibleTextAuditScanCountForScene++;
+
+            var first = !File.Exists(visibleEnglishAuditPath);
+            var scanned = 0;
+            var found = 0;
+            using var writer = new StreamWriter(visibleEnglishAuditPath, append: true);
+            if (first)
+            {
+                writer.WriteLine("scene\tscan_number\tcomponent_type\tgameobject_name\tfull_transform_path\tcurrent_text\tnormalized_text\tparent_path_block_guess\trect_width\trect_height\tfont_size\tactive_in_hierarchy\tnotes");
+            }
+
+            foreach (var text in Resources.FindObjectsOfTypeAll<TMP_Text>())
+            {
+                if (text == null || text.gameObject == null) continue;
+                if (!text.gameObject.activeInHierarchy || !text.enabled) continue;
+                scanned++;
+                var currentText = SafeText(() => text.text);
+                if (!IsLikelyVisibleEnglish(currentText)) continue;
+                found++;
+                var rect = SafeRectSize(text.rectTransform);
+                WriteVisibleEnglishAuditRow(writer, text, text.gameObject, currentText, rect, text.fontSize, "TMP_Text");
+            }
+
+            foreach (var text in Resources.FindObjectsOfTypeAll<UnityEngine.UI.Text>())
+            {
+                if (text == null || text.gameObject == null) continue;
+                if (!text.gameObject.activeInHierarchy || !text.enabled) continue;
+                scanned++;
+                var currentText = SafeText(() => text.text);
+                if (!IsLikelyVisibleEnglish(currentText)) continue;
+                found++;
+                var rect = SafeRectSize(text.GetComponent<RectTransform>());
+                WriteVisibleEnglishAuditRow(writer, text, text.gameObject, currentText, rect, text.fontSize, "UnityEngine.UI.Text");
+            }
+
+            Plugin.LogSource.LogInfo($"Visible English audit scan {visibleTextAuditScanCountForScene}: scanned={scanned}, likelyEnglish={found}, path='{visibleEnglishAuditPath}'");
+        }
+        catch (Exception ex)
+        {
+            Plugin.LogSource.LogWarning("Visible English audit failed: " + ex.Message);
+        }
+    }
+
+    private void WriteVisibleEnglishAuditRow(StreamWriter writer, Component component, GameObject go, string currentText, Vector2 rect, float fontSize, string fallbackType)
+    {
+        var path = SafeObjectPath(go);
+        var normalized = NormalizeVisibleText(currentText);
+        writer.WriteLine(string.Join("\t", new[]
+        {
+            Tsv(SafeSceneName()),
+            visibleTextAuditScanCountForScene.ToString(CultureInfo.InvariantCulture),
+            Tsv(ComponentTypeName(component) ?? fallbackType),
+            Tsv(go != null ? go.name : ""),
+            Tsv(path),
+            Tsv(currentText),
+            Tsv(normalized),
+            Tsv(GuessVisibleTextBlock(path, normalized)),
+            rect.x.ToString(CultureInfo.InvariantCulture),
+            rect.y.ToString(CultureInfo.InvariantCulture),
+            fontSize.ToString(CultureInfo.InvariantCulture),
+            (go != null && go.activeInHierarchy).ToString(),
+            Tsv(VisibleEnglishNotes(currentText, rect)),
+        }));
+    }
+
+    private static bool IsLikelyVisibleEnglish(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text)) return false;
+        var normalized = NormalizeVisibleText(text);
+        if (normalized.Length < 2) return false;
+        if (ContainsCyrillic(normalized)) return false;
+        if (!EnglishWord.IsMatch(normalized)) return false;
+        if (TechnicalVisibleText.IsMatch(normalized)) return false;
+        return true;
+    }
+
+    private static string NormalizeVisibleText(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return "";
+        var noTags = Regex.Replace(text, "<[^>]+>", "");
+        noTags = noTags.Replace("\\n", " ").Replace("\\r", " ");
+        return Regex.Replace(noTags, @"\s+", " ").Trim();
+    }
+
+    private static string GuessVisibleTextBlock(string path, string normalizedText)
+    {
+        var p = path ?? "";
+        var t = normalizedText ?? "";
+        if (p.Contains("SETTINGS", StringComparison.OrdinalIgnoreCase) || t.Contains("Restore Defaults", StringComparison.Ordinal)) return "OptionsMenu";
+        if (p.StartsWith("MENU/", StringComparison.Ordinal)) return "MainMenu";
+        if (p.Contains("FriendManageUI", StringComparison.Ordinal) || p.Contains("FriendHud", StringComparison.Ordinal)) return "FriendSupportPanel";
+        if (t.Contains("feel good", StringComparison.OrdinalIgnoreCase) || t.Contains("dying", StringComparison.OrdinalIgnoreCase) || t.Contains("pain", StringComparison.OrdinalIgnoreCase)) return "HealthStatusHUD";
+        if (t.Contains("hungry", StringComparison.OrdinalIgnoreCase) || t.Contains("starving", StringComparison.OrdinalIgnoreCase)) return "HungerStatusHUD";
+        if (p.Contains("FishedVisuals", StringComparison.Ordinal) || t.Contains("Weight:", StringComparison.Ordinal)) return "FishingResultCard";
+        if (p.Contains("Search", StringComparison.OrdinalIgnoreCase)) return "SearchResultPaper";
+        if (p.Contains("Notice", StringComparison.OrdinalIgnoreCase) || p.Contains("ItemsUpdate", StringComparison.OrdinalIgnoreCase)) return "LeftNotification";
+        if (p.Contains("Task_", StringComparison.Ordinal) || p.Contains("Action", StringComparison.OrdinalIgnoreCase)) return "NightEventChoice";
+        if (p.Contains("Journal", StringComparison.OrdinalIgnoreCase)) return "Journal";
+        if (p.Contains("Dialog", StringComparison.OrdinalIgnoreCase)) return "Dialogue";
+        if (p.Contains("Ending", StringComparison.OrdinalIgnoreCase) || t.Contains("Cause of Death", StringComparison.Ordinal) || t.Contains("Company", StringComparison.Ordinal)) return "EndingStatsScreen";
+        return "UnknownNeedsContext";
+    }
+
+    private static string VisibleEnglishNotes(string text, Vector2 rect)
+    {
+        var notes = new List<string>();
+        if (text.Contains("\n", StringComparison.Ordinal) || text.Contains("\r", StringComparison.Ordinal)) notes.Add("multiline");
+        if (rect.x > 0f && rect.x < 160f) notes.Add("narrow_rect");
+        if (text.Length > 40) notes.Add("long_text");
+        return string.Join("|", notes);
+    }
+
     private static void AddNeighborhood(GameObject go, Dictionary<int, GameObject> objects)
     {
         AddObject(go, objects);
@@ -1141,6 +1278,17 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             var projectRoot = Directory.GetParent(Paths.GameRootPath)?.FullName;
             if (string.IsNullOrEmpty(projectRoot)) return null;
             var dir = Path.Combine(projectRoot, "debug_reports");
+            Directory.CreateDirectory(dir);
+            return Path.Combine(dir, fileName);
+        }
+        catch { return null; }
+    }
+
+    private static string BuildGameBepInExPath(string fileName)
+    {
+        try
+        {
+            var dir = Path.Combine(Paths.GameRootPath, "BepInEx");
             Directory.CreateDirectory(dir);
             return Path.Combine(dir, fileName);
         }

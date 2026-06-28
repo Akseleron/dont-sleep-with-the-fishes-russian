@@ -32,6 +32,13 @@ Default dev install does not patch Unity assets and does not apply offline textu
 .venv-tools/bin/python scripts/dev_install_to_game.py game_runtime_test_v1_1_3 --clean-bepinex --skip-textures
 ```
 
+After every translation/runtime-plugin commit, reinstall the dev payload before testing:
+
+```bash
+.venv-tools/bin/python scripts/dev_prepare_v1_1_3_test_copy.py
+.venv-tools/bin/python scripts/dev_install_to_game.py game_runtime_test_v1_1_3 --clean-bepinex --skip-textures
+```
+
 Expected installed files:
 
 - `game_runtime_test_v1_1_3/BepInEx/`
@@ -57,6 +64,38 @@ The launcher sets:
 WINEDLLOVERRIDES="winhttp=n,b"
 ```
 
+## Visible English Audit
+
+The runtime plugin includes a disabled development audit for visible English text. To enable it for a test run, edit:
+
+```text
+game_runtime_test_v1_1_3/BepInEx/config/ru.dswf.runtimefix.cfg
+```
+
+Set:
+
+```ini
+EnableVisibleTextAudit = true
+VisibleTextAuditIntervalSeconds = 1
+VisibleTextAuditMaxScansPerScene = 30
+```
+
+Then launch normally with `./run_dswf_rus.sh`. The audit writes:
+
+```text
+game_runtime_test_v1_1_3/BepInEx/visible_english_audit.tsv
+```
+
+Collect this file after runtime testing, but do not commit it. Useful inspection commands:
+
+```bash
+column -t -s $'\t' game_runtime_test_v1_1_3/BepInEx/visible_english_audit.tsv | less -S
+```
+
+```bash
+rg -n "OptionsMenu|HealthStatusHUD|FriendSupportPanel|LeftNotification|FishingResultCard|EndingStatsScreen|UnknownNeedsContext" game_runtime_test_v1_1_3/BepInEx/visible_english_audit.tsv
+```
+
 ## Screenshots To Capture
 
 - Main menu after BepInEx/XUnity initialization.
@@ -74,18 +113,23 @@ WINEDLLOVERRIDES="winhttp=n,b"
 - Nail minigame prompt with `Nails Left: N`.
 - Fishing result with plain `Weight: Xkg`, if visible.
 - Fishing result with rich text `<b>Weight:</b> Xkg`, if visible.
+- Options menu with fast-forwarding and restore defaults.
+- Health/status HUD with pain, sickness, dying, hungry, and starving states.
+- Friend/support panel with Row status, mood labels, and support prompt.
+- Night event choice/result screens involving guarded sleep and sending Row.
+- Item cards for broken compass/scuba set, torn umbrella, readable paper/card details.
 
 ## Exact Strings To Verify
 
 - `Energy Bar` -> `Энергетик`
 - `Fishing Net` -> `Рыболовная сеть`
 - `Flare Gun` -> `Сигнальный пистолет`
-- `Item Broken` -> `Предмет сломан`
+- `Item Broken` -> `Сломано`
 - `Your search did not yield results.` -> `Ничего не найдено.`
 - `You found` -> `Найдено:`
 - `Scuba set was damaged in the process.` -> `Акваланг повреждён.`
 - `Search Results` -> `Результаты`
-- `Item Found` -> `Предмет найден`
+- `Item Found` -> `Найдено`
 - `Items Found` -> `Найдено:`
 - `Visit the small island?` -> `Посетить островок?`
 - `Get the Barrel!` -> `Достать бочку!`
@@ -111,15 +155,59 @@ WINEDLLOVERRIDES="winhttp=n,b"
 - `You lost an item to the sea.` -> `Предмет унесло в море.`
 - `Weight: Xkg` behavior
 - `<b>Weight:</b> Xkg` behavior
+- `Restore Defaults` -> `Сбросить`
+- `Fast-Forwarding` -> `Ускорение`
+- `(While ON: Press 'F' to Fast-Forward time during the beginning of night events.)` -> `Если включено: нажмите F, чтобы ускорить начало ночных событий.`
+- `I don't feel good` -> `Мне нехорошо`
+- `I'm dying...` -> `Я умираю...`
+- `I have some pain` -> `Мне больно`
+- `I'm starving` -> `Я умираю от голода`
+- `Depressed` -> `Подавлен`
+- `Miserable` -> `В отчаянии`
+- `Row does not feel well...` -> `Роу нездоровится...`
+- `Makes repairing less demanding today.` -> `Ремонт сегодня проще.`
+- `Fix by hand` -> `Починить вручную`
+- `Try skipping the night?` -> `Попробовать пропустить ночь?`
+- `You sleep guarded tonight...` -> `Сегодня вы спите под охраной...`
+- `Send Row Instead?` -> `Отправить Роу?`
+- `... Just wait here.` -> `... Просто жди здесь.`
+- `Starved to death.` -> `Умер от голода.`
+- `Row could not make it.` -> `Роу не выжил.`
+- `Captain Whiskers may wander the sea alone.` -> `Капитан Усатик может скитаться по морю в одиночестве.`
+- `Check the back?` -> `Посмотреть назад?`
+- `Boat Damaged` -> `Шлюпка`
+- `Broken Compass` -> `Компас сломан`
+- `Broken Scuba Set` -> `Акваланг сломан`
+- `Torn Umbrella` -> `Рваный зонт`
+- `Fix with tape!` -> `Починить скотчем!`
+- `Looks reparable!` -> `Можно починить.`
+- `Soaked but readable.` -> `Намокло, но читаемо.`
 
 ## Known Layout Checks
 
 - Result/search paper overlap: verify whether `Результаты` still overlaps with the visible `ПОИСКА` layer.
 - Search/no-result paper text overlap: verify `Ничего не найдено.` on the no-result paper.
-- Left notification clipping: verify `Предмет найден`, `Найдено:`, `Потеряно`, `Сломано`, and `Шлюпка сломана`.
-- Item card text clipping: verify compact item names, especially `Энергетик` and long item descriptions.
+- Left notification clipping: verify `Найдено`, `Найдено:`, `Потеряно`, `Сломано`, and `Шлюпка`.
+- Item card text clipping: verify compact item names/descriptions, especially `Энергетик`, `Компас сломан`, `Акваланг сломан`, `Можно починить.`, and `Намокло, но читаемо.`
 - End/death screen stats: verify stat labels, company note title, and cause-of-death prefix.
 - Dynamic prefix strings: verify `Nails Left: N` and fish `Weight: Xkg` / `<b>Weight:</b> Xkg`.
+
+## UI Block Checks
+
+Use `docs/v1_1_3_ui_block_coverage.tsv` and runtime `BepInEx/visible_english_audit.tsv` together. Prioritize visible rows in these blocks:
+
+- `OptionsMenu`
+- `HealthStatusHUD`
+- `HungerStatusHUD`
+- `FriendSupportPanel`
+- `ItemCard`
+- `BrokenItemActionPrompt`
+- `LeftNotification`
+- `NightEventChoice`
+- `NightEventResult`
+- `FishingResultCard`
+- `EndingStatsScreen`
+- `SearchResultPaper`
 
 ## Texture Checks
 
@@ -141,7 +229,7 @@ rg -n "XUnity|AutoTranslator|DswfRus|RuntimeFix|Translation|ERROR|Exception" gam
 ```
 
 ```bash
-rg -n "Energy Bar|Fishing Net|Flare Gun|Item Broken|Item Lost|Items Lost|Your search did not yield results|You found|Scuba set was damaged|Search Results|Item Found|Items Found|Visit the small island|Get the Barrel|Support|Cause of Death|Days Survived|Nails Left|Weight|kg" game_runtime_test_v1_1_3/BepInEx
+rg -n "Energy Bar|Fishing Net|Flare Gun|Item Broken|Item Lost|Items Lost|Your search did not yield results|You found|Scuba set was damaged|Search Results|Item Found|Items Found|Visit the small island|Get the Barrel|Support|Cause of Death|Days Survived|Nails Left|Weight|Fast-Forwarding|Restore Defaults|Row does not feel well|Try skipping|Fix by hand|Broken Compass|kg" game_runtime_test_v1_1_3/BepInEx
 ```
 
 ```bash
