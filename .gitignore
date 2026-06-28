@@ -24,3 +24,4 @@ BepInEx/ErrorLog.log
 # Build and release artifacts
 build/
 dist/**/*.spec
+game_runtime_test_v1_1_3/
