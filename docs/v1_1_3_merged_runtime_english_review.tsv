@@ -1,0 +1,15 @@
+first_seen_tester	seen_testers_count	seen_sessions_count	seen_count	scene	block_guess	full_transform_path	normalized_text	sample_current_text	has_latin	has_cyrillic	is_english_likely	is_mixed_ru_en	is_layout_risk	status	recommended_translation	notes
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	42	game_menu	OptionsMenu	GameController/SETTINGS_CANVAS/SETTINGS_MENU/settings_items/SettingsPanel_Credits/SettingName	| Автор: Taiki (DopplerGhost) | Особая благодарность: TakDor, Merlidan, Drael и вам! |	| Автор: Taiki <i>(DopplerGhost)</i> | Особая благодарность: TakDor, Merlidan, Drael и вам! |	True	True	False	True	False	mixed-ru-en-review		long_text
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	30	game_menu	OptionsMenu	GameController/SETTINGS_CANVAS/SETTINGS_MENU/settings_items/SettingsPanel_Resolution/Dropdown/Label	1920 x 1080	1920 x 1080	True	False	False	False	False	todo-translate
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	30	game_collectgame	UnknownNeedsContext	UI/Cursors/PickupCursor/PickUpE	[E]	[E]	True	False	False	False	False	todo-translate
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	42	game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/Medals/Medal_1 (6)/Desc	Be a bad fisherman...	Be a bad fisherman...	True	False	True	False	False	todo-translate
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	56	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Click to Shoo!	Click to Shoo!	True	False	True	False	False	todo-translate
+
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	5712	game_storyGameDay	FriendSupportPanel	UI/HUD/FriendManageUI/name_bg/Name	Frederik	Frederik	True	False	True	False	False	todo-translate
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	112	game_storyGameNight	UnknownNeedsContext	UI/HUD/ChooseItemHud/choice_question_text	Make an offer.	Make an offer.	True	False	True	False	False	todo-translate
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	196	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Needs fixing	Needs fixing	True	False	True	False	False	todo-translate

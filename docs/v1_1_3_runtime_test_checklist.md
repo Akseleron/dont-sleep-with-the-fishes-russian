@@ -188,10 +188,14 @@ rg -n "OptionsMenu|HealthStatusHUD|FriendSupportPanel|LeftNotification|FishingRe
 - Fishing result with plain `Weight: Xkg`, if visible.
 - Fishing result with rich text `<b>Weight:</b> Xkg`, if visible.
 - Options menu with fast-forwarding and restore defaults.
+- How-to-play/tutorial slides, especially the opening story paragraph.
+- Main menu history/endings button and medal descriptions.
+- Main menu logo/title texture.
 - Health/status HUD with pain, sickness, dying, hungry, and starving states.
 - Friend/support panel with Row status, mood labels, and support prompt.
-- Night event choice/result screens involving guarded sleep and sending Row.
+- Night event choice/result screens involving guarded sleep and sending Row/Frederik.
 - Item cards for broken compass/scuba set, torn umbrella, readable paper/card details.
+- Journal entries after island, moon, and monsterfish events.
 
 ## Exact Strings To Verify
 
@@ -247,26 +251,59 @@ rg -n "OptionsMenu|HealthStatusHUD|FriendSupportPanel|LeftNotification|FishingRe
 - `... Just wait here.` -> `... Просто жди здесь.`
 - `Starved to death.` -> `Умер от голода.`
 - `Row could not make it.` -> `Роу не выжил.`
-- `Captain Whiskers may wander the sea alone.` -> `Капитан Усатик может скитаться по морю в одиночестве.`
+- `Captain Whiskers may wander the sea alone.` -> `Капитан Усатик скитается один.`
+- `Shipmates sunk with the ship.` -> `Товарищи утонули с кораблём.`
+- `Be a bad fisherman...` -> `Плохой рыбак...`
+- `Frederik` -> `Фредерик`
+- `Row's fate is unknown.` -> `Судьба Роу неизвестна.`
+- `Frederik's fate is unknown.` -> `Судьба Фредерика неизвестна.`
+- `Send Frederik Instead?` -> `Отправить Фредерика?`
+- `What do you think? Should we do this?` -> `Как думаешь, сделать это?`
+- `Click to Shoo!` -> `Прогнать`
+- `Make an offer.` -> `Сделать предложение.`
+- `Needs fixing` -> `Нужен ремонт`
+- `Company's Note: "Calculated risk."` -> `Заметка компании: "Рассчитанный риск."`
+- `Company's Note: "Everything under control."` -> `Заметка компании: "Всё под контролем."`
+- `Company's Note: "No impact noted."` -> `Заметка компании: "Последствий не выявлено."`
+- `Company's Note: "Expected results."` -> `Заметка компании: "Ожидаемые результаты."`
+- `Company's Note: "Anticipated outcomes."` -> `Заметка компании: "Ожидаемые исходы."`
+- `Company's Note: "Critical financial hit."` -> `Заметка компании: "Критический финансовый удар."`
+- `Company's Note: "Heavy financial setback."` -> `Заметка компании: "Серьёзный финансовый ущерб."`
+- `Company's Note: "Severely reduced returns."` -> `Заметка компании: "Прибыль резко снижена."`
+- `Company's Note: "High-impact failure."` -> `Заметка компании: "Серьёзный провал."`
+- `Company's Note: "Extensive layoffs executed."` -> `Заметка компании: "Проведены массовые увольнения."`
+- `Company's Note: "Recovery efforts failed."` -> `Заметка компании: "Попытки восстановления провалились."`
+- `You're the captain of a ship on a covert delivery mission with a small crew...` -> `Вы капитан корабля на тайном задании с небольшой командой...`
 - `Check the back?` -> `Посмотреть назад?`
 - `Boat Damaged` -> `Шлюпка`
 - `Broken Compass` -> `Компас сломан`
 - `Broken Scuba Set` -> `Акваланг сломан`
+- `Torn Fishing Net` -> `Рваная сеть`
 - `Torn Umbrella` -> `Рваный зонт`
 - `Fix with tape!` -> `Починить скотчем!`
-- `Looks reparable!` -> `Можно починить.`
+- `Looks reparable!` -> `Чинится.`
+- `Seems useable!` -> `Годится.`
 - `Soaked but readable.` -> `Намокло, но читаемо.`
+- `Lore` -> `Архив`
+- `Continue` -> `Далее`
+- `Midnight Tour` -> `Ночная вылазка`
+- `Death Stare` -> `Взгляд смерти`
 
 ## Known Layout Checks
 
 - Result/search paper overlap: verify whether `Результаты` still overlaps with the visible `ПОИСКА` layer.
 - Search/no-result paper text overlap: verify `Ничего не найдено.` on the no-result paper.
 - Left notification clipping: verify `Найдено`, `Найдено:`, `Потеряно`, `Сломано`, and `Шлюпка`.
-- Item card text clipping: verify compact item names/descriptions, especially `Энергетик`, `Компас сломан`, `Акваланг сломан`, `Можно починить.`, and `Намокло, но читаемо.`
+- Main menu button fit: verify `Архив`.
+- Ending button fit: verify `Далее`.
+- Item card text clipping: verify compact item names/descriptions, especially `Энергетик`, `Компас сломан`, `Акваланг сломан`, `Рваная сеть`, `Чинится.`, `Годится.`, and `Намокло, но читаемо.`
+- How-to-play slide fit: verify the opening story paragraph and first survival/daytime slides do not overlap.
+- Journal title fit: verify `Взгляд смерти`.
 - End/death screen stats: verify stat labels, company note title, and cause-of-death prefix.
 - Dynamic prefix strings: verify `Nails Left: N` and fish `Weight: Xkg` / `<b>Weight:</b> Xkg`.
 - Main menu stats: verify `Runs: X Record: Y Days` becomes `Забегов: X Рекорд: Y дн.`
-- Mixed RU/EN ending lines: verify `Company's Note: "Everything under control."` and Russian-prefix/English-note variants.
+- Mixed RU/EN ending lines: verify all `Company's Note: "..."`
+  variants stay fully Russian after the ending screen finishes updating.
 
 All-text audit notes:
 
@@ -294,6 +331,7 @@ Use `docs/v1_1_3_ui_block_coverage.tsv` and runtime `BepInEx/visible_english_aud
 ## Texture Checks
 
 - `--skip-textures` does not validate texture replacement.
+- Main menu title/logo `Don't Sleep With The Fishes` is a texture/image issue, not an XUnity dictionary string.
 - Texture validation requires either:
   - dev install with `--apply-textures`
   - full GUI patcher texture application
