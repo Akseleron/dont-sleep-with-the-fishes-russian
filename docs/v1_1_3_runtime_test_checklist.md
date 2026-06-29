@@ -280,6 +280,8 @@ rg -n "OptionsMenu|HealthStatusHUD|FriendSupportPanel|LeftNotification|FishingRe
 - Runtime reapply safety net: verify `Laurel could not make it. Captain Whiskers may wander the sea alone.` becomes `Лорел не выжила. Усатик остался один.`
 - Runtime reapply safety net: verify `Shipmates sunk with the ship. Captain Whiskers may wander the sea alone.` becomes `Товарищи утонули с кораблём. Усатик остался один.`
 - Runtime reapply safety net: verify `Cause of Death: <color=#ff4400>Seagulls!!!` becomes `Причина смерти: <color=#ff4400>Чайки!!!`.
+- Runtime reapply safety net: verify `Cause of Death: Sunk with the ship.` becomes `Причина смерти: Утонул вместе с кораблём.`
+- Runtime reapply safety net: verify `Cause of Death: <color=#ff4400>Drown.` becomes `Причина смерти: <color=#ff4400>Утонул.`
 - Runtime reapply safety net: verify unknown death-cause values at least get `Причина смерти:` and produce a one-time runtime candidate log.
 - Fishing result regex/runtime parser: verify `<b>Weight:</b> 1,37kg` becomes `<b>Вес:</b> 1,37 кг`.
 - Fishing result regex/runtime parser: verify `Weight: 1.37kg` and `Weight: 1,37kg` become `Вес: 1.37 кг` / `Вес: 1,37 кг`.
@@ -328,6 +330,7 @@ rg -n "OptionsMenu|HealthStatusHUD|FriendSupportPanel|LeftNotification|FishingRe
 - Main menu stats: verify the narrow runtime correction for `runs_text`; the game may render this as one line or a newline-separated value before the plugin rewrites it.
 - Mixed RU/EN ending lines: verify all `Company's Note: "..."`
   variants stay fully Russian after the ending screen finishes updating.
+- Ending flicker: verify company note, cause of death, friend fate, and ending stats do not stay English after the first fast reapply window on `game_runEnd`.
 - FriendManageUI panel: verify speciality labels/descriptions and standalone shipmate names for Row, Frederik, and Laurel.
 - Credits/settings mixed text: developer/tester names may remain Latin inside the translated credits line.
 
@@ -374,6 +377,18 @@ Use `docs/v1_1_3_ui_block_coverage.tsv` and runtime `BepInEx/visible_english_aud
   - `build/dswf_v1_1_3_all_textures_for_manual_review/manifest.tsv`
   - optional local ZIP `build/dswf-v1.1.3-all-textures-for-manual-review.zip`
   These files are local review artifacts and must not be committed.
+- Future texture replacement mapping must use `docs/v1_1_3_texture_replacement_manifest_template.tsv`; do not rely on exported PNG names alone.
+
+## Package Base Checks
+
+- Windows package script: `.venv-tools/bin/python scripts/package_windows_patch.py`
+- Linux package script: `.venv-tools/bin/python scripts/package_linux_patch.py`
+- Do not run these as release builds until fresh runtime audit and texture validation pass.
+- If run locally later, inspect ZIP contents and confirm none of these are present:
+  - `DontSleepWithTheFishes.exe`
+  - `DontSleepWithTheFishes_Data/`
+  - `UnityPlayer.dll`
+  - `GameAssembly.dll`
 
 ## Logs To Collect
 

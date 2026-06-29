@@ -54,6 +54,15 @@ This report is deliberately conservative. The current pass improves broad text c
 - Shortened the FastForward setting text to `Если включено: F ускоряет ночные события.`
 - Runtime diagnostics now ignore TMP tag Latin when deciding whether text still contains English.
 
+## Fixed In Death-Cause Cleanup Pass
+
+- `Sunk with the ship.` -> `Утонул вместе с кораблём.`
+- `Drown.` -> `Утонул.`
+- Re-audited known death/end-condition atoms in `docs/v1_1_3_death_cause_audit.tsv`.
+- Runtime `Cause of Death:` parser now covers the remaining observed atom and preserves TMP tags/color formatting.
+- Ending-scene runtime reapply runs in a short fast window after entering `game_runEnd` to reduce visible English flicker from late-populated company note, death cause, friend fate, and stat text.
+- Full visible audit TSV output remains disabled by default; the plugin still logs each unique suspicious visible English candidate once in sensitive contexts.
+
 ## Still Needs Runtime Route Coverage
 
 - Rare endings and friend fate combinations.
@@ -71,7 +80,17 @@ This report is deliberately conservative. The current pass improves broad text c
 - Main menu logo/title still shows `Don't Sleep With The Fishes`.
 - Exact texture asset/path_id has not been identified from screenshot alone.
 - A full local texture export for manual review was prepared at `build/dswf_v1_1_3_all_textures_for_manual_review/`, with manifest `build/dswf_v1_1_3_all_textures_for_manual_review/manifest.tsv` and optional review ZIP `build/dswf-v1.1.3-all-textures-for-manual-review.zip`.
+- Texture replacement manifest template: `docs/v1_1_3_texture_replacement_manifest_template.tsv`.
+- Texture replacement workflow: `docs/v1_1_3_texture_replacement_workflow.md`.
 - Texture validation requires `--apply-textures` or full patcher texture application.
+
+## Packaging Base
+
+- Windows package script prepared: `scripts/package_windows_patch.py`.
+- Linux/Wine package script prepared: `scripts/package_linux_patch.py`.
+- Packaging plan: `docs/v1_1_3_packaging_plan.md`.
+- Package scripts build local ZIPs under `build/`, verify safe runtime config, and reject game files.
+- Package scripts do not include unapproved texture replacements by default.
 
 ## Layout And Clipping
 

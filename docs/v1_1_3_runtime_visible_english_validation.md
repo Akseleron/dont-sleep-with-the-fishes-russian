@@ -6,12 +6,11 @@ Current input checked:
 
 `game_runtime_test_v1_1_3/BepInEx/dswf_audit/`
 
-The current audit was captured before the FriendManageUI fixes in this phase. The validator is therefore expected to fail on those stale rows until the dev payload is reinstalled and the game is rerun.
+The current audit was captured before the death-cause cleanup in this phase. The validator is therefore expected to fail on that stale row until the dev payload is reinstalled and the game is rerun.
 
 Current unapproved visible English from the existing audit:
 
-- `UI/HUD/FriendManageUI/Stats/Button_Speciality/text_use`: `Improves eating efficiency today.`
-- `UI/HUD/FriendManageUI/name_bg/Name`: `Laurel`
+- `UI/ENDING_CANVAS/InfoList/1`: `Причина смерти: Sunk with the ship.`
 
 Allowed technical English remains limited to values such as `DopplerGhost`, `SEED`, version strings, resolution values, file paths, isolated keybind labels, and translated credits lines that retain developer/tester names. Russian strings containing only isolated keybind Latin tokens such as `F` are no longer treated as English failures.
 
@@ -30,6 +29,9 @@ Allowed technical English remains limited to values such as `DopplerGhost`, `SEE
 - Shortened the FastForward option description to `Если включено: F ускоряет ночные события.`
 - Runtime text reapply now checks Latin after stripping TMP tags, preventing tag-only Russian strings such as `<b>Вес:</b>` from being reported as untranslated candidates.
 - See `docs/v1_1_3_friend_manage_ui_audit.tsv` for the focused FriendManageUI text-family audit.
+- Added `Sunk with the ship.` -> `Утонул вместе с кораблём.` for the remaining runtime-visible death-cause atom.
+- Added `Drown.` -> `Утонул.` for the metadata-only `Cause of Death: <color=#ff4400>Drown.` variant.
+- Runtime ending text reapply now scans more frequently for the first five seconds after entering `game_runEnd` to reduce late-assignment flicker in company notes, cause-of-death lines, friend fate, and ending stats.
 
 ## Runtime Re-Test Requirement
 

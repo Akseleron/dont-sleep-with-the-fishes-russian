@@ -151,13 +151,23 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         ["Died of hunger."] = "Умер от голода.",
         ["Your boat fell apart."] = "Шлюпка развалилась.",
         ["Boat fell apart."] = "Шлюпка развалилась.",
+        ["Sunk with the ship."] = "Утонул вместе с кораблём.",
         ["Ripped apart."] = "Растерзан.",
+        ["Mauled to death."] = "Растерзан.",
         ["Torn into pieces."] = "Разорван на части.",
         ["Bleeding to death."] = "Истёк кровью.",
         ["Dragged to the seafloor."] = "Утащен на дно.",
+        ["Drown."] = "Утонул.",
         ["Drowned."] = "Утонул.",
         ["Kidnapped."] = "Похищение.",
         ["Lost at sea."] = "Потерялся в море.",
+        ["Claimed by the sea."] = "Море забрало вас.",
+        ["The fog came."] = "Пришёл туман.",
+        ["Sharing blood with the sea."] = "Кровь смешалась с морем.",
+        ["Found by cargo ship."] = "Найден грузовым судном.",
+        ["Found by the company."] = "Найден компанией.",
+        ["Grabbed into stomatch."] = "Затащен в желудок.",
+        ["Were being watched."] = "За вами наблюдали.",
     };
     private static readonly Dictionary<string, string> EndingFriendFateText = new(StringComparer.Ordinal)
     {
@@ -207,6 +217,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     private float scanUntil;
     private float nextScan;
     private float nextRuntimeTextReapplyScan;
+    private float endingFastTextReapplyUntil;
     private int scanCount;
     private bool runtimeTranslationsLoaded;
     private bool loggedTutorialZeroTextFix;
@@ -251,6 +262,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         scanUntil = Time.realtimeSinceStartup + Math.Max(3f, Plugin.StartupScanSeconds.Value);
         nextScan = 0f;
         lastSceneName = SafeSceneName();
+        endingFastTextReapplyUntil = IsEndingScene(lastSceneName) ? Time.realtimeSinceStartup + 5f : 0f;
         reportPath = BuildDebugReportPath("runtime_visible_texture_targets.tsv");
         componentReportPath = BuildDebugReportPath("runtime_problem_texture_components.tsv");
         textFitReportPath = BuildDebugReportPath("ui_text_fit_inventory.tsv");
@@ -282,6 +294,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             visibleTextAuditScanCountForScene = 0;
             nextVisibleTextAuditScan = 0f;
             nextRuntimeTextReapplyScan = 0f;
+            endingFastTextReapplyUntil = IsEndingScene(sceneName) ? now + 5f : 0f;
             Plugin.LogSource.LogInfo("Scene changed; texture/font scan window reset. scene=" + sceneName);
         }
         if (now <= scanUntil && now >= nextScan)
@@ -291,8 +304,9 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         }
         if (Plugin.EnableRuntimeTextReapply.Value && now >= nextRuntimeTextReapplyScan)
         {
-            nextRuntimeTextReapplyScan = now + Math.Max(0.5f, Plugin.RuntimeTextReapplyIntervalSeconds.Value);
-            ReapplyRuntimeTranslations("periodic");
+            var endingFast = IsEndingFastTextReapplyActive(sceneName, now);
+            nextRuntimeTextReapplyScan = now + (endingFast ? 0.075f : Math.Max(0.5f, Plugin.RuntimeTextReapplyIntervalSeconds.Value));
+            ReapplyRuntimeTranslations(endingFast ? "ending-fast" : "periodic");
         }
     }
 
@@ -2451,6 +2465,16 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         return scene.Contains("runEnd", StringComparison.OrdinalIgnoreCase) ||
             path.Contains("ENDING_CANVAS", StringComparison.OrdinalIgnoreCase) ||
             path.EndsWith("UI/ENDING_CANVAS/InfoList/6", StringComparison.Ordinal);
+    }
+
+    private static bool IsEndingScene(string sceneName)
+    {
+        return !string.IsNullOrEmpty(sceneName) && sceneName.Contains("runEnd", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private bool IsEndingFastTextReapplyActive(string sceneName, float now)
+    {
+        return IsEndingScene(sceneName) && now <= endingFastTextReapplyUntil;
     }
 
     private static bool IsEndingDeathCauseContext(string path, string objectName, string current)
