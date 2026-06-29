@@ -24,7 +24,11 @@ This report is deliberately conservative. The current pass improves broad text c
 
 - `MENU/UI/Canvas_Tutorial/MENU/CONTENT/TUT_0/howtoplay_txt` is corrected directly by the runtime plugin when the TMP text still contains the English opening tutorial paragraph. XUnity dictionary rows existed, but the live TMP component did not apply them reliably.
 - `MENU/UI/Canvas/MedalsButton/runs_text` is corrected directly by the runtime plugin for one-line, newline, and whitespace-normalized `Runs: X Record: Y Days` forms. The result keeps two Russian lines so it fits the main menu stats block.
-- Both fixes still need clean v1.1.3 screenshot/audit verification before they are treated as fully validated.
+- Ending company note lines are corrected directly by the runtime plugin for known exact `Company's Note: "..."` variants when they are late-assigned on the ending canvas.
+- Health hover tooltip late/runtime variants `Hurts a bit` and `Everything hurts` now have dictionary entries and a narrow runtime correction for `UI/HUD/Health/HoverBox_health/mood_info`.
+- Fishing/item card text `A tape record...?` is shortened to `Аудиозапись...?`.
+- The observed bad item tooltip text `Два работает.` is corrected at runtime to `2 применения.` only in item/tooltip-like contexts. The original English source for this bad Russian runtime text was not found in the current static inventory.
+- These fixes still need clean v1.1.3 screenshot/audit verification before they are treated as fully validated.
 
 ## Still Needs Runtime Route Coverage
 
@@ -32,7 +36,8 @@ This report is deliberately conservative. The current pass improves broad text c
 - Night events with Row, Frederik, Laurel, and Captain Whiskers variants.
 - Journal entries reached through less common event outcomes.
 - How-to-play slides after the runtime TMP correction, especially pages beyond `TUT_0`.
-- Company notes assigned late on ending screen.
+- Company notes assigned late on ending screen after the narrow runtime correction.
+- Health status hover tooltips after the narrow runtime correction.
 - Search/result panels after multiple result types.
 
 ## Texture-Only

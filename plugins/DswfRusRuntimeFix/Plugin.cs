@@ -104,6 +104,25 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     private static readonly Regex EnglishWord = new(@"[A-Za-z][A-Za-z']{1,}", RegexOptions.Compiled);
     private static readonly Regex TechnicalVisibleText = new(@"^(?:[A-Za-z0-9_./\\-]+\.(?:dll|exe|png|assets?)|[A-Fa-f0-9]{16,}|[A-Za-z_][A-Za-z0-9_]*(?:Controller|Manager|Renderer|Animator|Canvas|Holder|Pivot|Model|Prefab))$", RegexOptions.Compiled);
     private static readonly Regex RunsRecordText = new(@"Runs:\s*(\d+)\s*(?:\r?\n|\s+)\s*Record:\s*(\d+)\s*Days", RegexOptions.Compiled);
+    private static readonly Dictionary<string, string> EndingCompanyNoteText = new(StringComparer.Ordinal)
+    {
+        ["Company's Note: \"No impact noted.\""] = "Заметка компании: \"Последствий не выявлено.\"",
+        ["Company's Note: \"Calculated risk.\""] = "Заметка компании: \"Рассчитанный риск.\"",
+        ["Company's Note: \"Everything under control.\""] = "Заметка компании: \"Всё под контролем.\"",
+        ["Company's Note: \"Expected results.\""] = "Заметка компании: \"Ожидаемые результаты.\"",
+        ["Company's Note: \"Anticipated outcomes.\""] = "Заметка компании: \"Ожидаемые исходы.\"",
+        ["Company's Note: \"Critical financial hit.\""] = "Заметка компании: \"Критический финансовый удар.\"",
+        ["Company's Note: \"Heavy financial setback.\""] = "Заметка компании: \"Серьёзный финансовый ущерб.\"",
+        ["Company's Note: \"Severely reduced returns.\""] = "Заметка компании: \"Прибыль резко снижена.\"",
+        ["Company's Note: \"High-impact failure.\""] = "Заметка компании: \"Серьёзный провал.\"",
+        ["Company's Note: \"Extensive layoffs executed.\""] = "Заметка компании: \"Проведены массовые увольнения.\"",
+        ["Company's Note: \"Recovery efforts failed.\""] = "Заметка компании: \"Попытки восстановления провалились.\"",
+    };
+    private static readonly Dictionary<string, string> HealthTooltipText = new(StringComparer.Ordinal)
+    {
+        ["Hurts a bit"] = "Немного болит",
+        ["Everything hurts"] = "Всё болит",
+    };
     private const string TutorialZeroRussianText = "Вы <color=yellow>капитан</color> корабля на тайном задании. Внезапный удар тяжело повреждает судно. Дождитесь аварийных сирен и немедленно эвакуируйтесь.";
     private const string MainTitleTextureReplacementStem = "sharedassets1__Texture2D__50__unnamed_50";
     private readonly Dictionary<string, Replacement> byName = new(StringComparer.OrdinalIgnoreCase);
@@ -121,6 +140,9 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     private int scanCount;
     private bool loggedTutorialZeroTextFix;
     private bool loggedRunsRecordTextFix;
+    private bool loggedEndingCompanyNoteFix;
+    private bool loggedHealthTooltipFix;
+    private bool loggedItemTooltipFix;
     private TMP_FontAsset runtimeTmpFont;
     private Font runtimeUnityFont;
     private bool fontAttempted;
@@ -432,6 +454,9 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
                 var current = SafeText(() => text.text);
                 if (TryPatchTutorialZeroText(text, path, current)) changed++;
                 else if (TryPatchRunsRecordText(text, path, current)) changed++;
+                else if (TryPatchEndingCompanyNoteText(text, path, current)) changed++;
+                else if (TryPatchHealthTooltipText(text, path, current)) changed++;
+                else if (TryPatchKnownRussianItemTooltipText(text, path, current)) changed++;
             }
             catch (Exception ex)
             {
@@ -479,6 +504,52 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         {
             loggedRunsRecordTextFix = true;
             Plugin.LogSource.LogInfo("Applied known TMP text correction: main menu runs/record.");
+        }
+        return true;
+    }
+
+    private bool TryPatchEndingCompanyNoteText(TMP_Text text, string path, string current)
+    {
+        if (string.IsNullOrEmpty(current)) return false;
+        if (!IsEndingCompanyNoteContext(path)) return false;
+        if (!EndingCompanyNoteText.TryGetValue(current.Trim(), out var replacement)) return false;
+        if (string.Equals(current, replacement, StringComparison.Ordinal)) return false;
+
+        text.text = replacement;
+        if (!loggedEndingCompanyNoteFix)
+        {
+            loggedEndingCompanyNoteFix = true;
+            Plugin.LogSource.LogInfo("Applied known TMP text correction: ending company note.");
+        }
+        return true;
+    }
+
+    private bool TryPatchHealthTooltipText(TMP_Text text, string path, string current)
+    {
+        if (string.IsNullOrEmpty(current)) return false;
+        if (!IsHealthTooltipContext(path, text.gameObject)) return false;
+        if (!HealthTooltipText.TryGetValue(current.Trim(), out var replacement)) return false;
+        if (string.Equals(current, replacement, StringComparison.Ordinal)) return false;
+
+        text.text = replacement;
+        if (!loggedHealthTooltipFix)
+        {
+            loggedHealthTooltipFix = true;
+            Plugin.LogSource.LogInfo("Applied known TMP text correction: health tooltip.");
+        }
+        return true;
+    }
+
+    private bool TryPatchKnownRussianItemTooltipText(TMP_Text text, string path, string current)
+    {
+        if (!string.Equals(current?.Trim(), "Два работает.", StringComparison.Ordinal)) return false;
+        if (!IsItemTooltipContext(path, text.gameObject)) return false;
+
+        text.text = "2 применения.";
+        if (!loggedItemTooltipFix)
+        {
+            loggedItemTooltipFix = true;
+            Plugin.LogSource.LogInfo("Applied known TMP text correction: item tooltip wording.");
         }
         return true;
     }
@@ -1897,6 +1968,33 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     {
         if (string.IsNullOrEmpty(path) || string.IsNullOrEmpty(suffix)) return false;
         return path.EndsWith(suffix, StringComparison.Ordinal);
+    }
+
+    private static bool IsEndingCompanyNoteContext(string path)
+    {
+        var scene = SafeText(() => SceneManager.GetActiveScene().name);
+        return scene.Contains("runEnd", StringComparison.OrdinalIgnoreCase) ||
+            path.Contains("ENDING_CANVAS", StringComparison.OrdinalIgnoreCase) ||
+            path.EndsWith("UI/ENDING_CANVAS/InfoList/6", StringComparison.Ordinal);
+    }
+
+    private static bool IsHealthTooltipContext(string path, GameObject go)
+    {
+        return path.EndsWith("UI/HUD/Health/HoverBox_health/mood_info", StringComparison.Ordinal) ||
+            (path.Contains("HoverBox_health", StringComparison.OrdinalIgnoreCase) &&
+             string.Equals(SafeObjectName(go), "mood_info", StringComparison.Ordinal));
+    }
+
+    private static bool IsItemTooltipContext(string path, GameObject go)
+    {
+        var objectName = SafeObjectName(go);
+        return path.Contains("CursorTipText", StringComparison.OrdinalIgnoreCase) ||
+            path.Contains("Item", StringComparison.OrdinalIgnoreCase) ||
+            path.Contains("Tooltip", StringComparison.OrdinalIgnoreCase) ||
+            path.Contains("Task_Fishing", StringComparison.OrdinalIgnoreCase) ||
+            path.Contains("FishedVisuals", StringComparison.OrdinalIgnoreCase) ||
+            objectName.Contains("info", StringComparison.OrdinalIgnoreCase) ||
+            objectName.Contains("tooltip", StringComparison.OrdinalIgnoreCase);
     }
 
     private static string Tsv(string value) => (value ?? "").Replace("\t", " ").Replace("\r", " ").Replace("\n", " ");

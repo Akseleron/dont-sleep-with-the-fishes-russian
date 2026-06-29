@@ -273,9 +273,15 @@ rg -n "OptionsMenu|HealthStatusHUD|FriendSupportPanel|LeftNotification|FishingRe
 - `Company's Note: "High-impact failure."` -> `Заметка компании: "Серьёзный провал."`
 - `Company's Note: "Extensive layoffs executed."` -> `Заметка компании: "Проведены массовые увольнения."`
 - `Company's Note: "Recovery efforts failed."` -> `Заметка компании: "Попытки восстановления провалились."`
+- Runtime correction for ending `UI/ENDING_CANVAS/InfoList/6`: verify late-populated `Company's Note: "..."` lines remain Russian after stats finish animating.
 - `You're the captain of a ship on a covert delivery mission with a small crew...` -> `Вы капитан корабля на тайном задании с небольшой командой...`
 - Runtime correction for `MENU/UI/Canvas_Tutorial/MENU/CONTENT/TUT_0/howtoplay_txt`: verify the opening tutorial body becomes `Вы <color=yellow>капитан</color> корабля на тайном задании...`
 - Runtime correction for `MENU/UI/Canvas/MedalsButton/runs_text`: verify `Runs: X Record: Y Days` becomes two lines, `Забегов: X` and `Рекорд: Y дн.`
+- Health hover tooltip `Hurts a bit` -> `Немного болит`
+- Health hover tooltip `Everything hurts` -> `Всё болит`
+- Fishing/item card `A tape record...?` -> `Аудиозапись...?`
+- Item tooltip bad runtime text `Два работает.` -> `2 применения.`
+- How-to-play controls line: verify `Камера: мышь | Движение: WASD | Взять/бросить: 'E'` fits.
 - `Check the back?` -> `Посмотреть назад?`
 - `Boat Damaged` -> `Шлюпка`
 - `Broken Compass` -> `Компас сломан`
