@@ -274,6 +274,8 @@ rg -n "OptionsMenu|HealthStatusHUD|FriendSupportPanel|LeftNotification|FishingRe
 - `Company's Note: "Extensive layoffs executed."` -> `Заметка компании: "Проведены массовые увольнения."`
 - `Company's Note: "Recovery efforts failed."` -> `Заметка компании: "Попытки восстановления провалились."`
 - `You're the captain of a ship on a covert delivery mission with a small crew...` -> `Вы капитан корабля на тайном задании с небольшой командой...`
+- Runtime correction for `MENU/UI/Canvas_Tutorial/MENU/CONTENT/TUT_0/howtoplay_txt`: verify the opening tutorial body becomes `Вы <color=yellow>капитан</color> корабля на тайном задании...`
+- Runtime correction for `MENU/UI/Canvas/MedalsButton/runs_text`: verify `Runs: X Record: Y Days` becomes two lines, `Забегов: X` and `Рекорд: Y дн.`
 - `Check the back?` -> `Посмотреть назад?`
 - `Boat Damaged` -> `Шлюпка`
 - `Broken Compass` -> `Компас сломан`
@@ -301,9 +303,14 @@ rg -n "OptionsMenu|HealthStatusHUD|FriendSupportPanel|LeftNotification|FishingRe
 - Journal title fit: verify `Взгляд смерти`.
 - End/death screen stats: verify stat labels, company note title, and cause-of-death prefix.
 - Dynamic prefix strings: verify `Nails Left: N` and fish `Weight: Xkg` / `<b>Weight:</b> Xkg`.
-- Main menu stats: verify `Runs: X Record: Y Days` becomes `Забегов: X Рекорд: Y дн.`
+- Main menu stats: verify the narrow runtime correction for `runs_text`; the game may render this as one line or a newline-separated value before the plugin rewrites it.
 - Mixed RU/EN ending lines: verify all `Company's Note: "..."`
   variants stay fully Russian after the ending screen finishes updating.
+
+Runtime TMP correction notes:
+
+- `howtoplay_txt` and `runs_text` required a narrow runtime plugin correction because XUnity dictionary/regex rows existed but did not reliably apply to those TMP components after runtime assignment.
+- These corrections are path-bound and should be verified with a clean v1.1.3 runtime screenshot/audit pass before claiming support.
 
 All-text audit notes:
 

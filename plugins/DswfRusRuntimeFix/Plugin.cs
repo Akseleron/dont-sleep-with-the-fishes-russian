@@ -103,6 +103,8 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     private static readonly Regex ReplacementName = new(@"^(?<asset>sharedassets\d+)__(?<type>Texture2D|Sprite)__(?<pathId>\d+)__(?<name>.+)$", RegexOptions.Compiled);
     private static readonly Regex EnglishWord = new(@"[A-Za-z][A-Za-z']{1,}", RegexOptions.Compiled);
     private static readonly Regex TechnicalVisibleText = new(@"^(?:[A-Za-z0-9_./\\-]+\.(?:dll|exe|png|assets?)|[A-Fa-f0-9]{16,}|[A-Za-z_][A-Za-z0-9_]*(?:Controller|Manager|Renderer|Animator|Canvas|Holder|Pivot|Model|Prefab))$", RegexOptions.Compiled);
+    private static readonly Regex RunsRecordText = new(@"Runs:\s*(\d+)\s*(?:\r?\n|\s+)\s*Record:\s*(\d+)\s*Days", RegexOptions.Compiled);
+    private const string TutorialZeroRussianText = "Вы <color=yellow>капитан</color> корабля на тайном задании. Внезапный удар тяжело повреждает судно. Дождитесь аварийных сирен и немедленно эвакуируйтесь.";
     private const string MainTitleTextureReplacementStem = "sharedassets1__Texture2D__50__unnamed_50";
     private readonly Dictionary<string, Replacement> byName = new(StringComparer.OrdinalIgnoreCase);
     private readonly Dictionary<string, Replacement> byStem = new(StringComparer.OrdinalIgnoreCase);
@@ -117,6 +119,8 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     private float scanUntil;
     private float nextScan;
     private int scanCount;
+    private bool loggedTutorialZeroTextFix;
+    private bool loggedRunsRecordTextFix;
     private TMP_FontAsset runtimeTmpFont;
     private Font runtimeUnityFont;
     private bool fontAttempted;
@@ -399,7 +403,8 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     private void ScanAndPatch(string reason)
     {
         scanCount++;
-        int tmp = 0, images = 0, raw = 0, sprites = 0, renderers = 0;
+        int tmp = 0, knownText = 0, images = 0, raw = 0, sprites = 0, renderers = 0;
+        knownText = PatchKnownTmpTexts();
         if (runtimeTmpFont != null) tmp = PatchTmpTexts();
         if (Plugin.EnableTextureFix.Value)
         {
@@ -412,7 +417,70 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         if (Plugin.DumpVisibleTextureNames.Value) DumpProblemComponents(reason);
         if (Plugin.DumpVisibleTextFit.Value) DumpVisibleTextFit(reason);
         if (Plugin.EnableVisibleTextAudit.Value) DumpVisibleTextAudit(reason);
-        Plugin.LogSource.LogInfo($"Scan {scanCount} ({reason}) complete. TMP patched={tmp}, Images={images}, RawImages={raw}, SpriteRenderers={sprites}, Renderers={renderers}");
+        Plugin.LogSource.LogInfo($"Scan {scanCount} ({reason}) complete. KnownTMP={knownText}, TMP patched={tmp}, Images={images}, RawImages={raw}, SpriteRenderers={sprites}, Renderers={renderers}");
+    }
+
+    private int PatchKnownTmpTexts()
+    {
+        int changed = 0;
+        foreach (var text in Resources.FindObjectsOfTypeAll<TMP_Text>())
+        {
+            if (text == null || text.gameObject == null) continue;
+            try
+            {
+                var path = SafeObjectPath(text.gameObject);
+                var current = SafeText(() => text.text);
+                if (TryPatchTutorialZeroText(text, path, current)) changed++;
+                else if (TryPatchRunsRecordText(text, path, current)) changed++;
+            }
+            catch (Exception ex)
+            {
+                Plugin.LogSource.LogWarning("Known TMP text correction failed on " + SafeObjectPath(text.gameObject) + ": " + ex.Message);
+            }
+        }
+        return changed;
+    }
+
+    private bool TryPatchTutorialZeroText(TMP_Text text, string path, string current)
+    {
+        if (string.IsNullOrEmpty(current)) return false;
+        if (!PathEndsWith(path, "MENU/UI/Canvas_Tutorial/MENU/CONTENT/TUT_0/howtoplay_txt")) return false;
+
+        var normalized = NormalizeVisibleText(current);
+        var matchesKnownTutorialText =
+            current.Contains("covert delivery mission", StringComparison.Ordinal) ||
+            normalized.StartsWith("You’re the captain of a ship", StringComparison.Ordinal) ||
+            normalized.StartsWith("You're the captain of a ship", StringComparison.Ordinal);
+        if (!matchesKnownTutorialText || string.Equals(current, TutorialZeroRussianText, StringComparison.Ordinal)) return false;
+
+        text.text = TutorialZeroRussianText;
+        if (!loggedTutorialZeroTextFix)
+        {
+            loggedTutorialZeroTextFix = true;
+            Plugin.LogSource.LogInfo("Applied known TMP text correction: how-to-play TUT_0 body.");
+        }
+        return true;
+    }
+
+    private bool TryPatchRunsRecordText(TMP_Text text, string path, string current)
+    {
+        if (string.IsNullOrEmpty(current)) return false;
+        var objectName = SafeObjectName(text.gameObject);
+        if (!PathEndsWith(path, "MENU/UI/Canvas/MedalsButton/runs_text") && !string.Equals(objectName, "runs_text", StringComparison.Ordinal)) return false;
+
+        var match = RunsRecordText.Match(current);
+        if (!match.Success) return false;
+
+        var replacement = $"Забегов: {match.Groups[1].Value}\nРекорд: {match.Groups[2].Value} дн.";
+        if (string.Equals(current, replacement, StringComparison.Ordinal)) return false;
+
+        text.text = replacement;
+        if (!loggedRunsRecordTextFix)
+        {
+            loggedRunsRecordTextFix = true;
+            Plugin.LogSource.LogInfo("Applied known TMP text correction: main menu runs/record.");
+        }
+        return true;
     }
 
     private int PatchTmpTexts()
@@ -1817,6 +1885,18 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             return string.Join("/", parts);
         }
         catch { return go.name; }
+    }
+
+    private static string SafeObjectName(GameObject go)
+    {
+        try { return go != null ? go.name ?? "" : ""; }
+        catch { return ""; }
+    }
+
+    private static bool PathEndsWith(string path, string suffix)
+    {
+        if (string.IsNullOrEmpty(path) || string.IsNullOrEmpty(suffix)) return false;
+        return path.EndsWith(suffix, StringComparison.Ordinal);
     }
 
     private static string Tsv(string value) => (value ?? "").Replace("\t", " ").Replace("\r", " ").Replace("\n", " ");

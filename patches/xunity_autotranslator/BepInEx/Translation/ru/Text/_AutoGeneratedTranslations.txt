@@ -1161,7 +1161,6 @@ Row does not feel well...=Роу нездоровится...
 Row's fate is unknown.=Судьба Роу неизвестна.
 Row’ and I are the only ones left, sitting in this old junk of a lifeboat.=Мы с Роу остались одни в этой старой развалине спасательной шлюпки.
 Run=Бег
-Runs: 4\nRecord: 13 Days=Забеги: 4\nРекорд: 13 дней
 S- So naturally, I scraped up whatever dirt I could find and planted it. Look at her.. happy as can be.=Н- Ну естественно, я собрал все грязь, что смог найти, и посадил. Посмотри на неё.. счастлива как никогда.
 S- Sorry, I won’t be much of a help today..=С- Сожалею, сегодня я не смогу помочь так много...
 S- Sorry… I fell asleep..=И-Извини… Я уснул..

@@ -20,12 +20,18 @@ This report is deliberately conservative. The current pass improves broad text c
 - Several layout-risk Russian strings shortened.
 - Merged tester audit reports are now stored as processed docs.
 
+## Fixed In Narrow Runtime Pass
+
+- `MENU/UI/Canvas_Tutorial/MENU/CONTENT/TUT_0/howtoplay_txt` is corrected directly by the runtime plugin when the TMP text still contains the English opening tutorial paragraph. XUnity dictionary rows existed, but the live TMP component did not apply them reliably.
+- `MENU/UI/Canvas/MedalsButton/runs_text` is corrected directly by the runtime plugin for one-line, newline, and whitespace-normalized `Runs: X Record: Y Days` forms. The result keeps two Russian lines so it fits the main menu stats block.
+- Both fixes still need clean v1.1.3 screenshot/audit verification before they are treated as fully validated.
+
 ## Still Needs Runtime Route Coverage
 
 - Rare endings and friend fate combinations.
 - Night events with Row, Frederik, Laurel, and Captain Whiskers variants.
 - Journal entries reached through less common event outcomes.
-- How-to-play slides after dictionary refresh.
+- How-to-play slides after the runtime TMP correction, especially pages beyond `TUT_0`.
 - Company notes assigned late on ending screen.
 - Search/result panels after multiple result types.
 
