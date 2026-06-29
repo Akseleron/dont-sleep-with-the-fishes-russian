@@ -77,12 +77,14 @@ This report is deliberately conservative. The current pass improves broad text c
 
 ## Texture-Only
 
-- Main menu logo/title still shows `Don't Sleep With The Fishes`.
-- Exact texture asset/path_id has not been identified from screenshot alone.
-- A full local texture export for manual review was prepared at `build/dswf_v1_1_3_all_textures_for_manual_review/`, with manifest `build/dswf_v1_1_3_all_textures_for_manual_review/manifest.tsv` and optional review ZIP `build/dswf-v1.1.3-all-textures-for-manual-review.zip`.
-- Texture replacement manifest template: `docs/v1_1_3_texture_replacement_manifest_template.tsv`.
-- Texture replacement workflow: `docs/v1_1_3_texture_replacement_workflow.md`.
-- Texture validation requires `--apply-textures` or full patcher texture application.
+- Previous screenshot evidence showed the main menu logo/title texture as `Don't Sleep With The Fishes`; the v4 replacement now needs visual verification.
+- v4 texture archive was integrated into the static offline payload for supported `Texture2D` rows.
+- Active manifest: `docs/v1_1_3_texture_replacement_manifest.tsv`.
+- Approved applied payload rows: 9 `Texture2D` replacements.
+- Unsupported archive rows: 7 `Sprite` replacements; current offline patcher does not apply Sprite rows.
+- Texture-enabled dev install succeeded with `--apply-textures`; manual visual validation is still required.
+- Texture runtime checklist: `docs/v1_1_3_texture_runtime_checklist.md`.
+- No fresh post-texture runtime audit exists yet; visible-text validator must be rerun after manual gameplay creates `game_runtime_test_v1_1_3/BepInEx/dswf_audit/`.
 
 ## Packaging Base
 
@@ -90,7 +92,8 @@ This report is deliberately conservative. The current pass improves broad text c
 - Linux/Wine package script prepared: `scripts/package_linux_patch.py`.
 - Packaging plan: `docs/v1_1_3_packaging_plan.md`.
 - Package scripts build local ZIPs under `build/`, verify safe runtime config, and reject game files.
-- Package scripts do not include unapproved texture replacements by default.
+- `--include-textures` adds `_dswf_rus_texture_payload/` for inspection/manual installer testing, but extraction-only ZIPs do not patch Unity assets.
+- Local inspection ZIPs were built under `build/` with texture payloads and no game files; they remain uncommitted artifacts.
 
 ## Layout And Clipping
 
@@ -116,4 +119,4 @@ This report is deliberately conservative. The current pass improves broad text c
 
 ## Support Claim
 
-Do not claim v1.1.3 support yet. Release-candidate status is blocked until the dev payload is reinstalled into a clean v1.1.3 copy, visible audit is rerun, `scripts/validate_runtime_visible_english.py` passes, and screenshots verify the fixes listed in the runtime checklist.
+Do not claim v1.1.3 support yet. Text runtime validation has passed after `b10c244`, but release-candidate status is still blocked until a texture-enabled clean runtime run visually verifies the v4 texture payload and package ZIP contents are inspected.

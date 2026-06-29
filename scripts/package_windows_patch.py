@@ -14,11 +14,12 @@ PAYLOAD = ROOT / "dist/dswf-rus-patcher/payload"
 BUILD = ROOT / "build"
 STAGING = BUILD / "dswf-rus-v1.1.3-windows-patch"
 OUT_ZIP = BUILD / "dswf-rus-v1.1.3-windows-patch.zip"
+TEXTURE_MANIFEST = ROOT / "docs/v1_1_3_texture_replacement_manifest.tsv"
 
 GAME_FILE_NAMES = {"DontSleepWithTheFishes.exe", "UnityPlayer.dll", "GameAssembly.dll"}
 GAME_DIR_NAMES = {"DontSleepWithTheFishes_Data"}
 
-README = """DSWF Russian patch v1.1.3 - Windows
+README_TEMPLATE = """DSWF Russian patch v1.1.3 - Windows
 
 This archive is not the game. Use it only with your own copy of Dont Sleep With The Fishes v1.1.3.
 
@@ -31,16 +32,17 @@ Included:
 - BepInEx / XUnity AutoTranslator files
 - Russian text dictionary and regexes
 - DSWF Russian Runtime Fix plugin and safe config
+{texture_included}
 
 Not included:
 - DontSleepWithTheFishes.exe
 - DontSleepWithTheFishes_Data/
 - UnityPlayer.dll
 - GameAssembly.dll
-- texture replacements that are still under manual review
 
 Troubleshooting:
 - BepInEx/LogOutput.log contains runtime plugin and XUnity logs.
+- If a maintainer asks for audit logs, enable visible audit in BepInEx/config/ru.dswf.runtimefix.cfg, play, then send BepInEx/dswf_audit/ and BepInEx/LogOutput.log.
 - Do not enable runtime texture replacement unless a maintainer asks you to test it.
 """
 
@@ -79,6 +81,17 @@ def ensure_no_game_files_in_zip(path: Path) -> None:
                 raise SystemExit(f"zip contains forbidden game file/path: {name}")
 
 
+def copy_texture_payload(staging: Path) -> None:
+    texture_dir = PAYLOAD / "textures"
+    if not texture_dir.exists() or not any(texture_dir.glob("*.png")):
+        raise SystemExit(f"texture payload is empty: {texture_dir}")
+    if not TEXTURE_MANIFEST.exists():
+        raise SystemExit(f"texture manifest missing: {TEXTURE_MANIFEST}")
+    dst = staging / "_dswf_rus_texture_payload"
+    copy_tree(texture_dir, dst / "textures")
+    shutil.copy2(TEXTURE_MANIFEST, dst / "v1_1_3_texture_replacement_manifest.tsv")
+
+
 def build(out_zip: Path, include_textures: bool) -> None:
     if STAGING.exists():
         shutil.rmtree(STAGING)
@@ -87,8 +100,18 @@ def build(out_zip: Path, include_textures: bool) -> None:
     copy_tree(PAYLOAD / "text", STAGING)
     copy_tree(PAYLOAD / "runtime", STAGING)
     if include_textures:
-        copy_tree(PAYLOAD / "textures", STAGING)
-    (STAGING / "README_DSWF_RUS_WINDOWS.txt").write_text(README, encoding="utf-8", newline="\r\n")
+        copy_texture_payload(STAGING)
+    texture_note = (
+        "- approved static texture replacement payload under _dswf_rus_texture_payload/ for installer/manual validation; "
+        "extracting this ZIP alone does not patch Unity asset files"
+        if include_textures
+        else "- no texture replacements; static texture patching must be applied by the dev/GUI installer"
+    )
+    (STAGING / "README_DSWF_RUS_WINDOWS.txt").write_text(
+        README_TEMPLATE.format(texture_included=texture_note),
+        encoding="utf-8",
+        newline="\r\n",
+    )
     ensure_safe_release_config(STAGING)
     ensure_no_game_files(STAGING)
     out_zip.parent.mkdir(parents=True, exist_ok=True)

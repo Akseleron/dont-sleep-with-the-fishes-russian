@@ -371,6 +371,11 @@ Use `docs/v1_1_3_ui_block_coverage.tsv` and runtime `BepInEx/visible_english_aud
 - Texture validation requires either:
   - dev install with `--apply-textures`
   - full GUI patcher texture application
+- Current texture-enabled dev install command:
+  ```bash
+  .venv-tools/bin/python scripts/dev_prepare_v1_1_3_test_copy.py
+  .venv-tools/bin/python scripts/dev_install_to_game.py game_runtime_test_v1_1_3 --clean-bepinex --apply-textures
+  ```
 - Runtime texture replacement must remain disabled; only offline texture patches should be tested.
 - Full texture review export for this pass:
   - `build/dswf_v1_1_3_all_textures_for_manual_review/`
@@ -378,12 +383,21 @@ Use `docs/v1_1_3_ui_block_coverage.tsv` and runtime `BepInEx/visible_english_aud
   - optional local ZIP `build/dswf-v1.1.3-all-textures-for-manual-review.zip`
   These files are local review artifacts and must not be committed.
 - Future texture replacement mapping must use `docs/v1_1_3_texture_replacement_manifest_template.tsv`; do not rely on exported PNG names alone.
+- Current v4 replacement manifest: `docs/v1_1_3_texture_replacement_manifest.tsv`.
+- Texture runtime checklist: `docs/v1_1_3_texture_runtime_checklist.md`.
+- Confirm the dev install report says `textures_applied=True` and the texture patch report has 9 `applied` rows.
 
 ## Package Base Checks
 
 - Windows package script: `.venv-tools/bin/python scripts/package_windows_patch.py`
 - Linux package script: `.venv-tools/bin/python scripts/package_linux_patch.py`
-- Do not run these as release builds until fresh runtime audit and texture validation pass.
+- Optional texture-payload inspection packages:
+  ```bash
+  .venv-tools/bin/python scripts/package_windows_patch.py --include-textures
+  .venv-tools/bin/python scripts/package_linux_patch.py --include-textures
+  ```
+- Do not treat these as release builds until fresh runtime audit and texture validation pass.
+- Extraction ZIPs do not apply static Unity texture patches; texture patching is done by the dev/GUI installer path.
 - If run locally later, inspect ZIP contents and confirm none of these are present:
   - `DontSleepWithTheFishes.exe`
   - `DontSleepWithTheFishes_Data/`
