@@ -33,6 +33,8 @@ public sealed class Plugin : BasePlugin
     internal static ConfigEntry<bool> OverrideTmpFonts;
     internal static ConfigEntry<bool> DumpVisibleTextureNames;
     internal static ConfigEntry<bool> DumpVisibleTextFit;
+    internal static ConfigEntry<bool> EnableRuntimeTextReapply;
+    internal static ConfigEntry<float> RuntimeTextReapplyIntervalSeconds;
     internal static ConfigEntry<bool> EnableVisibleTextAudit;
     internal static ConfigEntry<string> VisibleTextAuditMode;
     internal static ConfigEntry<float> VisibleTextAuditIntervalSeconds;
@@ -68,6 +70,8 @@ public sealed class Plugin : BasePlugin
         PatchGameplay3DTextures = Config.Bind("Textures", "PatchGameplay3DTextures", false, "Patch RawImage, SpriteRenderer, and Renderer material textures.");
         DumpVisibleTextureNames = Config.Bind("Diagnostics", "DumpVisibleTextureNames", true, "Write visible texture/component names to ../debug_reports/runtime_visible_texture_names.tsv during scans.");
         DumpVisibleTextFit = Config.Bind("Diagnostics", "DumpVisibleTextFit", true, "Write visible TMP/UI text fit data to ../debug_reports/ui_text_fit_inventory.tsv during scans.");
+        EnableRuntimeTextReapply = Config.Bind("RuntimeText", "EnableRuntimeTextReapply", true, "Reapply installed exact/regex translations to visible UI text assigned after XUnity's initial pass.");
+        RuntimeTextReapplyIntervalSeconds = Config.Bind("RuntimeText", "RuntimeTextReapplyIntervalSeconds", 0.75f, "Seconds between low-frequency visible UI translation reapply scans.");
         EnableVisibleTextAudit = Config.Bind("Diagnostics", "EnableVisibleTextAudit", false, "Development only: write likely English visible UI text to BepInEx/visible_english_audit.tsv. Does not modify text.");
         VisibleTextAuditMode = Config.Bind("Diagnostics", "VisibleTextAuditMode", "EnglishOnly", "Visible text audit mode: EnglishOnly, MixedRuEn, or AllText.");
         VisibleTextAuditIntervalSeconds = Config.Bind("Diagnostics", "VisibleTextAuditIntervalSeconds", 1.0f, "Seconds between visible-English audit scans while the scene startup scan window is active.");
@@ -104,6 +108,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     private static readonly Regex EnglishWord = new(@"[A-Za-z][A-Za-z']{1,}", RegexOptions.Compiled);
     private static readonly Regex TechnicalVisibleText = new(@"^(?:[A-Za-z0-9_./\\-]+\.(?:dll|exe|png|assets?)|[A-Fa-f0-9]{16,}|[A-Za-z_][A-Za-z0-9_]*(?:Controller|Manager|Renderer|Animator|Canvas|Holder|Pivot|Model|Prefab))$", RegexOptions.Compiled);
     private static readonly Regex RunsRecordText = new(@"Runs:\s*(\d+)\s*(?:\r?\n|\s+)\s*Record:\s*(\d+)\s*Days", RegexOptions.Compiled);
+    private static readonly Regex CompanyNoteLine = new("^Company's Note:\\s*\"(?<note>.+)\"$", RegexOptions.Compiled);
     private static readonly Dictionary<string, string> EndingCompanyNoteText = new(StringComparer.Ordinal)
     {
         ["Company's Note: \"No impact noted.\""] = "Заметка компании: \"Последствий не выявлено.\"",
@@ -118,10 +123,40 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         ["Company's Note: \"Extensive layoffs executed.\""] = "Заметка компании: \"Проведены массовые увольнения.\"",
         ["Company's Note: \"Recovery efforts failed.\""] = "Заметка компании: \"Попытки восстановления провалились.\"",
     };
+    private static readonly Dictionary<string, string> CompanyNoteValueText = new(StringComparer.Ordinal)
+    {
+        ["No impact noted."] = "Последствий не выявлено.",
+        ["Calculated risk."] = "Рассчитанный риск.",
+        ["Everything under control."] = "Всё под контролем.",
+        ["Expected results."] = "Ожидаемые результаты.",
+        ["Anticipated outcomes."] = "Ожидаемые исходы.",
+        ["Critical financial hit."] = "Критический финансовый удар.",
+        ["Heavy financial setback."] = "Серьёзный финансовый ущерб.",
+        ["Severely reduced returns."] = "Прибыль резко снижена.",
+        ["High-impact failure."] = "Серьёзный провал.",
+        ["Extensive layoffs executed."] = "Проведены массовые увольнения.",
+        ["Recovery efforts failed."] = "Попытки восстановления провалились.",
+    };
     private static readonly Dictionary<string, string> HealthTooltipText = new(StringComparer.Ordinal)
     {
         ["Hurts a bit"] = "Немного болит",
         ["Everything hurts"] = "Всё болит",
+    };
+    private static readonly Dictionary<string, string> EndingFriendFateText = new(StringComparer.Ordinal)
+    {
+        ["Row's fate is unknown."] = "Судьба Роу неизвестна.",
+        ["Frederik's fate is unknown."] = "Судьба Фредерика неизвестна.",
+        ["Laurel's fate is unknown."] = "Судьба Лорел неизвестна.",
+        ["Captain Whiskers may wander the sea alone."] = "Капитан Усатик скитается один.",
+        ["Row's fate is unknown. Captain Whiskers may wander the sea alone."] = "Судьба Роу неизвестна. Капитан Усатик скитается один.",
+        ["Row's fate is unknown.\nCaptain Whiskers may wander the sea alone."] = "Судьба Роу неизвестна.\nКапитан Усатик скитается один.",
+        ["Frederik's fate is unknown. Captain Whiskers may wander the sea alone."] = "Судьба Фредерика неизвестна. Капитан Усатик скитается один.",
+        ["Frederik's fate is unknown.\nCaptain Whiskers may wander the sea alone."] = "Судьба Фредерика неизвестна.\nКапитан Усатик скитается один.",
+        ["Laurel's fate is unknown. Captain Whiskers may wander the sea alone."] = "Судьба Лорел неизвестна. Капитан Усатик скитается один.",
+        ["Laurel's fate is unknown.\nCaptain Whiskers may wander the sea alone."] = "Судьба Лорел неизвестна.\nКапитан Усатик скитается один.",
+        ["Shipmates sunk with the ship."] = "Товарищи утонули с кораблём.",
+        ["Shipmates sunk with the ship. Captain Whiskers may wander the sea alone."] = "Товарищи утонули с кораблём. Капитан Усатик скитается один.",
+        ["Shipmates sunk with the ship.\nCaptain Whiskers may wander the sea alone."] = "Товарищи утонули с кораблём.\nКапитан Усатик скитается один.",
     };
     private const string TutorialZeroRussianText = "Вы <color=yellow>капитан</color> корабля на тайном задании. Внезапный удар тяжело повреждает судно. Дождитесь аварийных сирен и немедленно эвакуируйтесь.";
     private const string MainTitleTextureReplacementStem = "sharedassets1__Texture2D__50__unnamed_50";
@@ -135,14 +170,22 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     private readonly HashSet<int> failedSpriteRenderers = new();
     private readonly HashSet<int> patchedRenderers = new();
     private readonly HashSet<int> patchedTmpTexts = new();
+    private readonly Dictionary<string, string> runtimeExactTranslations = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, string> runtimeNormalizedTranslations = new(StringComparer.Ordinal);
+    private readonly List<RuntimeRegexTranslation> runtimeRegexTranslations = new();
+    private readonly Dictionary<int, string> lastAppliedRuntimeTextByComponent = new();
+    private readonly HashSet<string> loggedRuntimeTextReapply = new(StringComparer.Ordinal);
     private float scanUntil;
     private float nextScan;
+    private float nextRuntimeTextReapplyScan;
     private int scanCount;
+    private bool runtimeTranslationsLoaded;
     private bool loggedTutorialZeroTextFix;
     private bool loggedRunsRecordTextFix;
     private bool loggedEndingCompanyNoteFix;
     private bool loggedHealthTooltipFix;
     private bool loggedItemTooltipFix;
+    private bool loggedRuntimeTranslationLoad;
     private TMP_FontAsset runtimeTmpFont;
     private Font runtimeUnityFont;
     private bool fontAttempted;
@@ -185,6 +228,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         InitVisibleTextAuditSession();
         Plugin.LogSource.LogInfo("RuntimeFixBehaviour started. scene=" + lastSceneName);
         LoadReplacements();
+        LoadRuntimeTextTranslations();
         TrySetupFont();
         ScanAndPatch("startup");
     }
@@ -205,14 +249,21 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             failedSpriteRenderers.Clear();
             patchedRenderers.Clear();
             patchedTmpTexts.Clear();
+            lastAppliedRuntimeTextByComponent.Clear();
             visibleTextAuditScanCountForScene = 0;
             nextVisibleTextAuditScan = 0f;
+            nextRuntimeTextReapplyScan = 0f;
             Plugin.LogSource.LogInfo("Scene changed; texture/font scan window reset. scene=" + sceneName);
         }
         if (now <= scanUntil && now >= nextScan)
         {
             nextScan = now + 1.0f;
             ScanAndPatch("startup-repeat");
+        }
+        if (Plugin.EnableRuntimeTextReapply.Value && now >= nextRuntimeTextReapplyScan)
+        {
+            nextRuntimeTextReapplyScan = now + Math.Max(0.5f, Plugin.RuntimeTextReapplyIntervalSeconds.Value);
+            ReapplyRuntimeTranslations("periodic");
         }
     }
 
@@ -309,6 +360,125 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             Plugin.LogSource.LogInfo($"Texture alias registered: runtime='{runtimeName}' => replacement='{replacement.FileName}'");
         }
         Plugin.LogSource.LogInfo("Texture aliases registered: " + count);
+    }
+
+    private void LoadRuntimeTextTranslations()
+    {
+        if (runtimeTranslationsLoaded) return;
+        runtimeTranslationsLoaded = true;
+        runtimeExactTranslations.Clear();
+        runtimeNormalizedTranslations.Clear();
+        runtimeRegexTranslations.Clear();
+
+        foreach (var pair in EndingCompanyNoteText) AddRuntimeExactTranslation(pair.Key, pair.Value);
+        foreach (var pair in EndingFriendFateText) AddRuntimeExactTranslation(pair.Key, pair.Value);
+        foreach (var pair in HealthTooltipText) AddRuntimeExactTranslation(pair.Key, pair.Value);
+
+        var textDir = Path.Combine(Paths.GameRootPath, "BepInEx", "Translation", "ru", "Text");
+        var dictionaryPath = Path.Combine(textDir, "_AutoGeneratedTranslations.txt");
+        var regexPath = Path.Combine(textDir, "FishingRegex.txt");
+        var dictionaryRows = LoadRuntimeExactDictionary(dictionaryPath);
+        var regexRows = LoadRuntimeRegexDictionary(regexPath);
+        if (!loggedRuntimeTranslationLoad)
+        {
+            loggedRuntimeTranslationLoad = true;
+            Plugin.LogSource.LogInfo($"Runtime text reapply dictionaries loaded. exact={runtimeExactTranslations.Count}, normalized={runtimeNormalizedTranslations.Count}, regex={runtimeRegexTranslations.Count}, sourceRows={dictionaryRows}, regexRows={regexRows}");
+        }
+    }
+
+    private int LoadRuntimeExactDictionary(string path)
+    {
+        if (!File.Exists(path))
+        {
+            Plugin.LogSource.LogWarning("Runtime text exact dictionary not found: " + path);
+            return 0;
+        }
+
+        var count = 0;
+        foreach (var rawLine in File.ReadAllLines(path))
+        {
+            if (string.IsNullOrWhiteSpace(rawLine) || rawLine.StartsWith("#", StringComparison.Ordinal)) continue;
+            if (rawLine.StartsWith("r:\"", StringComparison.Ordinal) || rawLine.StartsWith("sr:\"", StringComparison.Ordinal)) continue;
+            var eq = FindRuntimeDictionarySeparator(rawLine);
+            if (eq <= 0) continue;
+            var source = UnescapeRuntimeDictionaryText(rawLine.Substring(0, eq));
+            var translation = UnescapeRuntimeDictionaryText(rawLine.Substring(eq + 1));
+            if (string.IsNullOrWhiteSpace(source) || string.IsNullOrWhiteSpace(translation)) continue;
+            AddRuntimeExactTranslation(source, translation);
+            count++;
+        }
+        return count;
+    }
+
+    private int LoadRuntimeRegexDictionary(string path)
+    {
+        if (!File.Exists(path))
+        {
+            Plugin.LogSource.LogWarning("Runtime text regex dictionary not found: " + path);
+            return 0;
+        }
+
+        var count = 0;
+        foreach (var rawLine in File.ReadAllLines(path))
+        {
+            var line = rawLine.Trim();
+            if (!line.StartsWith("r:\"", StringComparison.Ordinal)) continue;
+            var marker = "\"=";
+            var end = line.IndexOf(marker, 3, StringComparison.Ordinal);
+            if (end <= 3) continue;
+            var pattern = line.Substring(3, end - 3);
+            var replacement = UnescapeRuntimeDictionaryText(line.Substring(end + marker.Length));
+            if (string.IsNullOrWhiteSpace(pattern) || string.IsNullOrWhiteSpace(replacement)) continue;
+            try
+            {
+                runtimeRegexTranslations.Add(new RuntimeRegexTranslation(pattern, new Regex(pattern, RegexOptions.Compiled), replacement));
+                count++;
+            }
+            catch (Exception ex)
+            {
+                Plugin.LogSource.LogWarning("Runtime text regex skipped: pattern='" + pattern + "', error=" + ex.Message);
+            }
+        }
+        return count;
+    }
+
+    private void AddRuntimeExactTranslation(string source, string translation)
+    {
+        AddRuntimeExactTranslationVariant(source, translation);
+        var unescapedSource = UnescapeRuntimeDictionaryText(source);
+        if (!string.Equals(unescapedSource, source, StringComparison.Ordinal)) AddRuntimeExactTranslationVariant(unescapedSource, translation);
+    }
+
+    private void AddRuntimeExactTranslationVariant(string source, string translation)
+    {
+        if (string.IsNullOrWhiteSpace(source) || string.IsNullOrWhiteSpace(translation)) return;
+        runtimeExactTranslations[source] = translation;
+        var trimmed = source.Trim();
+        if (!string.Equals(trimmed, source, StringComparison.Ordinal)) runtimeExactTranslations[trimmed] = translation;
+        var normalized = NormalizeRuntimeLookupKey(source);
+        if (!string.IsNullOrEmpty(normalized) && !runtimeNormalizedTranslations.ContainsKey(normalized))
+        {
+            runtimeNormalizedTranslations[normalized] = translation;
+        }
+    }
+
+    private static string UnescapeRuntimeDictionaryText(string value)
+    {
+        if (string.IsNullOrEmpty(value)) return "";
+        return value.Replace("\\r\\n", "\n").Replace("\\n", "\n").Replace("\\r", "\r").Replace("\\t", "\t");
+    }
+
+    private static int FindRuntimeDictionarySeparator(string line)
+    {
+        var inTag = false;
+        for (var i = 0; i < line.Length; i++)
+        {
+            var c = line[i];
+            if (c == '<') inTag = true;
+            else if (c == '>') inTag = false;
+            else if (c == '=' && !inTag) return i;
+        }
+        return -1;
     }
 
     private void TrySetupFont()
@@ -425,8 +595,9 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     private void ScanAndPatch(string reason)
     {
         scanCount++;
-        int tmp = 0, knownText = 0, images = 0, raw = 0, sprites = 0, renderers = 0;
+        int tmp = 0, knownText = 0, runtimeText = 0, images = 0, raw = 0, sprites = 0, renderers = 0;
         knownText = PatchKnownTmpTexts();
+        runtimeText = ReapplyRuntimeTranslations(reason);
         if (runtimeTmpFont != null) tmp = PatchTmpTexts();
         if (Plugin.EnableTextureFix.Value)
         {
@@ -439,7 +610,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         if (Plugin.DumpVisibleTextureNames.Value) DumpProblemComponents(reason);
         if (Plugin.DumpVisibleTextFit.Value) DumpVisibleTextFit(reason);
         if (Plugin.EnableVisibleTextAudit.Value) DumpVisibleTextAudit(reason);
-        Plugin.LogSource.LogInfo($"Scan {scanCount} ({reason}) complete. KnownTMP={knownText}, TMP patched={tmp}, Images={images}, RawImages={raw}, SpriteRenderers={sprites}, Renderers={renderers}");
+        Plugin.LogSource.LogInfo($"Scan {scanCount} ({reason}) complete. KnownTMP={knownText}, RuntimeText={runtimeText}, TMP patched={tmp}, Images={images}, RawImages={raw}, SpriteRenderers={sprites}, Renderers={renderers}");
     }
 
     private int PatchKnownTmpTexts()
@@ -552,6 +723,160 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             Plugin.LogSource.LogInfo("Applied known TMP text correction: item tooltip wording.");
         }
         return true;
+    }
+
+    private int ReapplyRuntimeTranslations(string reason)
+    {
+        if (!Plugin.EnableRuntimeTextReapply.Value) return 0;
+        LoadRuntimeTextTranslations();
+        var changed = 0;
+
+        foreach (var text in Resources.FindObjectsOfTypeAll<TMP_Text>())
+        {
+            if (text == null || text.gameObject == null) continue;
+            try
+            {
+                if (!IsVisibleTextComponent(text, text.gameObject)) continue;
+                var current = SafeText(() => text.text);
+                var path = SafeObjectPath(text.gameObject);
+                if (!TryResolveRuntimeTranslation(current, path, SafeObjectName(text.gameObject), out var replacement, out var translationReason)) continue;
+                if (ApplyRuntimeTextTranslation(text.GetInstanceID(), current, replacement))
+                {
+                    text.text = replacement;
+                    changed++;
+                    LogRuntimeTextReapplyOnce(reason, translationReason, path, current, replacement);
+                }
+            }
+            catch (Exception ex)
+            {
+                Plugin.LogSource.LogWarning("Runtime TMP translation reapply failed on " + SafeObjectPath(text.gameObject) + ": " + ex.Message);
+            }
+        }
+
+        foreach (var text in Resources.FindObjectsOfTypeAll<UnityEngine.UI.Text>())
+        {
+            if (text == null || text.gameObject == null) continue;
+            try
+            {
+                if (!IsVisibleTextComponent(text, text.gameObject)) continue;
+                var current = SafeText(() => text.text);
+                var path = SafeObjectPath(text.gameObject);
+                if (!TryResolveRuntimeTranslation(current, path, SafeObjectName(text.gameObject), out var replacement, out var translationReason)) continue;
+                if (ApplyRuntimeTextTranslation(text.GetInstanceID(), current, replacement))
+                {
+                    text.text = replacement;
+                    changed++;
+                    LogRuntimeTextReapplyOnce(reason, translationReason, path, current, replacement);
+                }
+            }
+            catch (Exception ex)
+            {
+                Plugin.LogSource.LogWarning("Runtime UI.Text translation reapply failed on " + SafeObjectPath(text.gameObject) + ": " + ex.Message);
+            }
+        }
+
+        return changed;
+    }
+
+    private bool TryResolveRuntimeTranslation(string current, string path, string objectName, out string replacement, out string reason)
+    {
+        replacement = "";
+        reason = "";
+        if (string.IsNullOrWhiteSpace(current)) return false;
+        if (!HasLatin(current)) return false;
+
+        var normalizedVisible = NormalizeVisibleText(current);
+        if (IsRuntimeTechnicalText(normalizedVisible, path, objectName)) return false;
+
+        if (TryResolveCompanyNoteTranslation(current, out replacement))
+        {
+            reason = "company-note";
+            return !string.Equals(current, replacement, StringComparison.Ordinal);
+        }
+
+        if (IsEndingFriendFateContext(path, objectName, current) && TryResolveFriendFateTranslation(current, out replacement))
+        {
+            reason = "ending-friend-fate";
+            return !string.Equals(current, replacement, StringComparison.Ordinal);
+        }
+
+        if (runtimeExactTranslations.TryGetValue(current, out replacement) ||
+            runtimeExactTranslations.TryGetValue(current.Trim(), out replacement))
+        {
+            reason = "exact-dictionary";
+            return !string.Equals(current, replacement, StringComparison.Ordinal);
+        }
+
+        var lookup = NormalizeRuntimeLookupKey(current);
+        if (!string.IsNullOrEmpty(lookup) && runtimeNormalizedTranslations.TryGetValue(lookup, out replacement))
+        {
+            reason = "normalized-dictionary";
+            return !string.Equals(current, replacement, StringComparison.Ordinal);
+        }
+
+        foreach (var runtimeRegex in runtimeRegexTranslations)
+        {
+            if (!runtimeRegex.Regex.IsMatch(current)) continue;
+            replacement = runtimeRegex.Regex.Replace(current, runtimeRegex.Replacement);
+            if (string.Equals(current, replacement, StringComparison.Ordinal)) continue;
+            reason = "regex:" + runtimeRegex.Pattern;
+            return true;
+        }
+
+        replacement = "";
+        reason = "";
+        return false;
+    }
+
+    private static bool TryResolveCompanyNoteTranslation(string current, out string replacement)
+    {
+        replacement = "";
+        var trimmed = current.Trim();
+        if (EndingCompanyNoteText.TryGetValue(trimmed, out replacement)) return true;
+        var match = CompanyNoteLine.Match(trimmed);
+        if (!match.Success) return false;
+
+        var note = match.Groups["note"].Value;
+        if (CompanyNoteValueText.TryGetValue(note, out var translatedNote))
+        {
+            replacement = "Заметка компании: \"" + translatedNote + "\"";
+        }
+        else
+        {
+            replacement = "Заметка компании: \"" + note + "\"";
+        }
+        return true;
+    }
+
+    private static bool TryResolveFriendFateTranslation(string current, out string replacement)
+    {
+        replacement = "";
+        var normalizedNewlines = current.Trim().Replace("\r\n", "\n").Replace("\r", "\n");
+        if (EndingFriendFateText.TryGetValue(normalizedNewlines, out replacement)) return true;
+        var collapsed = NormalizeRuntimeLookupKey(current);
+        foreach (var pair in EndingFriendFateText)
+        {
+            if (string.Equals(NormalizeRuntimeLookupKey(pair.Key), collapsed, StringComparison.Ordinal))
+            {
+                replacement = pair.Value;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private bool ApplyRuntimeTextTranslation(int componentId, string current, string replacement)
+    {
+        if (string.IsNullOrEmpty(replacement) || string.Equals(current, replacement, StringComparison.Ordinal)) return false;
+        lastAppliedRuntimeTextByComponent[componentId] = replacement;
+        return true;
+    }
+
+    private void LogRuntimeTextReapplyOnce(string scanReason, string translationReason, string path, string current, string replacement)
+    {
+        var key = translationReason + "\u001f" + path + "\u001f" + NormalizeVisibleText(current);
+        if (!loggedRuntimeTextReapply.Add(key)) return;
+        Plugin.LogSource.LogInfo($"Runtime text reapply ({scanReason}/{translationReason}): path='{path}', source='{ShortLogText(current)}', translation='{ShortLogText(replacement)}'");
     }
 
     private int PatchTmpTexts()
@@ -1970,12 +2295,59 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         return path.EndsWith(suffix, StringComparison.Ordinal);
     }
 
+    private static bool IsVisibleTextComponent(Component component, GameObject go)
+    {
+        if (component == null || go == null) return false;
+        try
+        {
+            if (!go.activeInHierarchy) return false;
+            if (component is Behaviour behaviour && !behaviour.enabled) return false;
+            return true;
+        }
+        catch { return false; }
+    }
+
+    private static string NormalizeRuntimeLookupKey(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return "";
+        var noTags = Regex.Replace(text, "<[^>]+>", "");
+        noTags = noTags.Replace("\\r\\n", " ").Replace("\\n", " ").Replace("\\r", " ");
+        noTags = noTags.Replace("\r\n", " ").Replace("\n", " ").Replace("\r", " ");
+        return Regex.Replace(noTags, @"\s+", " ").Trim();
+    }
+
+    private static bool IsRuntimeTechnicalText(string normalized, string path, string objectName)
+    {
+        if (IsTechnicalVisibleText(normalized)) return true;
+        if (string.Equals(normalized, "DopplerGhost", StringComparison.OrdinalIgnoreCase)) return true;
+        if (normalized.StartsWith("SEED", StringComparison.OrdinalIgnoreCase)) return true;
+        if (Regex.IsMatch(normalized, @"^\d{3,4}\s*x\s*\d{3,4}$", RegexOptions.IgnoreCase)) return true;
+        if (Regex.IsMatch(normalized, @"^\[?[A-Z]\]?$")) return true;
+        if ((path ?? "").Contains("devtext", StringComparison.OrdinalIgnoreCase) &&
+            string.Equals(normalized, "DopplerGhost", StringComparison.OrdinalIgnoreCase)) return true;
+        if (string.Equals(objectName, "devtext", StringComparison.OrdinalIgnoreCase) &&
+            string.Equals(normalized, "DopplerGhost", StringComparison.OrdinalIgnoreCase)) return true;
+        return false;
+    }
+
     private static bool IsEndingCompanyNoteContext(string path)
     {
         var scene = SafeText(() => SceneManager.GetActiveScene().name);
         return scene.Contains("runEnd", StringComparison.OrdinalIgnoreCase) ||
             path.Contains("ENDING_CANVAS", StringComparison.OrdinalIgnoreCase) ||
             path.EndsWith("UI/ENDING_CANVAS/InfoList/6", StringComparison.Ordinal);
+    }
+
+    private static bool IsEndingFriendFateContext(string path, string objectName, string current)
+    {
+        if (string.IsNullOrEmpty(current)) return false;
+        if (!current.Contains("fate is unknown", StringComparison.Ordinal) &&
+            !current.Contains("Captain Whiskers", StringComparison.Ordinal) &&
+            !current.Contains("Shipmates sunk", StringComparison.Ordinal)) return false;
+        var scene = SafeText(() => SceneManager.GetActiveScene().name);
+        return scene.Contains("runEnd", StringComparison.OrdinalIgnoreCase) ||
+            path.Contains("ENDING_CANVAS", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(objectName, "friend_fate", StringComparison.OrdinalIgnoreCase);
     }
 
     private static bool IsHealthTooltipContext(string path, GameObject go)
@@ -1997,6 +2369,13 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             objectName.Contains("tooltip", StringComparison.OrdinalIgnoreCase);
     }
 
+    private static string ShortLogText(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return "";
+        var oneLine = text.Replace("\r", " ").Replace("\n", " ");
+        return oneLine.Length <= 140 ? oneLine : oneLine.Substring(0, 137) + "...";
+    }
+
     private static string Tsv(string value) => (value ?? "").Replace("\t", " ").Replace("\r", " ").Replace("\n", " ");
 
     private static string FloatText(float value) => value.ToString(CultureInfo.InvariantCulture);
@@ -2016,6 +2395,20 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         public int Height;
         public byte AlphaMin;
         public byte AlphaMax;
+    }
+
+    private sealed class RuntimeRegexTranslation
+    {
+        public readonly string Pattern;
+        public readonly Regex Regex;
+        public readonly string Replacement;
+
+        public RuntimeRegexTranslation(string pattern, Regex regex, string replacement)
+        {
+            Pattern = pattern;
+            Regex = regex;
+            Replacement = replacement;
+        }
     }
 
     private sealed class ImageDecision

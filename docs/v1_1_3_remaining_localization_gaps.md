@@ -30,6 +30,14 @@ This report is deliberately conservative. The current pass improves broad text c
 - The observed bad item tooltip text `Два работает.` is corrected at runtime to `2 применения.` only in item/tooltip-like contexts. The original English source for this bad Russian runtime text was not found in the current static inventory.
 - These fixes still need clean v1.1.3 screenshot/audit verification before they are treated as fully validated.
 
+## Runtime Text Safety Net
+
+- The runtime plugin now loads the installed XUnity exact dictionary and narrow regex file, then reapplies translations to active visible TMP/UI text after scene load and at a low recurring interval.
+- This is intended for player-facing UI text assigned after XUnity's initial pass, including ending friend fate lines and company notes.
+- The pass still filters obvious technical values such as seeds, versions, resolutions, paths, developer branding, and isolated key labels.
+- `scripts/validate_runtime_visible_english.py` now treats unapproved visible English as a validation failure.
+- The existing clean audit still fails on `Row's fate is unknown. Captain Whiskers may wander the sea alone.` because it was captured before this safety net; a fresh runtime audit is required.
+
 ## Still Needs Runtime Route Coverage
 
 - Rare endings and friend fate combinations.
@@ -66,8 +74,8 @@ This report is deliberately conservative. The current pass improves broad text c
 - Runtime visible audit can miss screens if they appear outside the scan window or use non-scanned render paths.
 - Texture text is invisible to text-component auditing.
 - AllText audit captures useful layout data, but it also captures technical/branding/key/resolution rows that should not be translated blindly.
-- Dictionary exact matching cannot guarantee late runtime text will be translated if the game rewrites text after XUnity refresh; company note variants need runtime verification.
+- Dictionary exact matching alone cannot guarantee late runtime text will be translated if the game rewrites text after XUnity refresh. The runtime reapply pass is designed to cover that failure mode, but it still needs a fresh clean runtime audit.
 
 ## Support Claim
 
-Do not claim v1.1.3 support yet. The next phase should reinstall the dev payload into a clean v1.1.3 copy, run the game with visible audit enabled, collect logs/screenshots, and verify the fixes listed in the runtime checklist.
+Do not claim v1.1.3 support yet. Release-candidate status is blocked until the dev payload is reinstalled into a clean v1.1.3 copy, visible audit is rerun, `scripts/validate_runtime_visible_english.py` passes, and screenshots verify the fixes listed in the runtime checklist.
