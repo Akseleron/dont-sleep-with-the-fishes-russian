@@ -49,8 +49,10 @@ BUILTIN_RULES = [
 ]
 
 PLAYER_FACING_HINTS = {
+    "Cause of Death:": "dynamic ending death cause; verify runtime death-cause parser and source_queue atom",
     "Company's Note": "company note ending line; add/verify source_queue and runtime reapply coverage",
     "fate is unknown": "ending friend fate line; add/verify exact combined variant",
+    "could not make it": "ending friend fate line; verify runtime sentence-atom translator",
     "Captain Whiskers": "ending friend fate line; add/verify exact combined variant",
     "Shipmates sunk": "ending friend fate line; add/verify exact combined variant",
     "Weight:": "dynamic fishing result; use narrow regex/runtime strategy",

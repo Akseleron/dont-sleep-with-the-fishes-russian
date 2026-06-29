@@ -109,6 +109,8 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     private static readonly Regex TechnicalVisibleText = new(@"^(?:[A-Za-z0-9_./\\-]+\.(?:dll|exe|png|assets?)|[A-Fa-f0-9]{16,}|[A-Za-z_][A-Za-z0-9_]*(?:Controller|Manager|Renderer|Animator|Canvas|Holder|Pivot|Model|Prefab))$", RegexOptions.Compiled);
     private static readonly Regex RunsRecordText = new(@"Runs:\s*(\d+)\s*(?:\r?\n|\s+)\s*Record:\s*(\d+)\s*Days", RegexOptions.Compiled);
     private static readonly Regex CompanyNoteLine = new("^Company's Note:\\s*\"(?<note>.+)\"$", RegexOptions.Compiled);
+    private static readonly Regex EndingDeathCauseLine = new("^Cause of Death:\\s*(?<tagPrefix>(?:<[^>]+>)*)\\s*(?<reason>.+?)\\s*(?<tagSuffix>(?:</[^>]+>\\s*)*)$", RegexOptions.Compiled);
+    private static readonly Regex FishingWeightLine = new("(?<boldOpen><b>)?Weight:(?<boldClose></b>)?\\s*(?<value>[0-9]+(?:[.,][0-9]+)?)kg", RegexOptions.Compiled);
     private static readonly Dictionary<string, string> EndingCompanyNoteText = new(StringComparer.Ordinal)
     {
         ["Company's Note: \"No impact noted.\""] = "Заметка компании: \"Последствий не выявлено.\"",
@@ -142,21 +144,47 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         ["Hurts a bit"] = "Немного болит",
         ["Everything hurts"] = "Всё болит",
     };
+    private static readonly Dictionary<string, string> DeathCauseText = new(StringComparer.Ordinal)
+    {
+        ["Seagulls!!!"] = "Чайки!!!",
+        ["Starved to death."] = "Умер от голода.",
+        ["Died of hunger."] = "Умер от голода.",
+        ["Your boat fell apart."] = "Шлюпка развалилась.",
+        ["Boat fell apart."] = "Шлюпка развалилась.",
+        ["Ripped apart."] = "Растерзан.",
+        ["Torn into pieces."] = "Разорван на части.",
+        ["Bleeding to death."] = "Истёк кровью.",
+        ["Dragged to the seafloor."] = "Утащен на дно.",
+        ["Drowned."] = "Утонул.",
+        ["Kidnapped."] = "Похищение.",
+        ["Lost at sea."] = "Потерялся в море.",
+    };
     private static readonly Dictionary<string, string> EndingFriendFateText = new(StringComparer.Ordinal)
     {
         ["Row's fate is unknown."] = "Судьба Роу неизвестна.",
         ["Frederik's fate is unknown."] = "Судьба Фредерика неизвестна.",
         ["Laurel's fate is unknown."] = "Судьба Лорел неизвестна.",
-        ["Captain Whiskers may wander the sea alone."] = "Капитан Усатик скитается один.",
-        ["Row's fate is unknown. Captain Whiskers may wander the sea alone."] = "Судьба Роу неизвестна. Капитан Усатик скитается один.",
-        ["Row's fate is unknown.\nCaptain Whiskers may wander the sea alone."] = "Судьба Роу неизвестна.\nКапитан Усатик скитается один.",
-        ["Frederik's fate is unknown. Captain Whiskers may wander the sea alone."] = "Судьба Фредерика неизвестна. Капитан Усатик скитается один.",
-        ["Frederik's fate is unknown.\nCaptain Whiskers may wander the sea alone."] = "Судьба Фредерика неизвестна.\nКапитан Усатик скитается один.",
-        ["Laurel's fate is unknown. Captain Whiskers may wander the sea alone."] = "Судьба Лорел неизвестна. Капитан Усатик скитается один.",
-        ["Laurel's fate is unknown.\nCaptain Whiskers may wander the sea alone."] = "Судьба Лорел неизвестна.\nКапитан Усатик скитается один.",
+        ["Row could not make it."] = "Роу не выжил.",
+        ["Frederik could not make it."] = "Фредерик не выжил.",
+        ["Laurel could not make it."] = "Лорел не выжила.",
+        ["Captain Whiskers may wander the sea alone."] = "Усатик остался один.",
+        ["Captain Whiskers may wander alone."] = "Усатик остался один.",
+        ["Captain Whiskers is alone."] = "Усатик остался один.",
+        ["Row's fate is unknown. Captain Whiskers may wander the sea alone."] = "Судьба Роу неизвестна. Усатик остался один.",
+        ["Row's fate is unknown.\nCaptain Whiskers may wander the sea alone."] = "Судьба Роу неизвестна.\nУсатик остался один.",
+        ["Frederik's fate is unknown. Captain Whiskers may wander the sea alone."] = "Судьба Фредерика неизвестна. Усатик остался один.",
+        ["Frederik's fate is unknown.\nCaptain Whiskers may wander the sea alone."] = "Судьба Фредерика неизвестна.\nУсатик остался один.",
+        ["Laurel's fate is unknown. Captain Whiskers may wander the sea alone."] = "Судьба Лорел неизвестна. Усатик остался один.",
+        ["Laurel's fate is unknown.\nCaptain Whiskers may wander the sea alone."] = "Судьба Лорел неизвестна.\nУсатик остался один.",
+        ["Row could not make it. Captain Whiskers may wander the sea alone."] = "Роу не выжил. Усатик остался один.",
+        ["Row could not make it.\nCaptain Whiskers may wander the sea alone."] = "Роу не выжил.\nУсатик остался один.",
+        ["Frederik could not make it. Captain Whiskers may wander the sea alone."] = "Фредерик не выжил. Усатик остался один.",
+        ["Frederik could not make it.\nCaptain Whiskers may wander the sea alone."] = "Фредерик не выжил.\nУсатик остался один.",
+        ["Laurel could not make it. Captain Whiskers may wander the sea alone."] = "Лорел не выжила. Усатик остался один.",
+        ["Laurel could not make it.\nCaptain Whiskers may wander the sea alone."] = "Лорел не выжила.\nУсатик остался один.",
         ["Shipmates sunk with the ship."] = "Товарищи утонули с кораблём.",
-        ["Shipmates sunk with the ship. Captain Whiskers may wander the sea alone."] = "Товарищи утонули с кораблём. Капитан Усатик скитается один.",
-        ["Shipmates sunk with the ship.\nCaptain Whiskers may wander the sea alone."] = "Товарищи утонули с кораблём.\nКапитан Усатик скитается один.",
+        ["Shipmates sunk with the ship. Captain Whiskers may wander the sea alone."] = "Товарищи утонули с кораблём. Усатик остался один.",
+        ["Shipmates sunk with the ship.\nCaptain Whiskers may wander the sea alone."] = "Товарищи утонули с кораблём.\nУсатик остался один.",
     };
     private const string TutorialZeroRussianText = "Вы <color=yellow>капитан</color> корабля на тайном задании. Внезапный удар тяжело повреждает судно. Дождитесь аварийных сирен и немедленно эвакуируйтесь.";
     private const string MainTitleTextureReplacementStem = "sharedassets1__Texture2D__50__unnamed_50";
@@ -175,6 +203,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
     private readonly List<RuntimeRegexTranslation> runtimeRegexTranslations = new();
     private readonly Dictionary<int, string> lastAppliedRuntimeTextByComponent = new();
     private readonly HashSet<string> loggedRuntimeTextReapply = new(StringComparer.Ordinal);
+    private readonly HashSet<string> loggedRuntimeTextCandidates = new(StringComparer.Ordinal);
     private float scanUntil;
     private float nextScan;
     private float nextRuntimeTextReapplyScan;
@@ -373,6 +402,7 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         foreach (var pair in EndingCompanyNoteText) AddRuntimeExactTranslation(pair.Key, pair.Value);
         foreach (var pair in EndingFriendFateText) AddRuntimeExactTranslation(pair.Key, pair.Value);
         foreach (var pair in HealthTooltipText) AddRuntimeExactTranslation(pair.Key, pair.Value);
+        foreach (var pair in DeathCauseText) AddRuntimeExactTranslation(pair.Key, pair.Value);
 
         var textDir = Path.Combine(Paths.GameRootPath, "BepInEx", "Translation", "ru", "Text");
         var dictionaryPath = Path.Combine(textDir, "_AutoGeneratedTranslations.txt");
@@ -794,9 +824,21 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             return !string.Equals(current, replacement, StringComparison.Ordinal);
         }
 
+        if (IsEndingDeathCauseContext(path, objectName, current) && TryResolveDeathCauseTranslation(current, out replacement, out var deathKnown))
+        {
+            reason = deathKnown ? "ending-death-cause" : "ending-death-cause-prefix-only";
+            return !string.Equals(current, replacement, StringComparison.Ordinal);
+        }
+
         if (IsEndingFriendFateContext(path, objectName, current) && TryResolveFriendFateTranslation(current, out replacement))
         {
             reason = "ending-friend-fate";
+            return !string.Equals(current, replacement, StringComparison.Ordinal);
+        }
+
+        if (IsFishingWeightContext(path, objectName, current) && TryResolveFishingWeightTranslation(current, out replacement))
+        {
+            reason = "fishing-weight";
             return !string.Equals(current, replacement, StringComparison.Ordinal);
         }
 
@@ -821,6 +863,11 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             if (string.Equals(current, replacement, StringComparison.Ordinal)) continue;
             reason = "regex:" + runtimeRegex.Pattern;
             return true;
+        }
+
+        if (IsSensitiveRuntimeTextContext(path, objectName, normalizedVisible))
+        {
+            LogRuntimeTextCandidateOnce(path, objectName, current, normalizedVisible);
         }
 
         replacement = "";
@@ -848,6 +895,30 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         return true;
     }
 
+    private static bool TryResolveDeathCauseTranslation(string current, out string replacement, out bool knownReason)
+    {
+        replacement = "";
+        knownReason = false;
+        var trimmed = current.Trim();
+        var match = EndingDeathCauseLine.Match(trimmed);
+        if (!match.Success) return false;
+
+        var tagPrefix = match.Groups["tagPrefix"].Value;
+        var reasonWithTags = match.Groups["reason"].Value.Trim();
+        var tagSuffix = match.Groups["tagSuffix"].Value;
+        var reason = StripRichTextTags(reasonWithTags).Trim();
+        if (DeathCauseText.TryGetValue(reason, out var translatedReason))
+        {
+            knownReason = true;
+            replacement = "Причина смерти: " + tagPrefix + translatedReason + tagSuffix;
+        }
+        else
+        {
+            replacement = "Причина смерти: " + tagPrefix + reasonWithTags + tagSuffix;
+        }
+        return true;
+    }
+
     private static bool TryResolveFriendFateTranslation(string current, out string replacement)
     {
         replacement = "";
@@ -862,7 +933,44 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
                 return true;
             }
         }
-        return false;
+
+        var joiner = normalizedNewlines.Contains("\n", StringComparison.Ordinal) ? "\n" : " ";
+        var parts = Regex.Split(collapsed, @"(?<=[.!?])\s+")
+            .Where(part => !string.IsNullOrWhiteSpace(part))
+            .Select(part => part.Trim())
+            .ToList();
+        if (parts.Count < 1) return false;
+
+        var translated = new List<string>();
+        foreach (var part in parts)
+        {
+            if (!EndingFriendFateText.TryGetValue(part, out var translatedPart)) return false;
+            translated.Add(translatedPart);
+        }
+        replacement = string.Join(joiner, translated);
+        return !string.IsNullOrEmpty(replacement);
+    }
+
+    private static bool TryResolveFishingWeightTranslation(string current, out string replacement)
+    {
+        replacement = "";
+        if (string.IsNullOrWhiteSpace(current) || !current.Contains("Weight:", StringComparison.Ordinal)) return false;
+
+        var changed = false;
+        replacement = FishingWeightLine.Replace(current, match =>
+        {
+            changed = true;
+            var value = match.Groups["value"].Value;
+            var bold = match.Groups["boldOpen"].Success && match.Groups["boldClose"].Success;
+            return bold ? "<b>Вес:</b> " + value + " кг" : "Вес: " + value + " кг";
+        });
+        return changed;
+    }
+
+    private static string StripRichTextTags(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return "";
+        return Regex.Replace(text, "<[^>]+>", "");
     }
 
     private bool ApplyRuntimeTextTranslation(int componentId, string current, string replacement)
@@ -877,6 +985,14 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         var key = translationReason + "\u001f" + path + "\u001f" + NormalizeVisibleText(current);
         if (!loggedRuntimeTextReapply.Add(key)) return;
         Plugin.LogSource.LogInfo($"Runtime text reapply ({scanReason}/{translationReason}): path='{path}', source='{ShortLogText(current)}', translation='{ShortLogText(replacement)}'");
+    }
+
+    private void LogRuntimeTextCandidateOnce(string path, string objectName, string current, string normalized)
+    {
+        var scene = SafeSceneName();
+        var key = scene + "\u001f" + path + "\u001f" + normalized;
+        if (!loggedRuntimeTextCandidates.Add(key)) return;
+        Plugin.LogSource.LogWarning($"Runtime text candidate remains untranslated: scene='{scene}', path='{path}', object='{objectName}', text='{ShortLogText(current)}', normalized='{ShortLogText(normalized)}'");
     }
 
     private int PatchTmpTexts()
@@ -2338,15 +2454,51 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
             path.EndsWith("UI/ENDING_CANVAS/InfoList/6", StringComparison.Ordinal);
     }
 
+    private static bool IsEndingDeathCauseContext(string path, string objectName, string current)
+    {
+        if (string.IsNullOrEmpty(current) || !current.Contains("Cause of Death:", StringComparison.Ordinal)) return false;
+        var scene = SafeText(() => SceneManager.GetActiveScene().name);
+        return scene.Contains("runEnd", StringComparison.OrdinalIgnoreCase) ||
+            path.Contains("ENDING_CANVAS/InfoList", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(objectName, "1", StringComparison.Ordinal);
+    }
+
     private static bool IsEndingFriendFateContext(string path, string objectName, string current)
     {
         if (string.IsNullOrEmpty(current)) return false;
         if (!current.Contains("fate is unknown", StringComparison.Ordinal) &&
+            !current.Contains("could not make it", StringComparison.Ordinal) &&
             !current.Contains("Captain Whiskers", StringComparison.Ordinal) &&
             !current.Contains("Shipmates sunk", StringComparison.Ordinal)) return false;
         var scene = SafeText(() => SceneManager.GetActiveScene().name);
         return scene.Contains("runEnd", StringComparison.OrdinalIgnoreCase) ||
             path.Contains("ENDING_CANVAS", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(objectName, "friend_fate", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool IsFishingWeightContext(string path, string objectName, string current)
+    {
+        if (string.IsNullOrEmpty(current) || !current.Contains("Weight:", StringComparison.Ordinal)) return false;
+        return path.Contains("FishedVisuals", StringComparison.OrdinalIgnoreCase) ||
+            path.Contains("Task_Fishing", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(objectName, "bottom", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool IsSensitiveRuntimeTextContext(string path, string objectName, string normalized)
+    {
+        if (string.IsNullOrWhiteSpace(normalized)) return false;
+        if (normalized.Contains("Cause of Death:", StringComparison.Ordinal) ||
+            normalized.Contains("Company's Note:", StringComparison.Ordinal) ||
+            normalized.Contains("Weight:", StringComparison.Ordinal) ||
+            normalized.Contains("fate is unknown", StringComparison.Ordinal) ||
+            normalized.Contains("could not make it", StringComparison.Ordinal) ||
+            normalized.Contains("Captain Whiskers", StringComparison.Ordinal) ||
+            normalized.Contains("Shipmates sunk", StringComparison.Ordinal))
+        {
+            return true;
+        }
+        return path.Contains("ENDING_CANVAS", StringComparison.OrdinalIgnoreCase) ||
+            path.Contains("FishedVisuals", StringComparison.OrdinalIgnoreCase) ||
             string.Equals(objectName, "friend_fate", StringComparison.OrdinalIgnoreCase);
     }
 

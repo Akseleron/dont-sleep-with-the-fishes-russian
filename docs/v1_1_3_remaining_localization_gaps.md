@@ -33,18 +33,25 @@ This report is deliberately conservative. The current pass improves broad text c
 ## Runtime Text Safety Net
 
 - The runtime plugin now loads the installed XUnity exact dictionary and narrow regex file, then reapplies translations to active visible TMP/UI text after scene load and at a low recurring interval.
-- This is intended for player-facing UI text assigned after XUnity's initial pass, including ending friend fate lines and company notes.
+- This is intended for player-facing UI text assigned after XUnity's initial pass, including ending friend fate lines, company notes, ending death causes, and fishing result weight lines.
 - The pass still filters obvious technical values such as seeds, versions, resolutions, paths, developer branding, and isolated key labels.
+- Runtime-composed ending/fishing families now have focused parsers:
+  - `Cause of Death: <TMP tags><reason>` translates the label and known reason atoms while preserving TMP tags.
+  - `friend_fate` text is translated by known sentence atoms, so `Frederik could not make it. Captain Whiskers may wander the sea alone.` and newline variants do not require every exact combined row.
+  - `Company's Note: "<value>"` translates all known values and keeps `???` as a valid unknown placeholder with the Russian prefix.
+  - Fishing result `Weight:` lines support dot and comma decimals in plain, bold, and multiline forms.
 - `scripts/validate_runtime_visible_english.py` now treats unapproved visible English as a validation failure.
-- The existing clean audit still fails on `Row's fate is unknown. Captain Whiskers may wander the sea alone.` because it was captured before this safety net; a fresh runtime audit is required.
+- The existing clean audit still fails on `Cause of Death: Seagulls!!!`, `Frederik could not make it. Captain Whiskers may wander the sea alone.`, and `Weight: 1,37kg` because it was captured before this dynamic parser pass; a fresh runtime audit is required.
 
 ## Still Needs Runtime Route Coverage
 
 - Rare endings and friend fate combinations.
+- Death-cause variants not yet reached in runtime screenshots, especially rare route endings.
 - Night events with Row, Frederik, Laurel, and Captain Whiskers variants.
 - Journal entries reached through less common event outcomes.
 - How-to-play slides after the runtime TMP correction, especially pages beyond `TUT_0`.
 - Company notes assigned late on ending screen after the narrow runtime correction.
+- Fishing result cards with several fish names and both comma/dot decimal weights after the regex/runtime parser update.
 - Health status hover tooltips after the narrow runtime correction.
 - Search/result panels after multiple result types.
 

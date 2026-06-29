@@ -251,7 +251,7 @@ rg -n "OptionsMenu|HealthStatusHUD|FriendSupportPanel|LeftNotification|FishingRe
 - `... Just wait here.` -> `... Просто жди здесь.`
 - `Starved to death.` -> `Умер от голода.`
 - `Row could not make it.` -> `Роу не выжил.`
-- `Captain Whiskers may wander the sea alone.` -> `Капитан Усатик скитается один.`
+- `Captain Whiskers may wander the sea alone.` -> `Усатик остался один.`
 - `Shipmates sunk with the ship.` -> `Товарищи утонули с кораблём.`
 - `Be a bad fisherman...` -> `Плохой рыбак...`
 - `Frederik` -> `Фредерик`
@@ -275,8 +275,14 @@ rg -n "OptionsMenu|HealthStatusHUD|FriendSupportPanel|LeftNotification|FishingRe
 - `Company's Note: "Recovery efforts failed."` -> `Заметка компании: "Попытки восстановления провалились."`
 - Runtime correction for ending `UI/ENDING_CANVAS/InfoList/6`: verify late-populated `Company's Note: "..."` lines remain Russian after stats finish animating.
 - Runtime reapply safety net: verify late-populated `Company's Note: "Calculated risk."` and other variants stay fully Russian after stats finish animating.
-- Runtime reapply safety net: verify `Row's fate is unknown. Captain Whiskers may wander the sea alone.` becomes `Судьба Роу неизвестна. Капитан Усатик скитается один.`
-- Runtime reapply safety net: verify `Shipmates sunk with the ship. Captain Whiskers may wander the sea alone.` becomes `Товарищи утонули с кораблём. Капитан Усатик скитается один.`
+- Runtime reapply safety net: verify `Row's fate is unknown. Captain Whiskers may wander the sea alone.` becomes `Судьба Роу неизвестна. Усатик остался один.`
+- Runtime reapply safety net: verify `Frederik could not make it. Captain Whiskers may wander the sea alone.` becomes `Фредерик не выжил. Усатик остался один.`
+- Runtime reapply safety net: verify `Laurel could not make it. Captain Whiskers may wander the sea alone.` becomes `Лорел не выжила. Усатик остался один.`
+- Runtime reapply safety net: verify `Shipmates sunk with the ship. Captain Whiskers may wander the sea alone.` becomes `Товарищи утонули с кораблём. Усатик остался один.`
+- Runtime reapply safety net: verify `Cause of Death: <color=#ff4400>Seagulls!!!` becomes `Причина смерти: <color=#ff4400>Чайки!!!`.
+- Runtime reapply safety net: verify unknown death-cause values at least get `Причина смерти:` and produce a one-time runtime candidate log.
+- Fishing result regex/runtime parser: verify `<b>Weight:</b> 1,37kg` becomes `<b>Вес:</b> 1,37 кг`.
+- Fishing result regex/runtime parser: verify `Weight: 1.37kg` and `Weight: 1,37kg` become `Вес: 1.37 кг` / `Вес: 1,37 кг`.
 - `You're the captain of a ship on a covert delivery mission with a small crew...` -> `Вы капитан корабля на тайном задании с небольшой командой...`
 - Runtime correction for `MENU/UI/Canvas_Tutorial/MENU/CONTENT/TUT_0/howtoplay_txt`: verify the opening tutorial body becomes `Вы <color=yellow>капитан</color> корабля на тайном задании...`
 - Runtime correction for `MENU/UI/Canvas/MedalsButton/runs_text`: verify `Runs: X Record: Y Days` becomes two lines, `Забегов: X` and `Рекорд: Y дн.`
