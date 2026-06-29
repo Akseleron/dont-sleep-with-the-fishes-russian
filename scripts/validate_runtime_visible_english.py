@@ -46,6 +46,15 @@ BUILTIN_RULES = [
     AllowRule("regex", r"^WASD$", "isolated keybind label", re.compile(r"^WASD$")),
     AllowRule("regex", r"^[A-Za-z]:\\.*$", "file path", re.compile(r"^[A-Za-z]:\\.*$")),
     AllowRule("regex", r"^/.*$", "file path", re.compile(r"^/.*$")),
+    AllowRule(
+        "regex",
+        r"^\|\s*Автор:\s*Taiki\s*\(DopplerGhost\)\s*\|\s*Особая благодарность:\s*TakDor,\s*Merlidan,\s*Drael\s*и\s*вам!\s*\|$",
+        "translated credits retain developer/tester names",
+        re.compile(
+            r"^\|\s*Автор:\s*Taiki\s*\(DopplerGhost\)\s*\|\s*Особая благодарность:\s*TakDor,\s*Merlidan,\s*Drael\s*и\s*вам!\s*\|$",
+            re.I,
+        ),
+    ),
 ]
 
 PLAYER_FACING_HINTS = {
@@ -58,7 +67,10 @@ PLAYER_FACING_HINTS = {
     "Weight:": "dynamic fishing result; use narrow regex/runtime strategy",
     "Hurts": "health hover tooltip/status text",
     "Everything hurts": "health hover tooltip/status text",
+    "Improves eating efficiency": "FriendManageUI speciality text; add source_queue entry and verify runtime reapply",
 }
+
+KEYBIND_TOKENS = {"F", "E", "W", "A", "S", "D", "WASD", "ESC", "TAB", "SHIFT", "CTRL", "SPACE"}
 
 
 def load_allowlist(path: Path) -> list[AllowRule]:
@@ -80,7 +92,18 @@ def load_allowlist(path: Path) -> list[AllowRule]:
 
 
 def is_allowed(text: str, rules: list[AllowRule]) -> bool:
+    if is_russian_with_only_keybind_latin(text):
+        return True
     return any(rule.matches(text) for rule in rules)
+
+
+def is_russian_with_only_keybind_latin(text: str) -> bool:
+    if not re.search(r"[А-Яа-яЁё]", text):
+        return False
+    latin_tokens = re.findall(r"[A-Za-z]+", text)
+    if not latin_tokens:
+        return False
+    return all(token.upper() in KEYBIND_TOKENS for token in latin_tokens)
 
 
 def read_rows(path: Path) -> list[dict[str, str]]:

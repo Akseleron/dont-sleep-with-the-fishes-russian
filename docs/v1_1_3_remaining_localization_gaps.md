@@ -41,7 +41,18 @@ This report is deliberately conservative. The current pass improves broad text c
   - `Company's Note: "<value>"` translates all known values and keeps `???` as a valid unknown placeholder with the Russian prefix.
   - Fishing result `Weight:` lines support dot and comma decimals in plain, bold, and multiline forms.
 - `scripts/validate_runtime_visible_english.py` now treats unapproved visible English as a validation failure.
-- The existing clean audit still fails on `Cause of Death: Seagulls!!!`, `Frederik could not make it. Captain Whiskers may wander the sea alone.`, and `Weight: 1,37kg` because it was captured before this dynamic parser pass; a fresh runtime audit is required.
+- The dynamic ending/fishing blockers from the previous audit are covered after `e10aa5d`; a fresh runtime audit after this pass is still required for confirmation.
+- The latest stale audit now fails only on `Improves eating efficiency today.` and standalone `Laurel`; both were added in this FriendManageUI pass.
+- The validator intentionally allows Russian text with isolated keybind tokens such as `F`, and translated credits lines that preserve developer/tester names.
+
+## Fixed In FriendManageUI Pass
+
+- `Improves eating efficiency today.` -> `Сегодня еда сытнее.`
+- `Laurel` -> `Лорел` as a standalone visible FriendManageUI shipmate name.
+- Verified existing FriendManageUI coverage for `Prepare Bait`, `Boost eating?`, `Bait guarantees catches today.`, `Makes repairing less demanding today.`, `Feed?`, `Heal?`, and `Talk?`.
+- Verified standalone visible `Row`, `Frederik`, and `Captain Whiskers` are already covered. `Dorothy` is covered in player-facing prose/exact lines; no standalone visible name-row failure was found.
+- Shortened the FastForward setting text to `Если включено: F ускоряет ночные события.`
+- Runtime diagnostics now ignore TMP tag Latin when deciding whether text still contains English.
 
 ## Still Needs Runtime Route Coverage
 
@@ -59,6 +70,7 @@ This report is deliberately conservative. The current pass improves broad text c
 
 - Main menu logo/title still shows `Don't Sleep With The Fishes`.
 - Exact texture asset/path_id has not been identified from screenshot alone.
+- A full local texture export for manual review was prepared at `build/dswf_v1_1_3_all_textures_for_manual_review/`, with manifest `build/dswf_v1_1_3_all_textures_for_manual_review/manifest.tsv` and optional review ZIP `build/dswf-v1.1.3-all-textures-for-manual-review.zip`.
 - Texture validation requires `--apply-textures` or full patcher texture application.
 
 ## Layout And Clipping

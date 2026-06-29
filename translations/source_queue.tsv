@@ -1524,7 +1524,7 @@ Heavy financial setback.	manual=v1.1.3_player_facing_coverage	manual	manual_runt
 Severely reduced returns.	manual=v1.1.3_player_facing_coverage	manual	manual_runtime		Прибыль резко снижена.	approved	v1.1.3 broad player-facing coverage pass
 Restore Defaults	manual=v1.1.3_runtime_block_coverage	manual_runtime	manual_runtime		Сбросить	approved	v1.1.3 runtime screenshot/block coverage pass
 Fast-Forwarding	manual=v1.1.3_runtime_block_coverage	manual_runtime	manual_runtime		Ускорение	approved	v1.1.3 runtime screenshot/block coverage pass
-(While ON: Press 'F' to Fast-Forward time during the beginning of night events.)	manual=v1.1.3_runtime_block_coverage	manual_runtime	manual_runtime		Если включено: нажмите F, чтобы ускорить начало ночных событий.	approved	v1.1.3 runtime screenshot/block coverage pass
+(While ON: Press 'F' to Fast-Forward time during the beginning of night events.)	manual=v1.1.3_runtime_block_coverage	manual_runtime	manual_runtime		Если включено: F ускоряет ночные события.	approved	v1.1.3 runtime screenshot/block coverage pass; shortened after runtime layout audit
 I don't feel good	manual=v1.1.3_runtime_block_coverage	manual_runtime	manual_runtime		Мне нехорошо	approved	v1.1.3 runtime screenshot/block coverage pass
 I'm dying...	manual=v1.1.3_runtime_block_coverage	manual_runtime	manual_runtime		Я умираю...	approved	v1.1.3 runtime screenshot/block coverage pass
 I have some pain	manual=v1.1.3_runtime_block_coverage	manual_runtime	manual_runtime		Мне больно	approved	v1.1.3 runtime screenshot/block coverage pass
@@ -1533,6 +1533,7 @@ Depressed	manual=v1.1.3_runtime_block_coverage	manual_runtime	manual_runtime		П
 Miserable	manual=v1.1.3_runtime_block_coverage	manual_runtime	manual_runtime		В отчаянии	approved	v1.1.3 runtime screenshot/block coverage pass
 Row does not feel well...	manual=v1.1.3_runtime_block_coverage	manual_runtime	manual_runtime		Роу нездоровится...	approved	v1.1.3 runtime screenshot/block coverage pass
 Makes repairing less demanding today.	manual=v1.1.3_runtime_block_coverage	manual_runtime	manual_runtime		Ремонт сегодня проще.	approved	v1.1.3 runtime screenshot/block coverage pass
+Improves eating efficiency today.	manual=v1.1.3_friend_manage_ui_audit; runtime_audit=UI/HUD/FriendManageUI/Stats/Button_Speciality/text_use	friend_speciality	manual_runtime		Сегодня еда сытнее.	approved	Runtime-visible FriendManageUI special ability text; compact for small panel.
 Fix by hand	manual=v1.1.3_runtime_block_coverage	manual_runtime	manual_runtime		Починить вручную	approved	v1.1.3 runtime screenshot/block coverage pass
 Try skipping the night?	manual=v1.1.3_runtime_block_coverage	manual_runtime	manual_runtime		Попробовать пропустить ночь?	approved	v1.1.3 runtime screenshot/block coverage pass
 You sleep guarded tonight...	manual=v1.1.3_runtime_block_coverage	manual_runtime	manual_runtime		Сегодня вы спите под охраной...	approved	v1.1.3 runtime screenshot/block coverage pass
@@ -1560,6 +1561,7 @@ Click to Shoo!	manual=v1.1.3_full_localization_completion; runtime_audit=CursorT
 Make an offer.	manual=v1.1.3_full_localization_completion; runtime_audit=ChooseItemHud	choice_prompt	manual_runtime		Сделать предложение.	approved	Runtime-visible choice prompt.
 Needs fixing	manual=v1.1.3_full_localization_completion; runtime_audit=CursorTipText_subText	item_prompt	manual_runtime		Нужен ремонт	approved	Runtime-visible cursor prompt.
 Frederik	manual=v1.1.3_full_localization_completion; runtime_audit=visible_name	proper_name	manual_runtime		Фредерик	approved	Player-facing shipmate name; leave developer credits untouched if separately visible.
+Laurel	manual=v1.1.3_friend_manage_ui_audit; runtime_audit=UI/HUD/FriendManageUI/name_bg/Name	proper_name	manual_runtime		Лорел	approved	Player-facing shipmate name; leave developer credits untouched if separately visible.
 Company's Note: "Calculated risk."	manual=v1.1.3_full_localization_completion; runtime_audit=EndingStatsScreen	company_note	manual_runtime		Заметка компании: "Рассчитанный риск."	approved	Exact full-line note; prefix regex does not translate captured English note text.
 Company's Note: "No impact noted."	manual=v1.1.3_full_localization_completion; runtime_audit=EndingStatsScreen	company_note	manual_runtime		Заметка компании: "Последствий не выявлено."	approved	Exact full-line note; prefix regex does not translate captured English note text.
 Company's Note: "Expected results."	manual=v1.1.3_full_localization_completion; runtime_audit=EndingStatsScreen	company_note	manual_runtime		Заметка компании: "Ожидаемые результаты."	approved	Exact full-line note; prefix regex does not translate captured English note text.

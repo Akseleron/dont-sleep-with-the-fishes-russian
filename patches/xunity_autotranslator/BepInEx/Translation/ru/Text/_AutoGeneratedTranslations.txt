@@ -11,7 +11,7 @@
 (+1 Food!)=(+1 еда!)
 (+2 Food!)=(+2 еды!)
 (Removes the requirement of holding mouse button.)=Без удержания мыши.
-(While ON: Press 'F' to Fast-Forward time during the beginning of night events.)=Если включено: нажмите F, чтобы ускорить начало ночных событий.
+(While ON: Press 'F' to Fast-Forward time during the beginning of night events.)=Если включено: F ускоряет ночные события.
 +Faster Hunger\n+Double Damage=+Быстрее голод\n+Двойной урон
 +Slower Hunger\n+Health Regenerates=+Медленнее голод\n+Здоровье восстанавливается
 .. Again.=.. Снова.
@@ -955,6 +955,7 @@ If I were a plant…=Будь я растением…
 If only we had fire to cook it with… without burning the planks, obviously..=Вот бы развести огонь для готовки… не сжигая доски, конечно..
 If there is someone behind this with intent..=Если кто-то стоит за спиной с намерением..
 If your night does get interrupted, use an item you brought to handle the situation. If you have no answer, you can try going back to sleep. Sometimes, that’s your only option.=Если ночью вас что-то прервет, используйте взятый предмет, чтобы справиться с ситуацией. Если выхода нет, можно попробовать снова уснуть. Иногда это единственный вариант.
+Improves eating efficiency today.=Сегодня еда сытнее.
 In this tiny boat.. Even my peg leg is starting to ache.=В этой маленькой лодке.. Даже моя пирожная нога начинает болеть.
 Inside found:=Внутри найдено:
 Instant Clicking=Клик
@@ -1007,6 +1008,7 @@ Last night was nauseating, to say the least. Had I slept an hour longer, I might
 Last night was nauseating, to say the least. Had I slept an hour longer, I might have ended up under the boat.<br>Luckily, I managed to stabilize it using that heavy anchor I’ve got here.<br>It did a dandy job of keeping everything still, including myself.=Прошлая ночь была, мягко говоря, тошнотворной. Проспи я ещё час, мог бы оказаться под лодкой.<br>К счастью, я смог удержать её на месте тяжёлым якорем, который был у меня под рукой.<br>Он отлично справился: всё оставалось неподвижным, включая меня.
 Last night was pretty foggy, right? I swear I could make out figures from the fog.=Прошлую ночь было довольно туманно, не так ли? О, я точно видел какие-то фигуры в тумане.
 Last night, I- I heard a voice.. similar to mine. It was.. singing?=Прошлой ночью я- я слышала голос.. похожий на мой. Он.. пел?
+Laurel=Лорел
 Laurel could not make it.=Лорел не выжила.
 Laurel could not make it. Captain Whiskers may wander the sea alone.=Лорел не выжила. Усатик остался один.
 Laurel does not feel well...=Лорел плохо...

@@ -813,9 +813,8 @@ public sealed class RuntimeFixBehaviour : MonoBehaviour
         replacement = "";
         reason = "";
         if (string.IsNullOrWhiteSpace(current)) return false;
-        if (!HasLatin(current)) return false;
-
         var normalizedVisible = NormalizeVisibleText(current);
+        if (!HasLatin(normalizedVisible)) return false;
         if (IsRuntimeTechnicalText(normalizedVisible, path, objectName)) return false;
 
         if (TryResolveCompanyNoteTranslation(current, out replacement))

@@ -6,15 +6,14 @@ Current input checked:
 
 `game_runtime_test_v1_1_3/BepInEx/dswf_audit/`
 
-The current audit was captured before the dynamic ending/fishing parser pass in this phase. The validator is therefore expected to fail until the dev payload is reinstalled and the game is rerun.
+The current audit was captured before the FriendManageUI fixes in this phase. The validator is therefore expected to fail on those stale rows until the dev payload is reinstalled and the game is rerun.
 
 Current unapproved visible English from the existing audit:
 
-- `UI/ENDING_CANVAS/InfoList/1`: `Cause of Death: Seagulls!!!`
-- `UI/ENDING_CANVAS/friend_fate`: `Frederik could not make it. Captain Whiskers may wander the sea alone.`
-- `THE BOAT/TASKS/Task_Fishing/FishedVisuals/InfoCanvas/FishedInfoHolder/paper/bottom`: `Weight: 1,37kg`
+- `UI/HUD/FriendManageUI/Stats/Button_Speciality/text_use`: `Improves eating efficiency today.`
+- `UI/HUD/FriendManageUI/name_bg/Name`: `Laurel`
 
-Allowed technical English remains limited to values such as `DopplerGhost`, `SEED`, version strings, resolution values, file paths, and isolated keybind labels.
+Allowed technical English remains limited to values such as `DopplerGhost`, `SEED`, version strings, resolution values, file paths, isolated keybind labels, and translated credits lines that retain developer/tester names. Russian strings containing only isolated keybind Latin tokens such as `F` are no longer treated as English failures.
 
 ## What Changed
 
@@ -26,6 +25,11 @@ Allowed technical English remains limited to values such as `DopplerGhost`, `SEE
 - Runtime reapply now has focused parsers for runtime-composed ending death causes, friend/cat fate sentence atoms, and fishing weight lines.
 - Fishing regexes now support both dot and comma decimal separators.
 - See `docs/v1_1_3_dynamic_ending_text_audit.tsv` for the focused source/composition evidence.
+- Added `Improves eating efficiency today.` -> `Сегодня еда сытнее.` for the runtime-assigned FriendManageUI speciality text.
+- Added standalone visible `Laurel` -> `Лорел`.
+- Shortened the FastForward option description to `Если включено: F ускоряет ночные события.`
+- Runtime text reapply now checks Latin after stripping TMP tags, preventing tag-only Russian strings such as `<b>Вес:</b>` from being reported as untranslated candidates.
+- See `docs/v1_1_3_friend_manage_ui_audit.tsv` for the focused FriendManageUI text-family audit.
 
 ## Runtime Re-Test Requirement
 

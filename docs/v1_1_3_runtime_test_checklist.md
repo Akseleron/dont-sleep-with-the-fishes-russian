@@ -288,8 +288,15 @@ rg -n "OptionsMenu|HealthStatusHUD|FriendSupportPanel|LeftNotification|FishingRe
 - Runtime correction for `MENU/UI/Canvas/MedalsButton/runs_text`: verify `Runs: X Record: Y Days` becomes two lines, `Забегов: X` and `Рекорд: Y дн.`
 - Health hover tooltip `Hurts a bit` -> `Немного болит`
 - Health hover tooltip `Everything hurts` -> `Всё болит`
+- FriendManageUI speciality `Improves eating efficiency today.` -> `Сегодня еда сытнее.`
+- FriendManageUI speciality `Makes repairing less demanding today.` -> `Ремонт сегодня проще.`
+- FriendManageUI speciality `Bait guarantees catches today.` -> `С наживкой улов гарантирован.`
+- FriendManageUI speciality label `Prepare Bait` -> `Подготовить наживку`
+- FriendManageUI action `Boost eating?` -> `Ускорить еду?`
+- FriendManageUI shipmate names: `Row` -> `Роу`, `Frederik` -> `Фредерик`, `Laurel` -> `Лорел`
 - Fishing/item card `A tape record...?` -> `Аудиозапись...?`
 - Item tooltip bad runtime text `Два работает.` -> `2 применения.`
+- Options FastForward description: verify `Если включено: F ускоряет ночные события.` fits and keeps the keybind `F`.
 - How-to-play controls line: verify `Камера: мышь | Движение: WASD | Взять/бросить: 'E'` fits.
 - `Check the back?` -> `Посмотреть назад?`
 - `Boat Damaged` -> `Шлюпка`
@@ -321,6 +328,8 @@ rg -n "OptionsMenu|HealthStatusHUD|FriendSupportPanel|LeftNotification|FishingRe
 - Main menu stats: verify the narrow runtime correction for `runs_text`; the game may render this as one line or a newline-separated value before the plugin rewrites it.
 - Mixed RU/EN ending lines: verify all `Company's Note: "..."`
   variants stay fully Russian after the ending screen finishes updating.
+- FriendManageUI panel: verify speciality labels/descriptions and standalone shipmate names for Row, Frederik, and Laurel.
+- Credits/settings mixed text: developer/tester names may remain Latin inside the translated credits line.
 
 Runtime TMP correction notes:
 
@@ -360,6 +369,11 @@ Use `docs/v1_1_3_ui_block_coverage.tsv` and runtime `BepInEx/visible_english_aud
   - dev install with `--apply-textures`
   - full GUI patcher texture application
 - Runtime texture replacement must remain disabled; only offline texture patches should be tested.
+- Full texture review export for this pass:
+  - `build/dswf_v1_1_3_all_textures_for_manual_review/`
+  - `build/dswf_v1_1_3_all_textures_for_manual_review/manifest.tsv`
+  - optional local ZIP `build/dswf-v1.1.3-all-textures-for-manual-review.zip`
+  These files are local review artifacts and must not be committed.
 
 ## Logs To Collect
 
