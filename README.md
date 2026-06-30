@@ -1,6 +1,69 @@
-# Dont Sleep With The Fishes Russian Localization
+# Dont Sleep With The Fishes — русификатор
 
-Russian localization patcher for **Dont Sleep With The Fishes v1.1.2**.
+Русификатор для Dont Sleep With The Fishes v1.1.3.
+
+## Что это
+
+Этот проект предоставляет GUI-патчер, который устанавливает русификацию для игры.
+
+Патчер включает:
+
+- русский перевод текста;
+- runtime-исправления текста и интерфейса;
+- offline-замену 9 русифицированных текстур;
+- автоматическое создание резервных копий перед изменением файлов;
+- удаление русификатора с восстановлением оригинальных файлов.
+
+Архивы русификатора не содержат файлы игры.
+
+## Скачать
+
+Готовые пользовательские архивы находятся в разделе Releases.
+
+- Windows: dswf-rus-v1.1.3-windows-x86_64.zip
+- Linux: dswf-rus-v1.1.3-linux-x86_64.zip
+
+## Установка на Windows
+
+1. Скачать dswf-rus-v1.1.3-windows-x86_64.zip.
+2. Распаковать архив в отдельную папку.
+3. Запустить dswf_rus_patcher.exe.
+4. Выбрать папку, где лежит DontSleepWithTheFishes.exe.
+5. Нажать Установить.
+
+Python устанавливать не нужно.
+
+## Установка на Linux
+
+1. Скачать dswf-rus-v1.1.3-linux-x86_64.zip.
+2. Распаковать архив в отдельную папку.
+3. Запустить run_patcher_linux.sh.
+4. Выбрать папку с игрой.
+5. Нажать Установить.
+
+## Удаление
+
+В патчере есть кнопка удаления русификации.
+
+При удалении патчер восстанавливает оригинальные файлы из резервной копии.
+
+## Проверка целостности
+
+SHA256-хэши архивов находятся в файле SHA256SUMS.txt.
+
+## Важно
+
+- Поддерживаемая версия игры: v1.1.3.
+- Архивы не содержат DontSleepWithTheFishes.exe, DontSleepWithTheFishes_Data, UnityPlayer.dll или GameAssembly.dll.
+- Текстуры применяются offline-патчером к Unity assets.
+- Runtime-замена текстур отключена.
+- Русификатор изменяет файлы игры, поэтому перед установкой желательно иметь чистую копию игры.
+
+---
+
+# Dont Sleep With The Fishes — Russian localization patcher
+
+Russian localization patcher for Dont Sleep With The Fishes v1.1.3.
 
 ## What this is
 
@@ -9,60 +72,52 @@ This project provides a GUI patcher that installs the Russian localization for t
 The patcher includes:
 
 - Russian text translation;
-- Russian localized textures;
-- automatic backup before patching;
-- uninstall with original file restoration;
-- Linux/Wine support.
+- runtime text and UI layout fixes;
+- offline replacement of 9 localized textures;
+- automatic backups before modifying game files;
+- uninstall with original file restoration.
 
-## Current status
+The release archives do not include any game files.
 
-- Linux release: available.
-- Windows release: planned next.
+## Download
 
-## Supported game version
+Ready-to-use archives are available in Releases.
 
-**Dont Sleep With The Fishes v1.1.2**
+- Windows: dswf-rus-v1.1.3-windows-x86_64.zip
+- Linux: dswf-rus-v1.1.3-linux-x86_64.zip
 
-Other versions may not work correctly.
+## Windows installation
 
-## Linux usage
+1. Download dswf-rus-v1.1.3-windows-x86_64.zip.
+2. Extract the archive into a separate folder.
+3. Run dswf_rus_patcher.exe.
+4. Select the folder containing DontSleepWithTheFishes.exe.
+5. Click Install.
 
-1. Download the Linux release archive.
-2. Extract it.
-3. Run `./dswf-rus-patcher`.
-4. Select the folder containing `DontSleepWithTheFishes.exe`.
-5. Click install.
+Python is not required.
 
-After installation on Linux/Wine, launch the game using `./run_dswf_rus.sh` from the game folder.
+## Linux installation
+
+1. Download dswf-rus-v1.1.3-linux-x86_64.zip.
+2. Extract the archive into a separate folder.
+3. Run run_patcher_linux.sh.
+4. Select the game folder.
+5. Click Install.
+
+## Uninstall
+
+The patcher has an uninstall button.
+
+During uninstall, the patcher restores original files from the backup.
+
+## Integrity check
+
+SHA256 hashes are provided in SHA256SUMS.txt.
 
 ## Notes
 
-The font may look imperfect in some interface elements. The localization works, but font polish is not finished yet.
-
-## Русская версия
-
-Русификатор для **Dont Sleep With The Fishes v1.1.2**.
-
-Патчер устанавливает русский текст, русские текстуры, создаёт резервные копии и умеет удалять русификацию с восстановлением оригинальных файлов.
-
-### Что входит
-
-- перевод текста;
-- русифицированные текстуры;
-- автоматический backup перед установкой;
-- удаление русификации с восстановлением оригинальных файлов;
-- поддержка Linux/Wine.
-
-### Как пользоваться на Linux
-
-1. Скачать Linux-архив релиза.
-2. Распаковать архив.
-3. Запустить `./dswf-rus-patcher`.
-4. Выбрать папку игры, где лежит `DontSleepWithTheFishes.exe`.
-5. Нажать установку.
-
-После установки на Linux/Wine игру нужно запускать из папки игры через `./run_dswf_rus.sh`.
-
-### Примечание
-
-Шрифт в некоторых местах может выглядеть неидеально. Русификация работает, но визуальная полировка шрифта пока не завершена.
+- Supported game version: v1.1.3.
+- Archives do not include DontSleepWithTheFishes.exe, DontSleepWithTheFishes_Data, UnityPlayer.dll, or GameAssembly.dll.
+- Textures are applied by the offline Unity assets patcher.
+- Runtime texture replacement is disabled.
+- The patcher modifies game files, so keeping a clean backup of the game is recommended.
