@@ -1,0 +1,2 @@
+source_asset_file	source_type	source_path_id	source_name	source_width	source_height	replacement_file	replacement_width	replacement_height	status	notes
+sharedassets1.assets	Texture2D	50	unnamed_50					candidate	Example only. Fill from full texture export manifest; do not rely on messy image names alone.

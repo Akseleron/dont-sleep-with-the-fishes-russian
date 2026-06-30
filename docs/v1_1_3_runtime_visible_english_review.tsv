@@ -1,0 +1,12 @@
+scene	block_guess	full_transform_path	current_text	normalized_text	has_latin	has_cyrillic	is_mixed_ru_en	status	recommended_translation	notes
+game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/Medals/Medal_1 (4)/Desc	Get kidnapped...	Get kidnapped...	True	False	False	needs-translation		imported from local runtime visible English audit
+game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/Medals/Medal_1 (3)/Desc	Make too many friends...	Make too many friends...	True	False	False	needs-translation		imported from local runtime visible English audit
+game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/Medals/Medal_1 (9)/Desc	Pay back your debts...	Pay back your debts...	True	False	False	needs-translation		imported from local runtime visible English audit
+game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/Medals/Medal_1 (1)/Desc	Make yourself visible...	Make yourself visible...	True	False	False	needs-translation		imported from local runtime visible English audit
+game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/Medals/Medal_1 (2)/Desc	Wait for rescue...	Wait for rescue...	True	False	False	needs-translation		imported from local runtime visible English audit
+game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/Medals/Medal_1/Desc	Bring exploration tools...	Bring exploration tools...	True	False	False	needs-translation		imported from local runtime visible English audit
+game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/runs_text	Runs: 1 Record: 26 Days	Runs: 1 Record: 26 Days	True	False	False	needs-translation		imported from local runtime visible English audit
+game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/Medals/Medal_1 (5)/Desc	Have bad time management...	Have bad time management...	True	False	False	needs-translation		imported from local runtime visible English audit
+game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/Medals/Medal_1 (7)/Desc	Make bad choices...	Make bad choices...	True	False	False	needs-translation		imported from local runtime visible English audit
+game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/friend_fate	Shipmates sunk with the ship.	Shipmates sunk with the ship.	True	False	False	needs-translation		imported from local runtime visible English audit
+game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/runs_text	Runs: 2 Record: 26 Days	Runs: 2 Record: 26 Days	True	False	False	needs-translation		imported from local runtime visible English audit

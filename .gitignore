@@ -7,6 +7,7 @@ __pycache__/
 *.pyc
 
 debug_reports/
+.local_dumps/
 
 # Local tools and manual working files
 .tools/
@@ -23,3 +24,5 @@ BepInEx/ErrorLog.log
 # Build and release artifacts
 build/
 dist/**/*.spec
+game_runtime_test_v1_1_3/
+tester_audits/

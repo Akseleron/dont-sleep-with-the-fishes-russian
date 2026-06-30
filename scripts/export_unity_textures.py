@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from pathlib import Path
 import csv
 import re
@@ -11,7 +13,8 @@ if len(sys.argv) != 3:
 ROOT = Path(sys.argv[1])
 OUT = Path(sys.argv[2])
 IMG_DIR = OUT / "images"
-INDEX = OUT / "texture_index.tsv"
+MANIFEST = OUT / "manifest.tsv"
+LEGACY_INDEX = OUT / "texture_index.tsv"
 
 IMG_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -19,27 +22,42 @@ def safe_name(s: str) -> str:
     s = re.sub(r"[^a-zA-Z0-9А-Яа-яЁё._-]+", "_", s)
     return s[:160] or "unnamed"
 
-asset_files = []
-for pattern in ("*.assets", "*.bundle"):
-    asset_files.extend(ROOT.rglob(pattern))
+def texture_format(data: object) -> str:
+    for attr in ("m_TextureFormat", "texture_format", "format"):
+        value = getattr(data, attr, None)
+        if value is None:
+            continue
+        name = getattr(value, "name", "")
+        if name:
+            return name
+        return str(value)
+    return ""
+
+asset_files = set()
+for pattern in ("*.assets", "*.bundle", "level*"):
+    for path in ROOT.rglob(pattern):
+        if path.is_file():
+            asset_files.add(path)
 
 rows = []
 exported = 0
 failed = 0
 
 for asset_path in sorted(asset_files):
+    source_asset_file = str(asset_path.relative_to(ROOT))
     try:
         env = UnityPy.load(str(asset_path))
     except Exception as e:
         rows.append({
-            "asset_file": str(asset_path),
-            "type": "LOAD_FAILED",
-            "name": "",
+            "exported_file": "",
+            "source_asset_file": source_asset_file,
+            "asset_name": "",
             "path_id": "",
+            "type": "LOAD_FAILED",
             "width": "",
             "height": "",
-            "exported": "",
-            "error": str(e),
+            "format": "",
+            "notes": f"LOAD_FAILED: {e}",
         })
         continue
 
@@ -53,23 +71,25 @@ for asset_path in sorted(asset_files):
         except Exception as e:
             failed += 1
             rows.append({
-                "asset_file": str(asset_path),
-                "type": type_name,
-                "name": "",
+                "exported_file": "",
+                "source_asset_file": source_asset_file,
+                "asset_name": "",
                 "path_id": str(obj.path_id),
+                "type": type_name,
                 "width": "",
                 "height": "",
-                "exported": "",
-                "error": f"READ_FAILED: {e}",
+                "format": "",
+                "notes": f"READ_FAILED: {e}",
             })
             continue
 
         name = getattr(data, "name", "") or f"unnamed_{obj.path_id}"
         width = getattr(data, "width", "")
         height = getattr(data, "height", "")
+        fmt = texture_format(data)
 
         out_path = ""
-        error = ""
+        notes = ""
 
         try:
             img = getattr(data, "image", None)
@@ -79,35 +99,41 @@ for asset_path in sorted(asset_files):
                 filename = f"{safe_name(asset_path.stem)}__{type_name}__{obj.path_id}__{safe_name(name)}.png"
                 target = IMG_DIR / filename
                 img.save(target)
-                out_path = str(target)
+                out_path = str(target.relative_to(OUT))
                 exported += 1
+            else:
+                notes = "NO_IMAGE"
         except Exception as e:
             failed += 1
-            error = f"EXPORT_FAILED: {e}"
+            notes = f"EXPORT_FAILED: {e}"
 
         rows.append({
-            "asset_file": str(asset_path),
-            "type": type_name,
-            "name": name,
+            "exported_file": out_path,
+            "source_asset_file": source_asset_file,
+            "asset_name": name,
             "path_id": str(obj.path_id),
+            "type": type_name,
             "width": width,
             "height": height,
-            "exported": out_path,
-            "error": error,
+            "format": fmt,
+            "notes": notes,
         })
 
-with INDEX.open("w", encoding="utf-8", newline="") as f:
-    w = csv.DictWriter(
-        f,
-        fieldnames=["asset_file", "type", "name", "path_id", "width", "height", "exported", "error"],
-        delimiter="\t",
-    )
-    w.writeheader()
-    w.writerows(rows)
+fieldnames = ["exported_file", "source_asset_file", "asset_name", "path_id", "type", "width", "height", "format", "notes"]
+for index_path in (MANIFEST, LEGACY_INDEX):
+    with index_path.open("w", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(
+            f,
+            fieldnames=fieldnames,
+            delimiter="\t",
+        )
+        w.writeheader()
+        w.writerows(rows)
 
 print(f"asset_files={len(asset_files)}")
 print(f"rows={len(rows)}")
 print(f"exported={exported}")
 print(f"failed={failed}")
-print(f"index={INDEX}")
+print(f"manifest={MANIFEST}")
+print(f"legacy_index={LEGACY_INDEX}")
 print(f"images={IMG_DIR}")

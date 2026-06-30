@@ -1,0 +1,612 @@
+first_seen_tester	seen_testers_count	seen_sessions_count	seen_count	scene	block_guess	full_transform_path	normalized_text	sample_current_text	has_latin	has_cyrillic	is_english_likely	is_mixed_ru_en	is_layout_risk	status	recommended_translation	notes
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	13440	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/Button_StepBack/Text (TMP)	<	<	False	False	False	False	True	layout-risk-review		narrow_rect|preferred_height_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	13440	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/Button_StepForward/Text (TMP)	>	>	False	False	False	False	True	layout-risk-review		narrow_rect|preferred_height_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	270	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/friend_fate	Frederik's fate is unknown.	Frederik's fate is unknown.	True	False	True	False	True	layout-risk-review		preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	234	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/friend_fate	Row's fate is unknown.	Row's fate is unknown.	True	False	True	False	True	layout-risk-review		preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	18	game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/runs_text	Runs: 1 Record: 35 Days	Runs: 1 Record: 35 Days	True	False	True	False	True	layout-risk-review		multiline|preferred_height_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	144	game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/runs_text	Runs: 2 Record: 33 Days	Runs: 2 Record: 33 Days	True	False	True	False	True	layout-risk-review		multiline|preferred_height_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	126	game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/runs_text	Runs: 3 Record: 33 Days	Runs: 3 Record: 33 Days	True	False	True	False	True	layout-risk-review		multiline|preferred_height_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	108	game_storyGameNight	UnknownNeedsContext	UI/HUD/SendFriend_Fred/GoBackToSleep/Image/Text (TMP)	Send Frederik Instead?	Send Frederik Instead?	True	False	True	False	True	layout-risk-review		preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	36	game_storyGameDay	Dialogue	UI/HUD/TalkDialog/DialogBubble/DialogText	What do you think? Should we do this?	What do you think? Should we do this?	True	False	True	False	True	layout-risk-review		preferred_width_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	210	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Близкий Вызов Кухонный	Близкий Вызов Кухонный	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect|preferred_height_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	210	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	В воздухе пахло гнилью, а когда я осмотрелся... море было красным. Густо-красным. Будто кровавым.Я надел дыхательное снаряжение и нырнул проверить.Внизу раздался глубокий треск, а затем появилось именно то, что я искал.И оно тоже искало меня.	В воздухе пахло гнилью, а когда я осмотрелся... море было красным. Густо-красным. Будто кровавым.<br>Я надел дыхательное снаряжение и нырнул проверить.<br>Внизу раздался глубокий треск, а затем появилось именно то, что я искал.<br>И оно тоже искало меня.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	1036	game_storyGameDay	UnknownNeedsContext	UI/StoryPaperCanvas/StoryPanel/Button_Send/Text (TMP)	В ПУТЬ	В ПУТЬ	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect|preferred_height_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	602	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/yourfate	Ваша судьба...	Ваша судьба...	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect|preferred_height_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	210	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Вдали я заметил кого-то на скале. Не успел подумать, как услышал странно спокойную, мирную мелодию.Слишком утешительно, чтобы быть безопасным, решил я и отказался слушать. К утру она исчезла.Наверное, решила, что песня мне не понравилась.	Вдали я заметил кого-то на скале. Не успел подумать, как услышал странно спокойную, мирную мелодию.<br>Слишком утешительно, чтобы быть безопасным, решил я и отказался слушать. К утру она исчезла.<br>Наверное, решила, что песня мне не понравилась.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	1022	game_storyGameDay	FishingResultCard	THE BOAT/TASKS/Task_Fishing/FishedVisuals/InfoCanvas/FishedInfoHolder/paper/bottom	Вес: 0.5 кг	<b>Вес:</b> 0.5 кг	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect|preferred_height_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	392	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Ветер дул так сильно, что не давал мне отдохнуть…Запасы легко могло повредить или унести течением, поэтому я закрепил их сетью. Утром всё равно пришлось всё перекладывать, но ничего не пострадало…Кроме сети.	Ветер дул так сильно, что не давал мне отдохнуть…<br>Запасы легко могло повредить или унести течением, поэтому я закрепил их сетью. Утром всё равно пришлось всё перекладывать, но ничего не пострадало…<br>Кроме сети.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	630	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Ветер не давал мне отдохнуть. Стоило потерять осторожность, и он легко сбросил бы меня с лодки прямо в океан…Пока я пытался выбраться из этой ситуации, мне в лицо прилетела рыба: её принесло течением. От еды, посланной высшими силами, я отказываться не стану.	Ветер не давал мне отдохнуть. Стоило потерять осторожность, и он легко сбросил бы меня с лодки прямо в океан…<br>Пока я пытался выбраться из этой ситуации, мне в лицо прилетела рыба: её принесло течением. От еды, посланной высшими силами, я отказываться не стану.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	14812	game_storyGameDay	UnknownNeedsContext	RandomDayBox/RANDOMBOX_HUD/RESULT_panel/panelmenu/bg/Title	Внутри найдено:	Внутри найдено:	False	True	False	False	True	layout-risk-review		preferred_height_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	56	game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/Medals/Medal_1/Desc	Возьмите снаряжение для разведки...	Возьмите снаряжение для разведки...	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	448	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Вот и всё, Дороти ушла ко дну...Мы с Роу остались одни в старой шлюпке.Не знаю, что ударило по кораблю. Судя по звуку, знать не хочу.Теперь нам надо выжить.	Вот и всё, Дороти ушла ко дну...<br>Мы с Роу остались одни в старой шлюпке.<br>Не знаю, что ударило по кораблю. Судя по звуку, знать не хочу.<br>Теперь нам надо выжить.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	420	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Вот и всё, Дороти ушла ко дну...Мы с Фредериком остались одни в старой шлюпке.Не знаю, что ударило по кораблю. Судя по звуку, знать не хочу.Теперь нам надо выжить.	Вот и всё, Дороти ушла ко дну...<br>Мы с Фредериком остались одни в старой шлюпке.<br>Не знаю, что ударило по кораблю. Судя по звуку, знать не хочу.<br>Теперь нам надо выжить.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	630	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Вот и всё, Дороти ушла ко дну...Я остался один в старой шлюпке.Не знаю, что ударило по кораблю. Судя по звуку, знать не хочу.Теперь мне надо выжить.	Вот и всё, Дороти ушла ко дну...<br>Я остался один в старой шлюпке.<br>Не знаю, что ударило по кораблю. Судя по звуку, знать не хочу.<br>Теперь мне надо выжить.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	84	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Вчера вечером течение принесло к лодке бутылку. Интересно, кто отправил её в океан. И когда... и зачем...На обратной стороне бумага совсем пустая, так что у меня есть шанс отправить ответ обратно в море.	Вчера вечером течение принесло к лодке бутылку. Интересно, кто отправил её в океан. И когда... и зачем...<br>На обратной стороне бумага совсем пустая, так что у меня есть шанс отправить ответ обратно в море.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	210	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Глубокий Красный	Глубокий Красный	False	True	False	False	True	layout-risk-review		preferred_height_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	630	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Грохот разорвал мой сон, а следом лодку так дёрнуло, что я почувствовал это костями.Неподалёку появился водоворот.Обойти его было невозможно, и я решил довериться волнам. К счастью, к утру в море не осталось никаких дыр.	Грохот разорвал мой сон, а следом лодку так дёрнуло, что я почувствовал это костями.<br>Неподалёку появился водоворот.<br>Обойти его было невозможно, и я решил довериться волнам. К счастью, к утру в море не осталось никаких дыр.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	304	game_storyGameDay	Dialogue	UI/HUD/TalkDialog/OptionMode/ItemAndText/ChoiceText/ChoiceSpace/Yes/Text (TMP)	Да	Да	False	True	False	False	True	layout-risk-review		narrow_rect|preferred_height_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	14	game_storyGameDay	Dialogue	UI/HUD/TalkDialog/DialogBubble/DialogText	Давай я подготовлю эту наживку для тебя. Доверься мне, это обеспечит их ловлей рыбы весь день!	Давай я подготовлю эту наживку для тебя. Доверься мне, это обеспечит их ловлей рыбы весь день!	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	210	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/InfoList/2	Дней выжито:	Дней выжито: 	False	True	False	False	True	layout-risk-review		preferred_height_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	14	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/InfoList/2	Дней выжито: 15	Дней выжито: <color=#adf1ff>15	False	True	False	False	True	layout-risk-review		preferred_height_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	14	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/InfoList/2	Дней выжито: 16	Дней выжито: <color=#adf1ff>16	False	True	False	False	True	layout-risk-review		preferred_height_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	28	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/InfoList/2	Дней выжито: 29	Дней выжито: <color=#adf1ff>29	False	True	False	False	True	layout-risk-review		preferred_height_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	28	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/InfoList/2	Дней выжито: 35	Дней выжито: <color=#adf1ff>35	False	True	False	False	True	layout-risk-review		preferred_height_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	14	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/InfoList/2	Дней выжито: 4	Дней выжито: <color=#adf1ff>4	False	True	False	False	True	layout-risk-review		preferred_height_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	210	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Дождь может успокаивать, даже когда всё плохо.Обычно я слушал бы его из сухого безопасного места, а не в деревянной лодке, промокший насквозь, с водой, стекающей по одежде.И всё же я быстро уснул под звук капель, падающих в океан.	Дождь может успокаивать, даже когда всё плохо.<br>Обычно я слушал бы его из сухого безопасного места, а не в деревянной лодке, промокший насквозь, с водой, стекающей по одежде.<br>И всё же я быстро уснул под звук капель, падающих в океан.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	280	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/InfoList/3	Еды съедено:	Еды съедено: 	False	True	False	False	True	layout-risk-review		preferred_height_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	14	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/InfoList/3	Еды съедено: 32	Еды съедено: <color=#adf1ff>32	False	True	False	False	True	layout-risk-review		preferred_height_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	14	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/InfoList/3	Еды съедено: 36	Еды съедено: <color=#adf1ff>36	False	True	False	False	True	layout-risk-review		preferred_height_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	14	game_storyGameDay	Dialogue	UI/HUD/TalkDialog/DialogBubble/DialogText	Если бы только у нас было огонь, чтобы приготовить... без того чтобы сжечь доски, конечно..	Если бы только у нас было огонь, чтобы приготовить... без того чтобы сжечь доски, конечно..	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	54	game_menu	OptionsMenu	GameController/SETTINGS_CANVAS/SETTINGS_MENU/settings_items/SettingsPanel_FastForward/SettingDesc	Если включено: нажмите F, чтобы ускорить начало ночных событий.	Если включено: нажмите F, чтобы ускорить начало ночных событий.	True	True	False	True	True	layout-risk-review		long_text|preferred_width_gt_rect|preferred_height_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	14	game_storyGameDay	Dialogue	UI/HUD/TalkDialog/DialogBubble/DialogText	Еще один день здесь и я буду давать названия доскам. Эта называется Джейф. Скажи привет, Джейф!	Еще один день здесь и я буду давать названия доскам. Эта называется Джейф. Скажи привет, Джейф!	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	308	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/InfoList/6	Заметка компании:	Заметка компании: 	False	True	False	False	True	layout-risk-review		preferred_height_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	14	game_storyGameDay	UnknownNeedsContext	GameController/PAUSE_MENU/PAUSE_MENU/save_tip	Игра автоматически сохраняется каждое утро.	Игра автоматически сохраняется каждое утро.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	14812	game_storyGameDay	SearchResultPaper	UI/HUD/ScubaSearchHud/Text (TMP)	Идет поиск...	Идет поиск...	False	True	False	False	True	layout-risk-review		preferred_height_gt_rect|ellipsis_in_cramped_block
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	420	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Из воды показались плавники, тревожно близко к лодке. Внутри я чувствовал себя в безопасности. Как же я ошибался.Это были не обычные акулы. Одна схватила меня за икру своей... рукой? И вырвала огромный кусок.Рана всё ещё кровит, но ходить мне пока не придётся.	Из воды показались плавники, тревожно близко к лодке. Внутри я чувствовал себя в безопасности. Как же я ошибался.<br>Это были не обычные акулы. Одна схватила меня за икру своей... рукой? И вырвала огромный кусок.<br>Рана всё ещё кровит, но ходить мне пока не придётся.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect|preferred_height_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	210	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Из моря поднялась рука, раскрытой ладонью ко мне. Казалось, она просит подношение… что-то с моей лодки.Не знаю почему, но я ей доверился и почувствовал, что дар не останется без ответа. К счастью, взамен я что-то получил… Хорошая сделка?	Из моря поднялась рука, раскрытой ладонью ко мне. Казалось, она просит подношение… что-то с моей лодки.<br>Не знаю почему, но я ей доверился и почувствовал, что дар не останется без ответа. К счастью, взамен я что-то получил… Хорошая сделка?	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	336	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Кажется, я только что видел людей! И огромный корабль!Я решил рассмотреть его поближе и взял телескоп. Увы, они меня не заметили, будто я был невидимкой в тёмных ночных водах…	Кажется, я только что видел людей! И огромный корабль!<br>Я решил рассмотреть его поближе и взял телескоп. Увы, они меня не заметили, будто я был невидимкой в тёмных ночных водах…	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	420	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Какая удачная ночь! Я проснулся как раз вовремя и увидел, как вокруг лодки кружит стая рыб, так что воспользовался шансом порыбачить!Я благодарен за каждый кусок еды, который удаётся добыть, пока плыву на этой старой развалине.	Какая удачная ночь! Я проснулся как раз вовремя и увидел, как вокруг лодки кружит стая рыб, так что воспользовался шансом порыбачить!<br>Я благодарен за каждый кусок еды, который удаётся добыть, пока плыву на этой старой развалине.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	210	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Кормление смерти	Кормление смерти	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect|preferred_height_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	14	game_storyGameDay	Dialogue	UI/HUD/TalkDialog/DialogBubble/DialogText	Кто-то уже должен был заметить нас, застрявших тут в лодке.	Кто-то уже должен был заметить нас, застрявших тут в лодке.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	420	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Лодку вынесло к развилке. Я надеялся просто грести вперёд, но в итоге пришлось выбирать.Я повернул налево.С той стороны вода казалась спокойнее. Надеюсь, я не ошибся…	Лодку вынесло к развилке. Я надеялся просто грести вперёд, но в итоге пришлось выбирать.<br>Я повернул налево.<br>С той стороны вода казалась спокойнее. Надеюсь, я не ошибся…	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	168	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Лодку вынесло к развилке. Я надеялся просто грести вперёд, но в итоге пришлось выбирать.Я повернул направо.Опасным водам я доверился больше, чем пустому горизонту…	Лодку вынесло к развилке. Я надеялся просто грести вперёд, но в итоге пришлось выбирать.<br>Я повернул направо.<br>Опасным водам я доверился больше, чем пустому горизонту…	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	1022	game_storyGameDay	FishingResultCard	THE BOAT/TASKS/Task_Fishing/FishedVisuals/InfoCanvas/FishedInfoHolder/paper/top	Луциан (+1 еда!)	<b>Луциан</b> <i>(+1 еда!)</i>	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect|preferred_height_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	210	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Маленький проныра забрался ко мне в лодку и начал рыться в запасах.Я медленно потянулся за сетью, чтобы поймать его, но надо было действовать быстрее. Мелкая зараза сбежала с тем, что ей вообще не принадлежало.	Маленький проныра забрался ко мне в лодку и начал рыться в запасах.<br>Я медленно потянулся за сетью, чтобы поймать его, но надо было действовать быстрее. Мелкая зараза сбежала с тем, что ей вообще не принадлежало.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	630	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Маленький проныра забрался ко мне в лодку и начал рыться в запасах.Я уверенно бросил плавательный круг и поймал его, заставив сбросить добычу, прежде чем он ушёл под воду. Интересно, как это существо собирается выбираться отсюда.	Маленький проныра забрался ко мне в лодку и начал рыться в запасах.<br>Я уверенно бросил плавательный круг и поймал его, заставив сбросить добычу, прежде чем он ушёл под воду. Интересно, как это существо собирается выбираться отсюда.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	420	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Мимо прошла лодка меньше нашей. В ней кто-то сидел, но я не смог разглядеть ни лица, ни примет.На вопросы не отвечали, только предложили обменять мои запасы. Сделка показалась честной, и я согласился.Через несколько минут они исчезли.	Мимо прошла лодка меньше нашей. В ней кто-то сидел, но я не смог разглядеть ни лица, ни примет.<br>На вопросы не отвечали, только предложили обменять мои запасы. Сделка показалась честной, и я согласился.<br>Через несколько минут они исчезли.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	294	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Мир вокруг затих, когда оно уставилось мне в глаза пустым взглядом.У меня были считанные секунды. Я навёл гарпунное ружьё, и точный выстрел заставил его отступить.Надеюсь, оно больше меня не найдёт. Особенно если патронов не будет.	Мир вокруг затих, когда оно уставилось мне в глаза пустым взглядом.<br>У меня были считанные секунды. Я навёл гарпунное ружьё, и точный выстрел заставил его отступить.<br>Надеюсь, оно больше меня не найдёт. Особенно если патронов не будет.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	210	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Мир вокруг меня затих, когда оно уставилось мне в глаза пустым взглядом.Я понял, что оно голодно. Дрожащей рукой я поднял с лодки несколько банок и попытался накормить его рыбой.Не сделай я этого — сам, наверное, стал бы его обедом.	Мир вокруг меня затих, когда оно уставилось мне в глаза пустым взглядом.<br>Я понял, что оно голодно. Дрожащей рукой я поднял с лодки несколько банок и попытался накормить его рыбой.<br>Не сделай я этого — сам, наверное, стал бы его обедом.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	210	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Мир вокруг меня затих, когда оно уставилось мне в глаза пустым взглядом.Я решил, что рыболовная сеть либо отвлечёт его, либо принесёт мне рекордный улов.Но после броска всё стало пустым. Я очнулся без половины ногтей и с огромными следами зубов на обеих ногах.	Мир вокруг меня затих, когда оно уставилось мне в глаза пустым взглядом.<br>Я решил, что рыболовная сеть либо отвлечёт его, либо принесёт мне рекордный улов.<br>Но после броска всё стало пустым. Я очнулся без половины ногтей и с огромными следами зубов на обеих ногах.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	42	game_storyGameDay	UnknownNeedsContext	UI/HUD/Health/HoverBox_health/mood_info	Мне больно	Мне больно	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	14	game_storyGameDay	Dialogue	UI/HUD/TalkDialog/DialogBubble/DialogText	Надеюсь, кто-то его найдет.. А потом вернет, конечно. Это моя коробка для сигар.	Надеюсь, кто-то его найдет.. А потом вернет, конечно. Это моя коробка для сигар.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	25392	game_storyGameDay	UnknownNeedsContext	UI/HUD/LoreScreen/ClickToContinue	Нажмите, чтобы продолжить	Нажмите, чтобы продолжить	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect|preferred_height_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	266	game_storyGameNight	UnknownNeedsContext	UI/HUD/ChoiceHud/choice_question_text/Button_No/Text (TMP)	Налево	Налево	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	14	game_storyGameDay	Dialogue	UI/HUD/TalkDialog/DialogBubble/DialogText	Напомнил! У меня есть коробка для сигар.. Мы могли бы отправить в ней сообщение, не так ли?	Напомнил! У меня есть коробка для сигар.. Мы могли бы отправить в ней сообщение, не так ли?	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	266	game_storyGameNight	UnknownNeedsContext	UI/HUD/ChoiceHud/choice_question_text/Button_Yes/Text (TMP)	Направо	Направо	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	210	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Не знаю, виновата ли постоянная качка или я уже схожу с ума, но прошлой ночью сон почти не шёл.Я всю ночь метался между короткими провалами в сон и наблюдением за лунным светом на волнах.	Не знаю, виновата ли постоянная качка или я уже схожу с ума, но прошлой ночью сон почти не шёл.<br>Я всю ночь метался между короткими провалами в сон и наблюдением за лунным светом на волнах.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	304	game_storyGameDay	Dialogue	UI/HUD/TalkDialog/OptionMode/ItemAndText/ChoiceText/ChoiceSpace/No/Text (TMP)	Нет	Нет	False	True	False	False	True	layout-risk-review		narrow_rect|preferred_height_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	826	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Неутомимые волны	Неутомимые волны	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect|preferred_height_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	252	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Ночная рыбалка здесь, где бы я ни оказался, стала куда опаснее.Почему они такие большие и такие... жуткие? Их белые светящиеся глаза ясно дали понять: в этом кошмарном море мне не рады.	Ночная рыбалка здесь, где бы я ни оказался, стала куда опаснее.<br>Почему они такие большие и такие... жуткие? Их белые светящиеся глаза ясно дали понять: в этом кошмарном море мне не рады.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	42	game_storyGameDay	UnknownNeedsContext	UI/HUD/ConfirmScubaSet/bg/Title	Нырнуть за ресурсами?	Нырнуть за ресурсами?	False	True	False	False	True	layout-risk-review		preferred_height_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	210	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Океан действительно собирает вместе самые разные вещи.Прошлой ночью я нашёл загадочный тяжёлый сундук, но ключа рядом не было. Если любопытство победит, придётся вскрывать его силой.	Океан действительно собирает вместе самые разные вещи.<br>Прошлой ночью я нашёл загадочный тяжёлый сундук, но ключа рядом не было. Если любопытство победит, придётся вскрывать его силой.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	630	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Осмотревшись, я понял, что нужно немного скорректировать курс, иначе лодку может унести в воды, с которыми мне не справиться.Честно говоря, я понятия не имею, куда плыву. Остаётся надеяться, что там будет приятнее, чем там, где я проснулся прошлой ночью…	Осмотревшись, я понял, что нужно немного скорректировать курс, иначе лодку может унести в воды, с которыми мне не справиться.<br>Честно говоря, я понятия не имею, куда плыву. Остаётся надеяться, что там будет приятнее, чем там, где я проснулся прошлой ночью…	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	70	game_storyGameDay	UnknownNeedsContext	UI/HUD/Hunger/HoverBox_hunger/mood_info	Перекусить бы	Перекусить бы	False	True	False	False	True	layout-risk-review		narrow_rect|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	42	game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/Medals/Medal_1 (5)/Desc	Плохо распорядитесь временем...	Плохо распорядитесь временем...	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	420	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	По спине пробежал холодок. Это был кошмар наяву? Я правда видел… призраков?Я крепко зажмурился, чтобы мысли не сорвались в панику, если это был сонный паралич.А потом заснул…	По спине пробежал холодок. Это был кошмар наяву? Я правда видел… призраков?<br>Я крепко зажмурился, чтобы мысли не сорвались в панику, если это был сонный паралич.<br>А потом заснул…	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	210	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	По спине пробежал холодок. Это был кошмар наяву? Я правда видел… призраков?Я схватил фонарик и посветил на них, чтобы проверить, отреагируют ли они…К утру я проснулся весь в поту. Это место начинает сводить меня с ума…	По спине пробежал холодок. Это был кошмар наяву? Я правда видел… призраков?<br>Я схватил фонарик и посветил на них, чтобы проверить, отреагируют ли они…<br>К утру я проснулся весь в поту. Это место начинает сводить меня с ума…	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	322	game_storyGameDay	FriendSupportPanel	UI/HUD/FriendManageUI/Stats/Button_Eat/text_use	Покормить?	Покормить?	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	462	game_storyGameDay	FriendSupportPanel	UI/HUD/FriendManageUI/Stats/Button_Speciality/SpecialityText	Помочь?	Помочь?	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	2394	game_storyGameNight	UnknownNeedsContext	UI/HUD/SleepButtonHolder/GoBackToSleep/Image/Text (TMP)	Попробовать снова уснуть?	Попробовать снова уснуть?	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	182	game_storyGameNight	UnknownNeedsContext	UI/HUD/ChoiceHud/choice_question_text	Посетить островок?	Посетить островок?	False	True	False	False	True	layout-risk-review		preferred_height_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	308	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/InfoList/5	Предметов использовано:	Предметов использовано: 	False	True	False	False	True	layout-risk-review		preferred_height_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	168	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/InfoList/1	Причина смерти:	Причина смерти: 	False	True	False	False	True	layout-risk-review		preferred_height_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	56	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/InfoList/1	Причина смерти: Долг просрочен.	Причина смерти: <color=#ff4400>Долг просрочен.	False	True	False	False	True	layout-risk-review		long_text|preferred_height_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	56	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/InfoList/1	Причина смерти: Утащило на дно.	Причина смерти: <color=#ff4400>Утащило на дно.	False	True	False	False	True	layout-risk-review		long_text|preferred_height_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	28	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/InfoList/1	Причина смерти: Шлюпка развалилась.	Причина смерти: <color=#ff4400>Шлюпка развалилась.	False	True	False	False	True	layout-risk-review		long_text|preferred_height_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	210	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Приятель с перьями?	Приятель с перьями?	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect|preferred_height_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	196	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Прошлая ночь была, мягко говоря, тошнотворной. Проспи я ещё час, мог бы оказаться под лодкой.К счастью, я смог удержать её на месте тяжёлым якорем, который был у меня под рукой.Он отлично справился: всё оставалось неподвижным, включая меня.	Прошлая ночь была, мягко говоря, тошнотворной. Проспи я ещё час, мог бы оказаться под лодкой.<br>К счастью, я смог удержать её на месте тяжёлым якорем, который был у меня под рукой.<br>Он отлично справился: всё оставалось неподвижным, включая меня.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	420	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Прошлой ночью воздух наполнился звуками плеска и шлепков. Я решил найти источник.И вот оно! Кто-то решил стать моим завтраком. В суровом море всё ещё есть немного доброты.	Прошлой ночью воздух наполнился звуками плеска и шлепков. Я решил найти источник.<br>И вот оно! Кто-то решил стать моим завтраком. В суровом море всё ещё есть немного доброты.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	210	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Прошлой ночью к лодке прилетела любопытная чайка. Жаль, что она наткнулась на человека, который сам отчаянно ищет любую еду.К счастью для этой проворной птицы, мой план не сработал как надо, и она улетела.	Прошлой ночью к лодке прилетела любопытная чайка. Жаль, что она наткнулась на человека, который сам отчаянно ищет любую еду.<br>К счастью для этой проворной птицы, мой план не сработал как надо, и она улетела.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	210	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Прошлой ночью к лодке прилетела любопытная чайка. Какая милая и безобидная птица!Она выглядела усталой и голодной. Должно быть, летела уже очень долго. Я не удержался и поделился с ней едой. Может, у меня появился новый друг!	Прошлой ночью к лодке прилетела любопытная чайка. Какая милая и безобидная птица!<br>Она выглядела усталой и голодной. Должно быть, летела уже очень долго. Я не удержался и поделился с ней едой. Может, у меня появился новый друг!	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	280	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/InfoList/4	Рыбы поймано:	Рыбы поймано: 	False	True	False	False	True	layout-risk-review		preferred_height_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	14	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/InfoList/4	Рыбы поймано: 19	Рыбы поймано: <color=#adf1ff>19	False	True	False	False	True	layout-risk-review		preferred_height_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	14	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/InfoList/4	Рыбы поймано: 29	Рыбы поймано: <color=#adf1ff>29	False	True	False	False	True	layout-risk-review		preferred_height_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	1316	game_storyGameDay	FriendSupportPanel	UI/HUD/FriendManageUI/Stats/Button_Lonely/Text (TMP)	Скучает	Скучает	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	504	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Смертельный взгляд	Смертельный взгляд	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect|preferred_height_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	14	game_storyGameDay	Dialogue	UI/HUD/TalkDialog/DialogBubble/DialogText	Спешно, передай мне сеть для рыбы!	Спешно, передай мне сеть для рыбы!	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	13496	game_storyGameDay	FriendSupportPanel	UI/HUD/FriendManageUI/Stats/Button_Lonely/Text (TMP)	Счастлив	Счастлив	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	210	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/friend_fate	Товарищи затонули вместе с кораблем. Капитан Усатик может скитаться по морю в одиночестве.	Товарищи затонули вместе с кораблем. Капитан Усатик может скитаться по морю в одиночестве.	False	True	False	False	True	layout-risk-review		multiline|long_text|preferred_width_gt_rect|preferred_height_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	462	game_collectgame	UnknownNeedsContext	UI/CUTSCENE/clickToSkipText	Удерживайте кнопку мыши, чтобы пропустить	Удерживайте кнопку мыши, чтобы пропустить	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	14	game_storyGameDay	Dialogue	UI/HUD/TalkDialog/DialogBubble/DialogText	Хм..? Что это за шум за твоей ухой?	Хм..? Что это за шум за твоей ухой?	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	14812	game_storyGameDay	UnknownNeedsContext	RandomDayBox/RANDOMBOX_HUD/randomboxPanel/bg/Title	Что делать?	Что делать?	False	True	False	False	True	layout-risk-review		preferred_height_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	392	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Что-то ударилось о борт лодки и разбудило меня.Я вытащил это на борт. Человеческие останки… старые, уже одни кости.Но шляпа уцелела, а внутри было вышито имя: «Дэмиен».	Что-то ударилось о борт лодки и разбудило меня.<br>Я вытащил это на борт. Человеческие останки… старые, уже одни кости.<br>Но шляпа уцелела, а внутри было вышито имя: «Дэмиен».	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	252	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Экстремальная рыбалка	Экстремальная рыбалка	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect|preferred_height_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	420	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Я едва видел нос собственной лодки.Я так долго всматривался в туман, пытаясь понять, где нахожусь, что, возможно, начал видеть в нём фигуры.Кажется, я видел человека… без головы.	Я едва видел нос собственной лодки.<br>Я так долго всматривался в туман, пытаясь понять, где нахожусь, что, возможно, начал видеть в нём фигуры.<br>Кажется, я видел человека… без головы.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	238	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Я нашёл крошечный одинокий островок и решил немного его осмотреть.Кто-то явно бывал там раньше: я нашёл старый деревянный сундук и притащил его обратно в лодку.Тащить его было тяжело и изматывающе, так что надеюсь, оно того стоило!	Я нашёл крошечный одинокий островок и решил немного его осмотреть.<br>Кто-то явно бывал там раньше: я нашёл старый деревянный сундук и притащил его обратно в лодку.<br>Тащить его было тяжело и изматывающе, так что надеюсь, оно того стоило!	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	420	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Я нашёл одинокий крошечный островок и решил немного его осмотреть.Среди кустов нашлась старая банка, а внутри — черви, питающиеся остатками. Для рыб сойдёт!	Я нашёл одинокий крошечный островок и решил немного его осмотреть.<br>Среди кустов нашлась старая банка, а внутри — черви, питающиеся остатками. Для рыб сойдёт!	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	420	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Я не мог ошибиться! Это точно была не птица! Значит, над этим проклятым морем летают люди, а значит, меня рано или поздно спасут.Логично же. …Правда?	Я не мог ошибиться! Это точно была не птица! Значит, над этим проклятым морем летают люди, а значит, меня рано или поздно спасут.<br>Логично же. …Правда?	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	1022	game_storyGameDay	UnknownNeedsContext	UI/HUD/HoverBox_energy/mood_info	Я полностью отдохнул!	Я полностью отдохнул!	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	420	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Я почувствовал, как маленький камень скребанул по днищу лодки, и поднялся осмотреться…Место выглядело подозрительно, но я всё равно снова уснул и позволил волнам вынести меня отсюда.Так я хотя бы не смогу винить себя за неверный курс!	Я почувствовал, как маленький камень скребанул по днищу лодки, и поднялся осмотреться…<br>Место выглядело подозрительно, но я всё равно снова уснул и позволил волнам вынести меня отсюда.<br>Так я хотя бы не смогу винить себя за неверный курс!	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	420	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Я проснулся от волн, бьющихся о борт лодки; вода летела мне в лицо.Смирившись с обстоятельствами, я снова задремал под мерное покачивание лодки.Но, кажется, что-то унесло волнами…	Я проснулся от волн, бьющихся о борт лодки; вода летела мне в лицо.<br>Смирившись с обстоятельствами, я снова задремал под мерное покачивание лодки.<br>Но, кажется, что-то унесло волнами…	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	210	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Я проснулся от волн, бьющихся о борт лодки; вода летела мне в лицо.Собравшись с мыслями и восстановив равновесие, я попытался поспать ещё несколько часов, но безуспешно.	Я проснулся от волн, бьющихся о борт лодки; вода летела мне в лицо.<br>Собравшись с мыслями и восстановив равновесие, я попытался поспать ещё несколько часов, но безуспешно.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	210	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Я резко проснулся от грома после вспышек ночной бури.Спать было невозможно, поэтому я надел ведро, чтобы приглушить шум и закрыться от дождя. Утро ушло на то, чтобы заново разложить вещи, пережившие бурю.	Я резко проснулся от грома после вспышек ночной бури.<br>Спать было невозможно, поэтому я надел ведро, чтобы приглушить шум и закрыться от дождя. Утро ушло на то, чтобы заново разложить вещи, пережившие бурю.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	252	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Я резко проснулся от грома после вспышек ночной бури.Это была одна из самых тяжёлых ночей для сна.Запасы тоже пострадали, и всё утро я раскладывал их заново.	Я резко проснулся от грома после вспышек ночной бури.<br>Это была одна из самых тяжёлых ночей для сна.<br>Запасы тоже пострадали, и всё утро я раскладывал их заново.	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	630	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightDescription	Я терпеть не могу мокрые носки, а тут проснулся в холодной промокшей одежде. Крепким сном я тоже не отличаюсь, так что мне нужно что-то для сна.Карта всё равно была бесполезна и продержалась достаточно долго... пока я не проснулся с её клочками во рту. Фу!	Я терпеть не могу мокрые носки, а тут проснулся в холодной промокшей одежде. Крепким сном я тоже не отличаюсь, так что мне нужно что-то для сна.<br>Карта всё равно была бесполезна и продержалась достаточно долго... пока я не проснулся с её клочками во рту. Фу!	False	True	False	False	True	layout-risk-review		long_text|preferred_width_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	14	game_storyGameDay	UnknownNeedsContext	UI/HUD/Hunger/HoverBox_hunger/mood_info	Я умираю от голода	Я умираю от голода	False	True	False	False	True	layout-risk-review		narrow_rect|preferred_width_gt_rect|preferred_height_gt_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	1022	game_storyGameDay	UnknownNeedsContext	UI/HUD/Health/HoverBox_health/mood_info	Я чувствую себя здоровым!	Я чувствую себя здоровым!	False	True	False	False	True	layout-risk-review		preferred_width_gt_rect|preferred_height_gt_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	42	game_menu	OptionsMenu	GameController/SETTINGS_CANVAS/SETTINGS_MENU/settings_items/SettingsPanel_Credits/SettingName	| Автор: Taiki (DopplerGhost) | Особая благодарность: TakDor, Merlidan, Drael и вам! |	| Автор: Taiki <i>(DopplerGhost)</i> | Особая благодарность: TakDor, Merlidan, Drael и вам! |	True	True	False	True	False	mixed-ru-en-review		long_text
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	70	game_storyGameDay	NightEventChoice	THE BOAT/TASKS/Task_Fishing/FishOnHookCanvas/Text (TMP)	!	!	False	False	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	90	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#1	#1	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	450	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#10	#10	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	300	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#11	#11	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	450	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#12	#12	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	300	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#13	#13	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	300	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#14	#14	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	300	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#15	#15	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	210	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#16	#16	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	300	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#17	#17	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	600	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#18	#18	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	330	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#19	#19	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	420	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#2	#2	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	150	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#20	#20	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	150	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#21	#21	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	170	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#22	#22	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	130	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#23	#23	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	150	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#24	#24	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	150	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#25	#25	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	150	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#26	#26	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	300	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#27	#27	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	450	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#28	#28	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	470	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#3	#3	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	580	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#4	#4	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	750	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#5	#5	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	600	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#6	#6	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	510	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#7	#7	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	240	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#8	#8	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	600	game_storyGameDay	Journal	UI/HUD/JournalMainBook/PageButtons/EntryText	#9	#9	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	40	game_storyGameDay	LeftNotification	UI/HUD/ItemsUpdateCanvas/Holder/Item_BoatDamage/Text	-21%	-21%	False	False	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	50	game_storyGameDay	LeftNotification	UI/HUD/ItemsUpdateCanvas/Holder/Item_BoatDamage/Text	-27%	-27%	False	False	False	False	False	review
+
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	60	game_storyGameDay	LeftNotification	UI/HUD/ItemsUpdateCanvas/Holder/Item_BoatDamage/Text	-37%	-37%	False	False	False	False	False	review
+
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	120	game_storyGameDay	LeftNotification	UI/HUD/ItemsUpdateCanvas/Holder/Item_BoatDamage/Text	-54%	-54%	False	False	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	70	game_storyGameDay	LeftNotification	UI/HUD/ItemsUpdateCanvas/Holder/Item_BoatDamage/Text	-57%	-57%	False	False	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	70	game_storyGameDay	LeftNotification	UI/HUD/ItemsUpdateCanvas/Holder/Item_BoatDamage/Text	-66%	-66%	False	False	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	80	game_menu	OptionsMenu	GameController/SETTINGS_CANVAS/SETTINGS_MENU/settings_items/SettingsPanel_Vol_Master/SettingPercent	100%	100%	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	10	game_menu	OptionsMenu	GameController/SETTINGS_CANVAS/SETTINGS_MENU/settings_items/SettingsPanel_Vol_Music/SettingPercent	44%	44%	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	450	game_collectgame	UnknownNeedsContext	UI/HUD/CLOCK/clockholder/timer/time_num	45	45	False	False	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	60	game_menu	OptionsMenu	GameController/SETTINGS_CANVAS/SETTINGS_MENU/settings_items/SettingsPanel_Brightness/SettingPercent	50%	50%	False	False	False	False	False	review		narrow_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	260	game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/Medals/Medal_1 (1)/Title	???	???	False	False	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	80	game_storyGameNight	UnknownNeedsContext	UI/HUD/CursorPointer/CursorTipText	Акваланг	Акваланг	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	80	game_storyGameNight	UnknownNeedsContext	UI/HUD/CursorPointer/CursorTipText	Акваланг сломан	Акваланг сломан	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	30	game_storyGameNight	UnknownNeedsContext	UI/HUD/CursorPointer/CursorTipText	Аптечка	Аптечка	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	110	game_storyGameNight	UnknownNeedsContext	UI/HUD/CursorPointer/CursorTipText	Банка рыбы	Банка рыбы	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	30	game_menu	OptionsMenu	GameController/SETTINGS_CANVAS/SETTINGS_MENU/settings_items/SettingsPanel_Click/SettingDesc	Без удержания мыши.	Без удержания мыши.	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	GameController/PAUSE_MENU/PAUSE_MENU/BackToMenu/txt	В меню	В меню	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	30	game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/Medals/Medal_1 (4)/Desc	Вас похитили...	Вас похитили...	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	180	game_storyGameNight	UnknownNeedsContext	UI/HUD/CursorPointer/CursorTipText	Ведро	Ведро	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	40	game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/Medals/Medal_1 (9)/Desc	Верните долги...	Верните долги...	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	730	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Ветер	Ветер	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	30	game_collectgame	UnknownNeedsContext	UI/Cursors/PickupCursor/ItemName	Взять	Взять	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	450	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Вихрь	Вихрь	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	300	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Вкусный гость	Вкусный гость	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	440	game_storyGameNight	UnknownNeedsContext	UI/HUD/ChooseItemHud/choice_question_text	Вы не готовы.	Вы не готовы.	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	240	game_storyGameDay	LeftNotification	UI/HUD/Notice/NoticeText	Вы ослабли.	Вы ослабли.	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	420	game_storyGameDay	LeftNotification	UI/HUD/Notice/NoticeText	Вы плохо поспали.	Вы плохо поспали.	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	1190	game_storyGameNight	UnknownNeedsContext	UI/HUD/ChooseItemHud/choice_question_text	Выберите предмет.	Выберите предмет.	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	420	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Выборы...	Выборы...	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	470	game_menu	MainMenu	MENU/UI/Canvas/ButtonsHolder/Quit/txt	Выйти	Выйти	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	40	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Гарпун	Гарпун	False	True	False	False	False	review
+
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	20	game_storyGameDay	LeftNotification	THE BOAT/TASKS/Task_Repair/HUD/Notice/NoticeText	Гвоздей осталось: 0	Гвоздей осталось: 0	False	True	False	False	False	review
+
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	30	game_storyGameDay	LeftNotification	THE BOAT/TASKS/Task_Repair/HUD/Notice/NoticeText	Гвоздей осталось: 1	Гвоздей осталось: 1	False	True	False	False	False	review
+
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	50	game_storyGameDay	LeftNotification	THE BOAT/TASKS/Task_Repair/HUD/Notice/NoticeText	Гвоздей осталось: 2	Гвоздей осталось: 2	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	120	game_storyGameDay	LeftNotification	THE BOAT/TASKS/Task_Repair/HUD/Notice/NoticeText	Гвоздей осталось: 3	Гвоздей осталось: 3	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	10300	game_storyGameDay	LeftNotification	THE BOAT/TASKS/Task_Repair/HUD/Notice/NoticeText	Гвоздей осталось: 4	Гвоздей осталось: 4	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	20	game_storyGameDay	LeftNotification	THE BOAT/TASKS/Task_Repair/HUD/Notice/NoticeText	Гвоздей осталось: 5	Гвоздей осталось: 5	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	40	game_storyGameDay	LeftNotification	THE BOAT/TASKS/Task_Repair/HUD/Notice/NoticeText	Гвоздей осталось: 6	Гвоздей осталось: 6	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	1870	game_storyGameDay	FriendSupportPanel	UI/HUD/FriendManageUI/Stats/Button_Eat/Text (TMP)	Голод	Голод	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	GameController/PAUSE_MENU/PAUSE_MENU/Resume/txt	Дальше	Дальше	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	1190	game_menu	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 0	День 0	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	450	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 1	День 1	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	490	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 10	День 10	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	300	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 11	День 11	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	300	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 12	День 12	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	300	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 13	День 13	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	340	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 14	День 14	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	340	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 15	День 15	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	300	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 16	День 16	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	340	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 17	День 17	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	210	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 18	День 18	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	300	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 19	День 19	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	570	game_storyGameNight	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 2	День 2	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	340	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 20	День 20	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	340	game_storyGameNight	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 21	День 21	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	300	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 22	День 22	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	220	game_storyGameNight	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 23	День 23	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	300	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 24	День 24	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	300	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 25	День 25	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	300	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 26	День 26	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	340	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 27	День 27	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	300	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 28	День 28	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	150	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 29	День 29	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	480	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 3	День 3	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	160	game_storyGameNight	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 30	День 30	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	150	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 31	День 31	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	190	game_storyGameNight	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 32	День 32	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	180	game_storyGameNight	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 33	День 33	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	190	game_storyGameNight	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 34	День 34	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	190	game_storyGameNight	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 35	День 35	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	440	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 4	День 4	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	350	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 5	День 5	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	410	game_storyGameNight	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 6	День 6	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	360	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 7	День 7	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	530	game_storyGameNight	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 8	День 8	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	450	game_storyGameDay	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	День 9	День 9	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	30	game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/Medals/Medal_1 (2)/Desc	Дождитесь спасения...	Дождитесь спасения...	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	10470	game_storyGameDay	UnknownNeedsContext	RandomDayBox/RANDOMBOX_HUD/randomboxPanel/BUTTONS/Myself/myself_txt	Достать ящик!	Достать ящик!	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Дотянуться?	Дотянуться?	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Дрейфующий ящик	Дрейфующий ящик	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	240	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Другие Люди?!	Другие Люди?!	False	True	False	False	False	review
+
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Еда: 1	Еда: 1	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Еда: 11	Еда: 11	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	30	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Еда: 2	Еда: 2	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	110	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Еда: 3	Еда: 3	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	60	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Еда: 4	Еда: 4	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	70	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Еда: 5	Еда: 5	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	120	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Еда: 6	Еда: 6	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	120	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Еда: 7	Еда: 7	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	40	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Еда: 8	Еда: 8	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Еда: 9	Еда: 9	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	10580	game_storyGameDay	Journal	UI/HUD/JournalMainBook/CloseButton/Text (TMP)	Закрыть	Закрыть	False	True	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	30	game_menu	OptionsMenu	GameController/SETTINGS_CANVAS/SETTINGS_MENU/settings_items/SettingsPanel_Vol_Sfx/SettingName	Звуки	Звуки	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	280	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Зеркало	Зеркало	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	30	game_storyGameNight	UnknownNeedsContext	UI/HUD/CursorPointer/CursorTipText	Зонт	Зонт	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	450	game_storyGameNight	UnknownNeedsContext	EVENTS/DANGER_0/DangerousWater/EventCanvas/FriendText	Идти туда кажется опасным...	Идти туда кажется опасным...	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	160	game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/LoreButton/Text (TMP)	История	История	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	30	game_collectgame	UnknownNeedsContext	UI/InventoryCanvas/handfull_Text/to_the_boat	К шлюпке!	К шлюпке!	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	300	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Каменистый сон	Каменистый сон	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	450	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Камень и Роу	Камень и Роу	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	70	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Капитан Усатик	Капитан Усатик	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	190	game_storyGameNight	UnknownNeedsContext	UI/HUD/CursorPointer/CursorTipText	Карта	Карта	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	30	game_menu	OptionsMenu	GameController/SETTINGS_CANVAS/SETTINGS_MENU/settings_items/SettingsPanel_Click/SettingName	Клик	Клик	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	430	game_runEnd	UnknownNeedsContext	GameController/FadeToHappenController/Canvas/Text (TMP)	Конец	Конец	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	20	game_storyGameNight	UnknownNeedsContext	UI/HUD/CursorPointer/CursorTipText	Коснуться руки?	Коснуться руки?	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	190	game_storyGameNight	UnknownNeedsContext	UI/HUD/ChoiceHud/choice_question_text	Куда?	Куда?	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	450	game_storyGameNight	UnknownNeedsContext	EVENTS/DANGER_0/NeedsDirection/EventCanvas/handy_text (1)	Ладно, попробуем куда-нибудь пойти...	Ладно, попробуем куда-нибудь пойти...	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	830	game_storyGameDay	UnknownNeedsContext	UI/HUD/Sleep Button/btn_bg/Text (TMP)	Лечь спать?	Лечь спать?	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	150	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Мелодия Эйри	Мелодия Эйри	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	110	game_storyGameDay	UnknownNeedsContext	RandomDayBox/RANDOMBOX_HUD/randomboxPanel/BUTTONS/Friend_cannot/friendcannot_txt	Мне некому помочь...	Мне некому помочь...	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	30	game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/Medals/Medal_1 (7)/Desc	Море забрало вас.	Море забрало вас.	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	30	game_menu	OptionsMenu	GameController/SETTINGS_CANVAS/SETTINGS_MENU/settings_items/SettingsPanel_Vol_Music/SettingName	Музыка	Музыка	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	450	game_storyGameNight	UnknownNeedsContext	EVENTS/DANGER_0/NeedsDirection/EventCanvas/handy_text	Надеюсь, это укажет путь...	Надеюсь, это укажет путь...	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	740	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Наживка	Наживка	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	40	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Наживка: 1	Наживка: 1	False	True	False	False	False	review
+
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Наживка: 2	Наживка: 2	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Наживка: 4	Наживка: 4	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Наживка: 6	Наживка: 6	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Нажмите, чтобы полечиться	Нажмите, чтобы полечиться	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	590	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Нажмите, чтобы съесть	Нажмите, чтобы съесть	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	250	game_storyGameDay	LeftNotification	UI/HUD/ItemsUpdateCanvas/Holder/Item_Found/Title	Найдено	Найдено	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	70	game_storyGameDay	LeftNotification	UI/HUD/ItemsUpdateCanvas/Holder/Item_Found/Title	Найдено:	Найдено:	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Написать сообщение	Написать сообщение	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	150	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Не могу спать	Не могу спать	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	110	game_storyGameDay	UnknownNeedsContext	RandomDayBox/RANDOMBOX_HUD/randomboxPanel/BUTTONS/Myself_cannot/myselfcannot_txt	Недостаточно энергии...	Недостаточно энергии...	False	True	False	False	False	review
+
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	40	game_storyGameDay	Journal	UI/HUD/JournalHolder/JournalButton/openjournal/no_new_entry	Нет новой записи	Нет новой записи	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	760	game_storyGameDay	Journal	UI/HUD/JournalHolder/JournalButton/openjournal/new_entry	Новая запись!	Новая запись!	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	460	game_menu	MainMenu	MENU/UI/Canvas/ButtonsHolder/NewGameButton/txt	Новая игра	Новая игра	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	1070	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Новый день	Новый день	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	600	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Ночь Душа	Ночь Душа	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	1520	game_storyGameNight	UnknownNeedsContext	EVENTS/DANGER_0/Nothing/Canvas/Text (TMP)	Ночь прошла спокойно...	Ночь прошла спокойно...	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	60	game_storyGameDay	LeftNotification	UI/HUD/Notice/NoticeText	Ночью что-то сломалось.	Ночью что-то сломалось.	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	450	game_storyGameNight	UnknownNeedsContext	EVENTS/DANGER_0/NeedsDirection/EventCanvas/FriendText	Нужно повернуть...	Нужно повернуть...	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	30	game_menu	OptionsMenu	GameController/SETTINGS_CANVAS/SETTINGS_MENU/settings_items/SettingsPanel_Vol_Master/SettingName	Общая громкость	Общая громкость	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	500	game_menu	OptionsMenu	MENU/UI/Canvas/ButtonsHolder/Settings/txt	Опции	Опции	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	800	game_storyGameDay	Journal	UI/HUD/JournalHolder/JournalButton/openjournal	Открыть журнал?	Открыть журнал?	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	60	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Открыть сундук	Открыть сундук	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	10610	game_storyGameDay	UnknownNeedsContext	RandomDayBox/RANDOMBOX_HUD/randomboxPanel/BUTTONS/Cancel/cancel_txt	Отмена	Отмена	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	GameController/PAUSE_MENU/PAUSE_MENU/PausedTitle	Пауза	Пауза	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	10580	game_storyGameDay	UnknownNeedsContext	UI/StoryPaperCanvas/StoryPanel/PaperHeader	Пишите мышью...	Пишите мышью...	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	440	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Поговорить	Поговорить	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	30	game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/Medals/Medal_1 (1)/Desc	Подайте сигнал...	Подайте сигнал...	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	220	game_storyGameNight	UnknownNeedsContext	UI/HUD/CursorPointer/CursorTipText	Подзорная труба	Подзорная труба	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	10	game_storyGameNight	UnknownNeedsContext	UI/HUD/ChoiceHud/choice_question_text	Подобрать сундук?	Подобрать сундук?	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	730	game_storyGameNight	UnknownNeedsContext	UI/HUD/CursorPointer/CursorTipText	Подсказка курсора	Подсказка курсора	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	180	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Поиск в море	Поиск в море	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	30	game_collectgame	UnknownNeedsContext	UI/InventoryCanvas/SaveYourselves/saveyo_text	Покинуть корабль!	Покинуть корабль!	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	300	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Попробовать рыбачить	Попробовать рыбачить	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	30	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Порванная карта	Порванная карта	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	30	game_storyGameNight	UnknownNeedsContext	UI/HUD/ChoiceHud/choice_question_text	Посмотреть назад?	Посмотреть назад?	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	550	game_storyGameDay	LeftNotification	UI/HUD/ItemsUpdateCanvas/Holder/Item_Lost/Title	Потеряно	Потеряно	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	180	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Починить вручную	Починить вручную	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/UseDuctTape/click_to_fix	Починить скотчем!	Починить скотчем!	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	370	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Починить шлюпку	Починить шлюпку	False	True	False	False	False	review
+
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	120	game_storyGameDay	LeftNotification	UI/HUD/Notice/NoticeText	Предмет унесло в море.	Предмет унесло в море.	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	150	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Призрачное	Призрачное	False	True	False	False	False	review
+
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	300	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Призрачное?	Призрачное?	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	30	game_menu	OptionsMenu	GameController/SETTINGS_CANVAS/SETTINGS_MENU/Accept/txt	Принять	Принять	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	11010	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/ContinueButton/Text (TMP)	Продолжить	Продолжить	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/Hunger/HoverBox_hunger/mood_info	Пусто...	Пусто...	False	True	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	30	game_menu	OptionsMenu	GameController/SETTINGS_CANVAS/SETTINGS_MENU/settings_items/SettingsPanel_Resolution/SettingName	Разрешение экрана	Разрешение экрана	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	100	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Рваная сеть	Рваная сеть	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	330	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Ревущие облака	Ревущие облака	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	150	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Ремонтник	Ремонтник	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	1460	game_storyGameDay	FriendSupportPanel	UI/HUD/FriendManageUI/name_bg/Name	Роу	Роу	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	110	game_storyGameDay	UnknownNeedsContext	RandomDayBox/RANDOMBOX_HUD/randomboxPanel/BUTTONS/Friend/friend_txt	Роу справится	Роу справится	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	30	game_collectgame	UnknownNeedsContext	UI/InventoryCanvas/handfull_Text	Руки заняты!	Руки заняты!	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	300	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Руки и Пальцы	Руки и Пальцы	False	True	False	False	False	review
+
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	20	game_storyGameDay	FriendSupportPanel	UI/HUD/FriendManageUI/Stats/Button_Speciality/text_use	С наживкой улов гарантирован.	С наживкой улов гарантирован.	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	30	game_menu	OptionsMenu	GameController/SETTINGS_CANVAS/SETTINGS_MENU/Restore/txt	Сбросить	Сбросить	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	30	game_storyGameDay	UnknownNeedsContext	UI/HUD/ConfirmScubaSet/Yes/Text (TMP)	Сделать!	Сделать!	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	220	game_storyGameNight	UnknownNeedsContext	UI/HUD/CursorPointer/CursorTipText	Сеть	Сеть	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	30	game_storyGameDay	UnknownNeedsContext	UI/HUD/HoverBox_energy/mood_info	Сил ещё хватает	Сил ещё хватает	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	40	game_storyGameNight	UnknownNeedsContext	UI/HUD/CursorPointer/CursorTipText	Скотч	Скотч	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	30	game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/Medals/Medal_1 (3)/Desc	Слишком много друзей...	Слишком много друзей...	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	450	game_collectgame	UnknownNeedsContext	UI/InventoryCanvas/TooHeavyStuff/tooheavy_text	Слишком тяжело!	Слишком тяжело!	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	160	game_storyGameNight	UnknownNeedsContext	UI/HUD/CursorPointer/CursorTipText	Сломанное ведро	Сломанное ведро	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	180	game_storyGameDay	LeftNotification	UI/HUD/ItemsUpdateCanvas/Holder/Item_Broken/Title	Сломано	Сломано	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	150	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Сокровища!	Сокровища!	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	460	game_runEnd	EndingStatsScreen	UI/ENDING_CANVAS/fate_text	Сон с рыбами	Сон с рыбами	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	60	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Сообщение	Сообщение	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Состояние: 100%	Состояние: 100%	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	30	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Состояние: 13%	Состояние: 13%	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Состояние: 19%	Состояние: 19%	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Состояние: 5%	Состояние: 5%	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	40	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Состояние: 52%	Состояние: 52%	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	30	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Состояние: 57%	Состояние: 57%	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Состояние: 65%	Состояние: 65%	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Состояние: 70%	Состояние: 70%	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	50	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Состояние: 72%	Состояние: 72%	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	30	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Состояние: 74%	Состояние: 74%	False	True	False	False	False	review
+
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	20	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Состояние: 75%	Состояние: 75%	False	True	False	False	False	review
+
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	30	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Состояние: 76%	Состояние: 76%	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Состояние: 79%	Состояние: 79%	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	20	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Состояние: 82%	Состояние: 82%	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Состояние: 84%	Состояние: 84%	False	True	False	False	False	review
+
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Состояние: 93%	Состояние: 93%	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Состояние: 94%	Состояние: 94%	False	True	False	False	False	review
+
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Состояние: 95%	Состояние: 95%	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Состояние: 97%	Состояние: 97%	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Состояние: 99%	Состояние: 99%	False	True	False	False	False	review
+
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	40	game_storyGameNight	UnknownNeedsContext	UI/HUD/CursorPointer/CursorTipText	Спасательный круг	Спасательный круг	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	40	game_storyGameNight	UnknownNeedsContext	UI/HUD/ChoiceHud/choice_question_text	Стоит взглянуть.	Стоит взглянуть.	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	730	game_storyGameNight	UnknownNeedsContext	UI/HUD/CursorPointer/SubText/CursorTipText_subText	Съесть (мало)	Съесть (мало)	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	730	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Съесть рыбу!	Съесть рыбу!	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	300	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Торговец Ночи	Торговец Ночи	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	470	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Тура ночью	Тура ночью	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	10	game_storyGameDay	Dialogue	UI/HUD/TalkDialog/DialogBubble/DialogText	Ты не согласен?	Ты не согласен?	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	600	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Убивец	Убивец	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	300	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Ужин!	Ужин!	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	30	game_menu	OptionsMenu	GameController/SETTINGS_CANVAS/SETTINGS_MENU/settings_items/SettingsPanel_FastForward/SettingName	Ускорение	Ускорение	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	70	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Фонарик	Фонарик	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	10360	game_storyGameDay	UnknownNeedsContext	RandomDayBox/RANDOMBOX_HUD/randomboxPanel/BUTTONS/Friend/friend_txt	Фредерик справится	Фредерик справится	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	300	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Холодный плечо	Холодный плечо	False	True	False	False	False	review
+
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	30	game_storyGameDay	UnknownNeedsContext	UI/HUD/Hunger/HoverBox_hunger/mood_info	Хочу есть	Хочу есть	False	True	False	False	False	review		narrow_rect
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	40	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Чайка	Чайка	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	300	game_storyGameDay	Journal	UI/HUD/JournalMainBook/Mask/NightText	Человек в Тумане	Человек в Тумане	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	590	game_storyGameDay	LeftNotification	UI/HUD/Notice/NoticeText	Что-то сломалось ночью.	Что-то сломалось ночью. 	False	True	False	False	False	review		multiline
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	30	game_menu	OptionsMenu	GameController/SETTINGS_CANVAS/SETTINGS_MENU/settings_items/SettingsPanel_MouseSens/SettingName	Чувств. мыши	Чувств. мыши	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	410	game_storyGameDay	LeftNotification	UI/HUD/ItemsUpdateCanvas/Holder/Item_BoatDamage/Title	Шлюпка	Шлюпка	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	450	game_collectgame	UnknownNeedsContext	UI/InventoryCanvas/NoMoreSpace/tooheavy_text	Шлюпка заполнена!	Шлюпка заполнена!	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	10	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/CursorTipText	Энергетик	Энергетик	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	5	2	300	game_storyGameNight	UnknownNeedsContext	EVENTS/DANGER_1/TheFog/EventCanvas/handy_text	Это может помочь с навигацией...	Это может помочь с навигацией...	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	450	game_storyGameNight	UnknownNeedsContext	EVENTS/DANGER_0/DangerousWater/EventCanvas/handy_text	Это может пригодиться...	Это может пригодиться...	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	40	game_storyGameDay	UnknownNeedsContext	UI/HUD/HoverBox_energy/mood_info	Я выспался	Я выспался	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	20	game_storyGameDay	UnknownNeedsContext	UI/HUD/Health/HoverBox_health/mood_info	Я здоров	Я здоров	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	150	game_storyGameNight	UnknownNeedsContext	EVENTS/DANGER_0/SleepingUnwell/EventCanvas/Text (TMP)	Я плохо сплю...	Я плохо сплю...	False	True	False	False	False	review
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	730	game_storyGameDay	UnknownNeedsContext	UI/HUD/Hunger/HoverBox_hunger/mood_info	Я сыт!	Я сыт!	False	True	False	False	False	review		narrow_rect
+dswf_audit_logs_COMPUTER_20260629_142216.zip	3	1	40	game_storyGameNight	UnknownNeedsContext	UI/HUD/CursorPointer/CursorTipText	Якорь	Якорь	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	30	game_menu	OptionsMenu	GameController/SETTINGS_CANVAS/SETTINGS_MENU/settings_items/SettingsPanel_Brightness/SettingName	Яркость	Яркость	False	True	False	False	False	review
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	30	game_menu	OptionsMenu	GameController/SETTINGS_CANVAS/SETTINGS_MENU/settings_items/SettingsPanel_Resolution/Dropdown/Label	1920 x 1080	1920 x 1080	True	False	False	False	False	todo-translate
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	7	3	30	game_collectgame	UnknownNeedsContext	UI/Cursors/PickupCursor/PickUpE	[E]	[E]	True	False	False	False	False	todo-translate
+
+dswf_audit_logs_COMPUTER_20260629_142216.zip	5	2	42	game_menu	MainMenu	MENU/UI/Canvas/MedalsButton/Medals/Medal_1 (6)/Desc	Be a bad fisherman...	Be a bad fisherman...	True	False	True	False	False	todo-translate
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	56	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Click to Shoo!	Click to Shoo!	True	False	True	False	False	todo-translate
+
+dswf_audit_logs_VADUVKA_20260628_233804.zip	3	1	5712	game_storyGameDay	FriendSupportPanel	UI/HUD/FriendManageUI/name_bg/Name	Frederik	Frederik	True	False	True	False	False	todo-translate
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	112	game_storyGameNight	UnknownNeedsContext	UI/HUD/ChooseItemHud/choice_question_text	Make an offer.	Make an offer.	True	False	True	False	False	todo-translate
+
+dswf_audit_logs_DIGIDRO-PC_20260629_143052.zip	3	1	196	game_storyGameDay	UnknownNeedsContext	UI/HUD/CursorPointer/EnergyCostShower/TextMain/SubText/CursorTipText_subText	Needs fixing	Needs fixing	True	False	True	False	False	todo-translate

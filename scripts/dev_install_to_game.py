@@ -1,0 +1,162 @@
+#!/usr/bin/env python3
+"""Install the tracked development payload into a local game copy.
+
+This bypasses the GUI patcher for development/runtime checks. It does not run
+the game and it does not patch Unity assets unless --apply-textures is passed.
+"""
+
+from __future__ import annotations
+
+import argparse
+import importlib.util
+import platform
+import shutil
+import sys
+from datetime import datetime
+from pathlib import Path
+from types import ModuleType
+
+
+ROOT = Path(__file__).resolve().parents[1]
+PATCHER_PATH = ROOT / "dist/dswf-rus-patcher/dswf_rus_patcher.py"
+PAYLOAD_DIR = ROOT / "dist/dswf-rus-patcher/payload"
+
+
+def load_patcher_module() -> ModuleType:
+    spec = importlib.util.spec_from_file_location("dswf_rus_patcher_dev", PATCHER_PATH)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"Cannot load patcher module: {PATCHER_PATH}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def count_files(path: Path) -> int:
+    if not path.exists():
+        return 0
+    return sum(1 for item in path.rglob("*") if item.is_file())
+
+
+def write_dev_report(game_dir: Path, lines: list[str]) -> Path:
+    report = game_dir / "dswf_rus_dev_install_report.txt"
+    report.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return report
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Install the tracked DSWF Russian dev payload into a game copy."
+    )
+    parser.add_argument("game_root", help="Path containing DontSleepWithTheFishes.exe")
+    parser.add_argument(
+        "--clean-bepinex",
+        action="store_true",
+        help="Remove the existing BepInEx folder before installing the payload.",
+    )
+    textures = parser.add_mutually_exclusive_group()
+    textures.add_argument(
+        "--skip-textures",
+        action="store_true",
+        help="Do not apply offline texture patches. This is the default.",
+    )
+    textures.add_argument(
+        "--apply-textures",
+        action="store_true",
+        help="Apply offline texture patches by reusing the GUI patcher's texture code.",
+    )
+    return parser.parse_args()
+
+
+def main() -> None:
+    args = parse_args()
+    patcher = load_patcher_module()
+
+    if not PAYLOAD_DIR.is_dir():
+        raise SystemExit(f"Payload folder missing: {PAYLOAD_DIR}")
+
+    game_dir, data_dir = patcher.validate_game_dir(Path(args.game_root))
+
+    log_lines: list[str] = []
+
+    def log(message: str) -> None:
+        log_lines.append(message)
+
+    removed_bepinex = False
+    if args.clean_bepinex:
+        bepinex_dir = game_dir / "BepInEx"
+        if bepinex_dir.exists():
+            if not bepinex_dir.is_dir():
+                raise SystemExit(f"Refusing to remove non-directory: {bepinex_dir}")
+            shutil.rmtree(bepinex_dir)
+            removed_bepinex = True
+            log("Removed existing BepInEx folder.")
+
+    session = patcher.InstallSession(game_dir, data_dir, log)
+    components = ["bepinex", "text", "runtime"]
+    session.copy_payload_tree("bepinex", "BepInEx + XUnity base")
+    session.copy_payload_tree("text", "Russian text translations")
+    session.copy_payload_tree("runtime", "DSWF runtime text/layout helper")
+    patcher.create_linux_launcher(session)
+
+    textures_applied = False
+    if args.apply_textures:
+        components.append("textures")
+        try:
+            patcher.apply_texture_patches(session)
+            patcher.raise_if_texture_patch_failed(session)
+        except Exception as exc:
+            raise SystemExit(
+                "--apply-textures requested, but safe GUI patcher texture code failed: "
+                f"{type(exc).__name__}: {exc}"
+            ) from exc
+        textures_applied = True
+
+    session.write_manifest(components)
+
+    report_lines = [
+        "DSWF Russian dev install report",
+        f"installed_at={datetime.now().isoformat(timespec='seconds')}",
+        f"platform={platform.system()} {platform.release()}",
+        f"game_dir={game_dir}",
+        f"data_dir={data_dir}",
+        f"payload_dir={PAYLOAD_DIR}",
+        f"clean_bepinex={args.clean_bepinex}",
+        f"removed_bepinex={removed_bepinex}",
+        f"textures_applied={textures_applied}",
+        "runtime_texture_replacement=disabled",
+        "tmp_font_replacement=not implemented",
+        f"bepinex_payload_files={count_files(PAYLOAD_DIR / 'bepinex')}",
+        f"text_payload_files={count_files(PAYLOAD_DIR / 'text')}",
+        f"runtime_payload_files={count_files(PAYLOAD_DIR / 'runtime')}",
+        f"texture_payload_files={count_files(PAYLOAD_DIR / 'textures')}",
+        "",
+        "install_log:",
+        *log_lines,
+    ]
+    report_path = write_dev_report(game_dir, report_lines)
+
+    expected = [
+        game_dir / "BepInEx",
+        game_dir / "BepInEx/config",
+        game_dir / "BepInEx/plugins",
+        game_dir / "BepInEx/Translation/ru/Text/_AutoGeneratedTranslations.txt",
+        game_dir / "BepInEx/Translation/ru/Text/FishingRegex.txt",
+        game_dir / "run_dswf_rus.sh",
+        report_path,
+    ]
+    missing = [path for path in expected if not path.exists()]
+    if missing:
+        raise SystemExit("Install finished but expected files are missing:\n" + "\n".join(map(str, missing)))
+
+    print("Dev install complete.")
+    print(f"Game root: {game_dir}")
+    print(f"Clean BepInEx: {'yes' if args.clean_bepinex else 'no'}")
+    print(f"Textures applied: {'yes' if textures_applied else 'no'}")
+    print(f"Report: {report_path}")
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        sys.exit(130)

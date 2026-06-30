@@ -59,6 +59,32 @@ def assert_runtime_data_dir(data_dir: Path) -> None:
         raise SystemExit(f"refusing to write outside runtime test data dir: {resolved}")
 
 
+def assert_external_game_data_dir(data_dir: Path) -> None:
+    resolved = data_dir.resolve()
+    if resolved.name != "DontSleepWithTheFishes_Data":
+        raise SystemExit(f"data dir must be DontSleepWithTheFishes_Data: {resolved}")
+
+    game_root = resolved.parent
+    if not (game_root / "DontSleepWithTheFishes.exe").is_file():
+        raise SystemExit(f"game exe not found next to data dir: {game_root / 'DontSleepWithTheFishes.exe'}")
+
+    required = [
+        "sharedassets1.assets",
+        "sharedassets3.assets",
+        "sharedassets4.assets",
+    ]
+    missing = [name for name in required if not (resolved / name).is_file()]
+    if missing:
+        raise SystemExit(f"required Unity asset files missing in {resolved}: {', '.join(missing)}")
+
+
+def assert_writable_data_dir(data_dir: Path, allow_external_game_dir: bool) -> None:
+    if allow_external_game_dir:
+        assert_external_game_data_dir(data_dir)
+    else:
+        assert_runtime_data_dir(data_dir)
+
+
 def parse_texture_pngs(replacement_dir: Path) -> dict[tuple[str, int], Path]:
     textures: dict[tuple[str, int], Path] = {}
     for path in sorted(replacement_dir.glob("*.png")):
@@ -140,8 +166,8 @@ def latest_backup(data_dir: Path) -> Path:
     return backups[-1]
 
 
-def restore(data_dir: Path, backup: Path | None) -> None:
-    assert_runtime_data_dir(data_dir)
+def restore(data_dir: Path, backup: Path | None, allow_external_game_dir: bool = False) -> None:
+    assert_writable_data_dir(data_dir, allow_external_game_dir)
     backup_dir = backup or latest_backup(data_dir)
     manifest = backup_dir / "backup_manifest.tsv"
     if not manifest.exists():
@@ -183,9 +209,10 @@ def patch(
     report: Path,
     apply: bool,
     force: bool,
+    allow_external_game_dir: bool = False,
 ) -> list[dict[str, str]]:
     if apply:
-        assert_runtime_data_dir(data_dir)
+        assert_writable_data_dir(data_dir, allow_external_game_dir)
     rows: list[dict[str, str]] = []
     asset_groups: dict[str, dict[int, Path]] = {}
     for (asset_stem, path_id), png in targets.items():
@@ -308,10 +335,15 @@ def main() -> None:
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
     parser.add_argument("--backup", type=Path, default=None, help="Backup directory for --restore. Defaults to latest backup.")
     parser.add_argument("--force", action="store_true", help="Allow apply when runtime asset SHA differs from game_original.")
+    parser.add_argument(
+        "--allow-external-game-dir",
+        action="store_true",
+        help="Allow apply/restore against a validated external DontSleepWithTheFishes_Data directory.",
+    )
     args = parser.parse_args()
 
     if args.restore:
-        restore(args.data_dir, args.backup)
+        restore(args.data_dir, args.backup, allow_external_game_dir=args.allow_external_game_dir)
         return
     if args.replacement_dir is None:
         raise SystemExit("replacement directory not found; pass --replacement-dir")
@@ -325,6 +357,7 @@ def main() -> None:
         report=args.report,
         apply=args.apply,
         force=args.force,
+        allow_external_game_dir=args.allow_external_game_dir,
     )
     statuses: dict[str, int] = {}
     for row in rows:

@@ -1,0 +1,10 @@
+kind	pattern	reason
+exact	DopplerGhost	developer branding/dev text
+regex	^SEED:?.*	runtime seed/debug value
+regex	^v?\d+\.\d+(?:\.\d+)?(?:[a-z0-9._-]*)?$	version/dev value
+regex	^\d{3,4}\s*x\s*\d{3,4}$	screen resolution value
+regex	^\[?[A-Z]\]?$	isolated keybind label
+regex	^WASD$	isolated keybind label
+regex	^[A-Za-z]:\\.*$	file path
+regex	^/.*$	file path
+regex	^\| Автор: Taiki .*DopplerGhost.*\|$	translated credits retain developer handle
